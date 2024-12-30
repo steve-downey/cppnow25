@@ -28,7 +28,6 @@ inline constexpr auto maybe     = [](auto d) {
     return [d](auto f) { return [d, f](auto m) { return m([d]() { return d; })(f); }; };
 };
 
-
 // EITHER
 /*
     left   = λa.λl.λr.l a
@@ -53,7 +52,6 @@ inline constexpr auto fromRight = [](auto d) {
 };
 
 inline constexpr auto either = [](auto l) { return [l](auto r) { return [l, r](auto e) { return e(l)(r); }; }; };
-
 
 // EITHER2
 /*
@@ -138,7 +136,6 @@ inline constexpr auto pair = [](auto l, auto r) { return [l, r](auto p) { return
 inline constexpr auto fst = [](auto p) { return p([](auto l, auto r) { return l; }); };
 
 inline constexpr auto snd = [](auto p) { return p([](auto l, auto r) { return r; }); };
-
 
 // LIST
 /*
