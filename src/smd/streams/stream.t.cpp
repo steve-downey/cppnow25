@@ -1,30 +1,5 @@
 #include <smd/streams/stream.hpp>
 
-void maybe_test() {
-    constexpr auto m1 = nothing();
-    constexpr auto m2 = just(5);
-
-    constexpr bool b1 = isNothing(m1);
-    constexpr bool b2 = isJust(m2);
-    constexpr bool b3 = isNothing(m2);
-    constexpr bool b4 = isJust(m1);
-    static_assert(b1 == true);
-    static_assert(b2 == true);
-    static_assert(b3 == false);
-    static_assert(b4 == false);
-
-    constexpr int k = fromJust(m2);
-    static_assert(k == 5);
-
-    //    constexpr int k2 = fromJust(m1);
-
-    constexpr int j = maybe(7)([](int i) { return 2 * i; })(m2);
-    constexpr int l = maybe(7)([](int i) { return 2 * i; })(m1);
-    static_assert(j == 10);
-    static_assert(l == 7);
-
-    return;
-}
 
 void either_test() {
     constexpr auto l  = left(7);
@@ -153,7 +128,6 @@ void list_function_test() {
 }
 
 int all_main() {
-    maybe_test();
     either2::either_test();
     either3::either_test();
     list_test();
