@@ -4,7 +4,7 @@ target_sources(smd.streams PRIVATE stream.cpp)
 
 target_sources(
     smd.streams
-    PUBLIC FILE_SET smd_streams_headers TYPE HEADERS FILES stream.hpp
+    PUBLIC FILE_SET smd_streams_headers TYPE HEADERS FILES stream.hpp pair.hpp
 )
 
 set_target_properties(smd.streams PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
@@ -21,7 +21,7 @@ install(
 include(GoogleTest)
 
 add_executable(smd.streams.tests)
-target_sources(smd.streams.tests PRIVATE stream.t.cpp)
+target_sources(smd.streams.tests PRIVATE stream.t.cpp pair.t.cpp)
 target_link_libraries(
     smd.streams.tests
     PRIVATE smd::streams GTest::gtest GTest::gtest_main

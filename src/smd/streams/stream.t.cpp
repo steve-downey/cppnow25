@@ -119,12 +119,6 @@ void either_test() {
 }
 } // namespace either3
 
-void pair_test() {
-    constexpr auto p1 = pair(7, 0);
-    constexpr int  k  = fst(p1);
-    static_assert(k == 7);
-    static_assert(0 == snd(p1));
-}
 
 void list_test() {
     constexpr auto l1 = Nil;
@@ -162,7 +156,6 @@ int all_main() {
     maybe_test();
     either2::either_test();
     either3::either_test();
-    pair_test();
     list_test();
     return 0;
 }

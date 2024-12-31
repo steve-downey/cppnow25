@@ -1,8 +1,6 @@
 #! /usr/bin/make -f
-# cmake-format: off
-# /Makefile -*-makefile-*-
+# Makefile                                                      -*-makefile-*-
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
-# cmake-format: on
 
 INSTALL_PREFIX?=.install/
 PROJECT?=$(shell basename $(CURDIR))
@@ -11,14 +9,6 @@ DEST?=$(INSTALL_PREFIX)
 CMAKE_FLAGS?=
 
 TARGETS := test clean all ctest
-
-export
-
-.update-submodules:
-	git submodule update --init --recursive
-	touch .update-submodules
-
-.gitmodules: .update-submodules
 
 CONFIG?=Asan
 
@@ -50,6 +40,12 @@ define run_cmake =
 endef
 
 default: test
+
+.update-submodules:
+	git submodule update --init --recursive
+	touch .update-submodules
+
+.gitmodules: .update-submodules
 
 $(_build_path):
 	mkdir -p $(_build_path)

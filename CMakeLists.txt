@@ -21,10 +21,8 @@ FetchContent_Declare(
         b514bdc898e2951020cbdca1304b75f5950d1f59 # release-1.15.2
     EXCLUDE_FROM_ALL
 )
-block()
-    set(INSTALL_GTEST OFF) # Disable GoogleTest installation
-    FetchContent_MakeAvailable(googletest)
-endblock()
+set(INSTALL_GTEST OFF) # Disable GoogleTest installation
+FetchContent_MakeAvailable(googletest)
 
 add_subdirectory(src)
 add_subdirectory(examples)

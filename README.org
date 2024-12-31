@@ -1,0 +1,3 @@
+* Data structures using higher order functions
+
+Implementations of basic algebraic data structures using higher order functions.

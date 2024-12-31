@@ -123,19 +123,6 @@ inline constexpr auto either =
 
 } // namespace either3
 
-// PAIR
-
-/*
-    pair = λl r p. p l r
-    fst = λp. p (λl r. l)
-    snd = λp. p (λl r. r)
-*/
-
-inline constexpr auto pair = [](auto l, auto r) { return [l, r](auto p) { return p(l, r); }; };
-
-inline constexpr auto fst = [](auto p) { return p([](auto l, auto r) { return l; }); };
-
-inline constexpr auto snd = [](auto p) { return p([](auto l, auto r) { return r; }); };
 
 // LIST
 /*
