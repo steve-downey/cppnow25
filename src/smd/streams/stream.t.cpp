@@ -1,6 +1,5 @@
 #include <smd/streams/stream.hpp>
 
-
 void list_test() {
     constexpr auto l1 = Nil;
     constexpr auto l2 = Cons(5, Nil);

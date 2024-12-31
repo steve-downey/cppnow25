@@ -18,5 +18,5 @@ TEST(PairTest, Breating) {
     auto p1 = smd::streams::pair(7, 0);
     int  k  = smd::streams::fst(p1);
     EXPECT_EQ(k, 7);
-    EXPECT_EQ(0,  smd::streams::snd(p1));
+    EXPECT_EQ(0, smd::streams::snd(p1));
 }

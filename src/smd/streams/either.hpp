@@ -103,7 +103,7 @@ inline constexpr auto either =
     [](std::function<R(A)> l, std::function<R(B)> r) { return [l, r](auto e) { return e(EitherCase{l, r}); }; };
 
 } // namespace either3
-}
-}
+} // namespace streams
+} // namespace smd
 
 #endif

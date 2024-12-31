@@ -3,9 +3,6 @@
 #include <utility>
 #include <functional>
 
-
-
-
 // LIST
 /*
     nil  =         λn c . n

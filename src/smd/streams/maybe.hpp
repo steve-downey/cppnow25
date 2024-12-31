@@ -32,7 +32,7 @@ inline constexpr auto fromJust  = [](auto m) { return m([]() { std::abort(); })(
 inline constexpr auto maybe     = [](auto d) {
     return [d](auto f) { return [d, f](auto m) { return m([d]() { return d; })(f); }; };
 };
-}
-}
+} // namespace streams
+} // namespace smd
 
 #endif

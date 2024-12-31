@@ -21,7 +21,7 @@ inline constexpr auto fst = [](auto p) { return p([](auto l, auto r) { return l;
 
 inline constexpr auto snd = [](auto p) { return p([](auto l, auto r) { return r; }); };
 
-}
-}
+} // namespace streams
+} // namespace smd
 
 #endif

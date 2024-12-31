@@ -31,11 +31,10 @@ TEST(EitherTest, Breathing) {
 
     constexpr auto match =
         smd::streams::either([](auto x) -> double { return 2 * x; })([](auto x) -> double { return 3 * x; });
-    constexpr double d1    = match(l);
-    constexpr double d2    = match(r);
+    constexpr double d1 = match(l);
+    constexpr double d2 = match(r);
     static_assert(d1 == 14.0);
     static_assert(d2 == 27.0);
-
 }
 
 TEST(Either2Test, Breathing) {
