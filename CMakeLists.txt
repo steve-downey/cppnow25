@@ -27,6 +27,9 @@ FetchContent_MakeAvailable(googletest)
 add_subdirectory(src)
 add_subdirectory(examples)
 
+# Coverage
+configure_file("cmake/gcovr.cfg.in" gcovr.cfg @ONLY)
+
 add_custom_target(
     process_coverage
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
