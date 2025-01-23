@@ -7,4 +7,4 @@ namespace streams {
 namespace {} // namespace
 
 } // namespace streams
-}
+} // namespace smd
