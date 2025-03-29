@@ -1,0 +1,108 @@
+#+OPTIONS: ':nil *:t -:t ::t <:t H:1 \n:nil ^:t arch:headline author:t
+#+OPTIONS: broken-links:nil c:nil creator:nil d:(not "LOGBOOK") date:t e:t
+#+OPTIONS: email:nil f:t inline:t num:nil p:nil pri:nil prop:nil stat:t tags:t
+#+OPTIONS: tasks:t tex:t timestamp:t title:t toc:nil todo:t |:t
+#+TITLE: Building Streams out of Hot Air
+#+SUBTITLE: Coinductive Types in C++ Senders
+#+DATE: <2024-02-01 Thu>
+#+AUTHOR: Steve Downey
+#+EMAIL: sdowney2@bloomberg.net
+#+EMAIL: sdowney@gmail.com
+#+LANGUAGE: en
+#+SELECT_TAGS: export
+#+EXCLUDE_TAGS: noexport
+#+LATEX_CLASS: report
+#+LATEX_CLASS_OPTIONS:
+#+LATEX_HEADER:
+#+LATEX_HEADER_EXTRA:
+#+DESCRIPTION:
+#+KEYWORDS:
+#+SUBTITLE:
+#+LATEX_COMPILER: pdflatex
+#+OPTIONS: html-link-use-abs-url:nil html-postamble:nil html-preamble:t
+#+OPTIONS: html-scripts:t html-style:t html5-fancy:nil tex:t
+#+HTML_DOCTYPE: xhtml-strict
+#+HTML_CONTAINER: div
+#+DESCRIPTION:
+#+KEYWORDS:
+#+HTML_LINK_HOME:
+#+HTML_LINK_UP:
+#+HTML_MATHJAX:
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./modus-operandi-tinted.css"/>
+#+HTML_HEAD_EXTRA:
+#+INFOJS_OPT:
+#+CREATOR:
+#+LATEX_HEADER:
+#+STARTUP: showeverything
+
+#+CITE_EXPORT: csl chicago-author-date.csl
+#+BIBLIOGRAPHY: ./wg21.bib
+#+BIBLIOGRAPHY: ./local.bib
+
+* Building sender streams out of senders
+We're going to build an async stream, an infinite list, out of nothing but senders.
+
+Along the way we'll take a look at the last 80 years of computer science, including some areas of current active research.
+
+Having a better idea of how senders, and functions like them, are grounded in theory gives us a better idea of how they can be used and where to look to borrow designs and insights.
+
+#+begin_quote
+We don't just borrow [syntax]; on occasion, [C++] has pursued other languages down alleyways to beat them unconscious and rifle their pockets for new [semantics].
+
+   ---(with apologies to) James D. Nicoll
+#+end_quote
+#+begin_quote
+I'm going to show you even a more horrible thing, a definition of CONS in terms of nothing but air, hot air.
+
+   ---Gerald Jay Sussman, Computational Objects
+#+end_quote
+[cite/n:@5BComput48:online]
+
+C++ P2300 Senders are computations to be performed---"an object that describes work".  [cite//title/b: see @P2300R10 Section 4.3] Taking designs  that suspend computation are a natural place to begin when planning senders. Models that do so in an otherwise strict evaluation environment can be easier to reason about for porting to C++ than from default lazy environments, such as Haskell.
+
+By 'air' Sussman meant building a data structure out of nothing but higher order lambda expressions in ~scheme~. The technique is also a common implementation technique for functional programming languages, and turns out to be one of the ways pattern matching is supported.
+
+This can be implemented directly using C++ lambda, particularly easily now that recursive lambda is possible using ~deducing this~. We start out by implementing ~Either~, then ~Pair~, ~Maybe~, ~Boolean~, and then see how recursive types can be made, such as a ~cons~ ~list~. The core of the pattern is closely related to generalized ~fold~, or ~catamorphism~, and has deep connections with the ~Visitor~ pattern.
+
+Changing perspective from inductive types, like ~list~ to coinductive, infinite, types, like ~stream~, means looking at deconstruction, or observation, of ~codata~. The pattern of dispatching to handlers remains the same, though, with some slight inversion.
+
+This guides us to a concrete Sender design which can be implemented as concrete sender types, rather than wrapping unnamed higher order functions. This also helps avoid recursion in the type system, hiding the uninteresting intermediate types being sent. Also, this provides an excuse to  demonstrate implementing a sender. There are not enough examples, but writing a sender is intended to be within the scope of work for an intermediate C++ developer.
+
+At the end we will have an async queue and an async stream implemented using just senders.
+
+* Outline
+** Lambda expressions
+** Closures
+** Higher Order Functions
+** Things Are What They Do
+*** Either example with typeclass map
+*** Pair example with typeclass map
+** Implementing Data with Lambda
+*** Either
+*** ~Pair~
+*** ~Maybe~
+*** ~Boolean~
+*** ~List~
+** The Pattern(s)
+*** Scott Encoding
+*** Church Encoding
+** Connections
+*** Folds
+*** Catamorphisms
+*** Visitor
+*** Continuation Passing
+** Data and CoData
+*** Induction and CoInduction
+*** Algebras and CoAlgebras
+*** State, Behavior, Identity
+**** OOP
+**** Reference Semantics
+** Streams
+*** Always infinite
+*** No empty stream - non-constructable
+*** Defined by observation APIs
+** Implementing Senders
+*** Either
+*** List
+*** Stream
+*** Queue
