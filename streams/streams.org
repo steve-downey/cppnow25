@@ -1,4 +1,4 @@
-#+OPTIONS: ':nil *:t -:t ::t <:t H:1 \n:nil ^:t arch:headline author:t
+#+OPTIONS: ':nil *:t -:t ::t <:t H:1 \n:nil ^:mil arch:headline author:t
 #+OPTIONS: broken-links:nil c:nil creator:nil d:(not "LOGBOOK") date:t e:t
 #+OPTIONS: email:nil f:t inline:t num:nil p:nil pri:nil prop:nil stat:t tags:t
 #+OPTIONS: tasks:t tex:t timestamp:t title:t toc:nil todo:t |:t
@@ -28,7 +28,7 @@
 #+HTML_LINK_HOME:
 #+HTML_LINK_UP:
 #+HTML_MATHJAX:
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./modus-operandi-tinted.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../etc/modus-vivendi-tinted.css"/>
 #+HTML_HEAD_EXTRA:
 #+INFOJS_OPT:
 #+CREATOR:
@@ -37,12 +37,13 @@
 
 #+OPTIONS: reveal_width:1600 reveal_height:900
 #+REVEAL_TRANS: fade
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./operandi-tinted.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../etc/modus-vivendi-tinted.css" />
 
 #+REVEAL_MATHJAX_URL: https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
-#+REVEAL_EXTRA_CSS: ./operandi-tinted.css
-#+REVEAL_THEME: ./my_theme.css
-#+REVEAL_EXTRA_CSS: ./footer.css
+#+REVEAL_EXTRA_CSS: ../etc/modus-vivendi-tinted.css
+#+REVEAL_THEME: ../etc/my_theme.css
+#+REVEAL_EXTRA_CSS: ../etc/footer.css
+#+REVEAL_TITLE_SLIDE: <p>
 #+REVEAL_TITLE_SLIDE_BACKGROUND: ./title.png
 
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
@@ -52,30 +53,39 @@
 #+REVEAL_EXPORT_NOTES_TO_PDF: separate-page
 #+REVEAL_DEFAULT_FRAG_STYLE: (appear)
 
-#+CITE_EXPORT: csl chicago-author-date.csl
+#+CITE_EXPORT: csl ../etc/chicago-author-date.csl
 #+BIBLIOGRAPHY: ../etc/wg21.bib
 #+BIBLIOGRAPHY: ../etc/local.bib
 
 * Building sender streams out of senders
+:PROPERTIES:
+:html_headline_class: r-fit-text
+:END:
 We're going to build an async stream, an infinite list, out of nothing but senders.
 
+#+ATTR_REVEAL: :frag (appear)
 Along the way we'll take a look at the last 80 years of computer science, including some areas of current active research.
 
+#+ATTR_REVEAL: :frag (appear)
 Having a better idea of how senders, and functions like them, are grounded in theory gives us a better idea of how they can be used and where to look to borrow designs and insights.
 
+#+REVEAL: split
 #+begin_quote
 We don't just borrow [syntax]; on occasion, [C++] has pursued other languages down alleyways to beat them unconscious and rifle their pockets for new [semantics].
 
    ---(with apologies to) James D. Nicoll
 #+end_quote
+
+#+REVEAL: split
 #+begin_quote
 I'm going to show you even a more horrible thing, a definition of CONS in terms of nothing but air, hot air.
 
    ---Gerald Jay Sussman, Computational Objects
 #+end_quote
 [cite/n:@5BComput48:online]
-
-C++ P2300 Senders are computations to be performed---"an object that describes work".  [cite//title/b: see @P2300R10 Section 4.3] Taking designs  that suspend computation are a natural place to begin when planning senders. Models that do so in an otherwise strict evaluation environment can be easier to reason about for porting to C++ than from default lazy environments, such as Haskell.
+[[https://ocw.mit.edu/courses/6-001-structure-and-interpretation-of-computer-programs-spring-2005/resources/5b-computational-objects/][Video Lectures - 5B: Computational Objects]]
+#+begin_notes
+C++ P2300 Senders are computations to be performed---"an object that describes work".  [cite//title/b: see @P2300R10 Section 4.3] Taking designs that suspend computation are a natural place to begin when planning senders. Models that do so in an otherwise strict evaluation environment can be easier to reason about for porting to C++ than from default lazy environments, such as Haskell.
 
 By 'air' Sussman meant building a data structure out of nothing but higher order lambda expressions in ~scheme~. The technique is also a common implementation technique for functional programming languages, and turns out to be one of the ways pattern matching is supported.
 
@@ -86,40 +96,52 @@ Changing perspective from inductive types, like ~list~ to coinductive, infinite,
 This guides us to a concrete Sender design which can be implemented as concrete sender types, rather than wrapping unnamed higher order functions. This also helps avoid recursion in the type system, hiding the uninteresting intermediate types being sent. Also, this provides an excuse to  demonstrate implementing a sender. There are not enough examples, but writing a sender is intended to be within the scope of work for an intermediate C++ developer.
 
 At the end we will have an async queue and an async stream implemented using just senders.
+#+end_notes
 
-* Outline
-** Lambda expressions
-** Closures
-** Higher Order Functions
-** Things Are What They Do
-*** Either example with typeclass map
-*** Pair example with typeclass map
-** Implementing Data with Lambda
-*** Either
-*** ~Pair~
-*** ~Maybe~
-*** ~Boolean~
-*** ~List~
-** The Pattern(s)
-*** Scott Encoding
-*** Church Encoding
-** Connections
-*** Folds
-*** Catamorphisms
-*** Visitor
-*** Continuation Passing
-** Data and CoData
-*** Induction and CoInduction
-*** Algebras and CoAlgebras
-*** State, Behavior, Identity
-**** OOP
-**** Reference Semantics
-** Streams
-*** Always infinite
-*** No empty stream - non-constructable
-*** Defined by observation APIs
-** Implementing Senders
-*** Either
-*** List
-*** Stream
-*** Queue
+* Lambda expressions
+* Closures
+* Higher Order Functions
+* Things Are What They Do
+** Either example with typeclass map
+** Pair example with typeclass map
+* Implementing Data with Lambda
+** Either
+** ~Pair~
+** ~Maybe~
+** ~Boolean~
+** ~List~
+* The Pattern(s)
+** Scott Encoding
+** Church Encoding
+* Connections
+** Folds
+** Catamorphisms
+** Visitor
+** Continuation Passing
+* Data and CoData
+** Induction and CoInduction
+** Algebras and CoAlgebras
+** State, Behavior, Identity
+*** OOP
+*** Reference Semantics
+* Streams
+** Always infinite
+** No empty stream - non-constructable
+** Defined by observation APIs
+* Implementing Senders
+** Either
+** List
+** Stream
+** Queue
+
+
+* Code Test
+#+begin_src cpp
+int main() {
+    std::cout << "hello, world\n";
+}
+#+end_src
+
+# Local Variables:
+# org-html-htmlize-output-type: css
+# End:
