@@ -1,5 +1,5 @@
 # Create the library target and named header set for smd.streams
-add_library(smd.streams STATIC)
+add_library(smd.streams INTERFACE)
 target_sources(
     smd.streams
     PUBLIC FILE_SET smd_streams_headers TYPE HEADERS BASE_DIRS .

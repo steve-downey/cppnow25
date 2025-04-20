@@ -24,6 +24,8 @@ FetchContent_Declare(
 set(INSTALL_GTEST OFF) # Disable GoogleTest installation
 FetchContent_MakeAvailable(googletest)
 
+set(CMAKE_VERIFY_INTERFACE_HEADER_SETS ON)
+
 add_subdirectory(src)
 add_subdirectory(examples)
 

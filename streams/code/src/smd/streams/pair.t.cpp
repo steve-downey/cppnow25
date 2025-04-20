@@ -7,14 +7,14 @@
 
 #include <gtest/gtest.h>
 
-TEST(PairTest, ConstexprBreating) {
+TEST(PairTest, ConstexprBreathing) {
   constexpr auto p1 = smd::streams::pair(7, 0);
   constexpr int k = smd::streams::fst(p1);
   static_assert(k == 7);
   static_assert(0 == smd::streams::snd(p1));
 }
 
-TEST(PairTest, Breating) {
+TEST(PairTest, Breathing) {
   auto p1 = smd::streams::pair(7, 0);
   int k = smd::streams::fst(p1);
   EXPECT_EQ(k, 7);

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-target_sources(smd.streams PRIVATE stream.cpp)
+# target_sources(smd.streams PRIVATE stream.cpp)
 
 target_sources(
     smd.streams
