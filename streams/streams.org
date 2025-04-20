@@ -1,6 +1,6 @@
-#+OPTIONS: ':nil *:t -:t ::t <:t H:1 \n:nil ^:mil arch:headline author:t
+#+OPTIONS: ':nil *:t -:t ::t <:t H:4 \n:nil ^:nil arch:headline author:t
 #+OPTIONS: broken-links:nil c:nil creator:nil d:(not "LOGBOOK") date:t e:t
-#+OPTIONS: email:nil f:t inline:t num:nil p:nil pri:nil prop:nil stat:t tags:t
+#+OPTIONS: email:nil f:t inline:t num:5 p:nil pri:nil prop:nil stat:t tags:t
 #+OPTIONS: tasks:t tex:t timestamp:t title:t toc:nil todo:t |:t
 #+TITLE: Building Streams out of Hot Air
 #+SUBTITLE: Coinductive Types in C++ Senders
@@ -8,7 +8,6 @@
 #+AUTHOR: Steve Downey
 #+EMAIL: sdowney2@bloomberg.net
 #+EMAIL: sdowney@gmail.com
-#+LANGUAGE: en
 #+SELECT_TAGS: export
 #+EXCLUDE_TAGS: noexport
 #+LATEX_CLASS: report
@@ -33,13 +32,13 @@
 #+INFOJS_OPT:
 #+CREATOR:
 #+LATEX_HEADER:
-#+STARTUP: showeverything
+#+STARTUP: showall
 
 #+OPTIONS: reveal_width:1600 reveal_height:900
 #+REVEAL_TRANS: fade
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../etc/modus-vivendi-tinted.css" />
 
-#+REVEAL_MATHJAX_URL: https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+#+REVEAL_PLUGINS: (math markdown notes search zoom)
 #+REVEAL_EXTRA_CSS: ../etc/modus-vivendi-tinted.css
 #+REVEAL_THEME: ../etc/my_theme.css
 #+REVEAL_EXTRA_CSS: ../etc/footer.css
@@ -49,7 +48,7 @@
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
 #+REVEAL_VERSION: 4
 
-#+REVEAL_HLEVEL: 5
+#+REVEAL_HLEVEL: 1
 #+REVEAL_EXPORT_NOTES_TO_PDF: separate-page
 #+REVEAL_DEFAULT_FRAG_STYLE: (appear)
 
@@ -99,13 +98,56 @@ At the end we will have an async queue and an async stream implemented using jus
 #+end_notes
 
 * Lambda expressions
+** The core
+- /x/ :: a variable.
+- \lambda /x/. /M/ :: a function of one variable with definition /M/.
+- /M/ /N/ :: application of the function /M/ to the argument /N/.
+
+** \Beta-reduction
+((\lambda x. /M/) /N/) \rightarrow (/M/[x:= /N/ ])
+
+** Multi-variable extension
+\lambda x y. /M/ \rightarrow \lambda x (\lambda y. /M/)
+
 * Closures
+- Closure :: A function that retains access to the names contained in the scope in which it was created.
+
+
 * Higher Order Functions
+Functions that can take or return functions.
+
+Those might be closures.
+
 * Things Are What They Do
+** ruler
+#+begin_src cpp
+0         1         2         3         4         5         6         7
+01234567890123456789012345678901234567890123456789012345678901234567890123456789
+#+end_src
+
 ** Either example with typeclass map
+*** Shape of typeclass map
+#+transclude: [[file:./code/examples/either.cpp::735bf5a8-0156-4907-96e8-5878efec8255]] :lines 2- :src cpp :end "735bf5a8-0156-4907-96e8-5878efec8255 end"
+
+*** Typeclass for =std::expected=
+#+transclude: [[file:./code/examples/either.cpp::a1310e75-cee5-4701-8828-9ceef8073ef8]] :lines 2- :src cpp :end "a1310e75-cee5-4701-8828-9ceef8073ef8 end"
+
+*** Test function and construction
+#+transclude: [[file:./code/examples/either.cpp::3522d0d3-d0e7-46ea-9523-9da2ec0075bd]] :lines 2- :src cpp :end "3522d0d3-d0e7-46ea-9523-9da2ec0075bd end"
+
+*** =fromLeft= and =fromRight=
+#+transclude: [[file:./code/examples/either.cpp::8a9dbcf7-cee4-474d-ab35-2d433f9a74fb]] :lines 2- :src cpp :end "8a9dbcf7-cee4-474d-ab35-2d433f9a74fb end"
+
+*** Case switch
+#+transclude: [[file:./code/examples/either.cpp::ef0d2d45-e59e-4d70-a5a7-933016d63238]] :lines 2- :src cpp :end "ef0d2d45-e59e-4d70-a5a7-933016d63238 end"
+
+*** Calling the test function
+#+transclude: [[file:./code/examples/either.cpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
+
 ** Pair example with typeclass map
 * Implementing Data with Lambda
-** Either
+** ~Either~
+
 ** ~Pair~
 ** ~Maybe~
 ** ~Boolean~
