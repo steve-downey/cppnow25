@@ -17,36 +17,43 @@ namespace streams {
     either = λl.λr.λe.e l r
 */
 
+
+// f055237e-37d9-4bfc-871d-cc97aa6d7ef4
 inline constexpr auto left = [](auto a) {
-  return [a](auto l) { return [l, a](auto _) { return l(a); }; };
-};
-inline constexpr auto right = [](auto b) {
-  return [b](auto _) { return [b](auto r) { return r(b); }; };
+        return [a](auto l) { return [l, a](auto _) { return l(a); }; };
 };
 
+inline constexpr auto right = [](auto b) {
+        return [b](auto _) { return [b](auto r) { return r(b); }; };
+};
+// f055237e-37d9-4bfc-871d-cc97aa6d7ef4 end
+
 inline constexpr auto isLeft = [](auto e) {
-  return e([](auto _) { return true; })([](auto _) { return false; });
+        return e([](auto _) { return true; })([](auto _) { return false; });
 };
 
 inline constexpr auto isRight = [](auto e) {
-  return e([](auto _) { return false; })([](auto _) { return true; });
+        return e([](auto _) { return false; })([](auto _) { return true; });
 };
 
 inline constexpr auto fromLeft = [](auto d) {
-  return [d](auto e) {
-    return e([](auto x) { return x; })([d](auto _) { return d; });
-  };
+        return [d](auto e) {
+                return e([](auto x) { return x; })([d](auto _) { return d; });
+        };
 };
 
 inline constexpr auto fromRight = [](auto d) {
-  return [d](auto e) {
-    return e([d](auto _) { return d; })([](auto x) { return x; });
-  };
+        return [d](auto e) {
+                return e([d](auto _) { return d; })([](auto x) { return x; });
+        };
 };
 
+
+// e0662959-cb6d-4b91-ac55-59b195160004
 inline constexpr auto either = [](auto l) {
-  return [l](auto r) { return [l, r](auto e) { return e(l)(r); }; };
+        return [l](auto r) { return [l, r](auto e) { return e(l)(r); }; };
 };
+// e0662959-cb6d-4b91-ac55-59b195160004 end
 
 // EITHER2
 /*
@@ -57,85 +64,90 @@ inline constexpr auto either = [](auto l) {
 */
 namespace either2 {
 inline constexpr auto left = [](auto a) {
-  return [a](auto l, auto _) { return l(a); };
+        return [a](auto l, auto _) { return l(a); };
 };
 
 inline constexpr auto right = [](auto b) {
-  return [b](auto _, auto r) { return r(b); };
+        return [b](auto _, auto r) { return r(b); };
 };
 
 inline constexpr auto isLeft = [](auto e) {
-  return e([](auto _) { return true; }, [](auto _) { return false; });
+        return e([](auto _) { return true; }, [](auto _) { return false; });
 };
 ;
 inline constexpr auto isRight = [](auto e) {
-  return e([](auto _) { return false; }, [](auto _) { return true; });
+        return e([](auto _) { return false; }, [](auto _) { return true; });
 };
 ;
 
 inline constexpr auto fromLeft = [](auto d, auto e) {
-  return e([](auto x) { return x; }, [d](auto _) { return d; });
+        return e([](auto x) { return x; }, [d](auto _) { return d; });
 };
 
 inline constexpr auto fromRight = [](auto d, auto e) {
-  return e([d](auto _) { return d; }, [](auto x) { return x; });
+        return e([d](auto _) { return d; }, [](auto x) { return x; });
 };
 
 inline constexpr auto either = [](auto l, auto r) {
-  return [l, r](auto e) { return e(l, r); };
+        return [l, r](auto e) { return e(l, r); };
 };
 } // namespace either2
 
 // EITHER 3 -- Case Record
 namespace either3 {
 template <typename A, typename B, typename R> struct EitherCase {
-  std::function<R(A)> left;
-  std::function<R(B)> right;
-  constexpr EitherCase(std::function<R(A)> left, std::function<R(B)> right)
-      : left(left), right(right) {}
+        std::function<R(A)> left;
+        std::function<R(B)> right;
+        constexpr EitherCase(std::function<R(A)> left,
+                             std::function<R(B)> right)
+                : left(left), right(right) {}
 };
 
 template <typename A, typename B> struct Either {
-  inline static constexpr auto left = [](A a) {
-    return [a]<typename R>(EitherCase<A, B, R> c) { return c.left(a); };
-  };
+        inline static constexpr auto left = [](A a) {
+                return [a]<typename R>(EitherCase<A, B, R> c) {
+                        return c.left(a);
+                };
+        };
 
-  inline static constexpr auto right = [](B b) {
-    return [b]<typename R>(EitherCase<A, B, R> c) { return c.right(b); };
-  };
+        inline static constexpr auto right = [](B b) {
+                return [b]<typename R>(EitherCase<A, B, R> c) {
+                        return c.right(b);
+                };
+        };
 
-  template <typename R> auto operator()(EitherCase<A, B, R> c) -> R;
+        template <typename R> auto operator()(EitherCase<A, B, R> c) -> R;
 };
 
 template <typename A, typename B>
 inline constexpr auto isLeft = [](auto e) {
-  return e(EitherCase<A, B, bool>{[](auto _) { return true; },
-                                  [](auto _) { return false; }});
+        return e(EitherCase<A, B, bool>{[](auto _) { return true; },
+                                        [](auto _) { return false; }});
 };
 
 template <typename A, typename B>
 inline constexpr auto isRight = [](auto e) {
-  return e(EitherCase<A, B, bool>{[](auto _) { return false; },
-                                  [](auto _) { return true; }});
+        return e(EitherCase<A, B, bool>{[](auto _) { return false; },
+                                        [](auto _) { return true; }});
 };
 
 template <typename A, typename B>
 inline constexpr auto fromLeft = [](auto d, auto e) {
-  return e(EitherCase<A, B, decltype(d)>{[](auto x) { return x; },
-                                         [d](auto _) { return d; }});
+        return e(EitherCase<A, B, decltype(d)>{[](auto x) { return x; },
+                                               [d](auto _) { return d; }});
 };
 
 template <typename A, typename B>
 inline constexpr auto fromRight = [](auto d, auto e) {
-  return e(EitherCase<A, B, decltype(d)>{[d](auto _) { return d; },
-                                         [](auto x) { return x; }});
+        return e(EitherCase<A, B, decltype(d)>{[d](auto _) { return d; },
+                                               [](auto x) { return x; }});
 };
 
 template <typename A, typename B, typename R>
 inline constexpr auto either =
-    [](std::function<R(A)> l, std::function<R(B)> r) {
-      return [l, r](auto e) { return e(EitherCase{l, r}); };
-    };
+        [](std::function<R(A)> l, std::function<R(B)> r) {
+                return [l, r](auto e) { return e(EitherCase{l, r}); };
+        };
 
 } // namespace either3
 } // namespace streams
