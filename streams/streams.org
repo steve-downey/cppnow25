@@ -56,6 +56,17 @@
 #+BIBLIOGRAPHY: ../etc/wg21.bib
 #+BIBLIOGRAPHY: ../etc/local.bib
 
+* Code Test
+#+begin_src cpp
+int main() {
+    std::cout << "hello, world\n";
+}
+#+end_src
+
+Inline ~code~ and =verbatim=.
+
+And export src_cpp[:exports code]{int main(){}} in line as an inline block.
+
 * Building sender streams out of senders
 :PROPERTIES:
 :html_headline_class: r-fit-text
@@ -147,11 +158,30 @@ Those might be closures.
 ** Pair example with typeclass map
 * Implementing Data with Lambda
 ** ~Either~
+*** Construction
+    /left/   = \lambda a. \lambda l. \lambda r. l a
+
+    /right/  = \lambda b. \lambda l. \lambda r. r b
+
+#+transclude: [[file:./code/src/smd/streams/either.hpp::f055237e-37d9-4bfc-871d-cc97aa6d7ef4]] :lines 2- :src cpp :end "f055237e-37d9-4bfc-871d-cc97aa6d7ef4 end"
+
+*** Case Analysis
+    /either/ = \lambda l. \lambda r. \lambda e. e l r
+
+    #+transclude: [[file:./code/src/smd/streams/either.hpp::e0662959-cb6d-4b91-ac55-59b195160004]] :lines 2- :src cpp :end "e0662959-cb6d-4b91-ac55-59b195160004 end"
 
 ** ~Pair~
+#+transclude: [[file:./code/src/smd/streams/pair.hpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
+
 ** ~Maybe~
+#+transclude: [[file:./code/src/smd/streams/maybe.hpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
+
 ** ~Boolean~
+#+transclude: [[file:./code/src/smd/streams/boolean.hpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
+
 ** ~List~
+#+transclude: [[file:./code/src/smd/streams/list.hpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
+
 * The Pattern(s)
 ** Scott Encoding
 ** Church Encoding
@@ -170,6 +200,7 @@ Those might be closures.
 ** Always infinite
 ** No empty stream - non-constructable
 ** Defined by observation APIs
+
 * Implementing Senders
 ** Either
 ** List
