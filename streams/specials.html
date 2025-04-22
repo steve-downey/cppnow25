@@ -1,0 +1,4444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-04-21 Mon 21:30 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="Steve Downey" />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+// @license-end
+</script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Name</th>
+<th scope="col" class="org-left">LaTeX code</th>
+<th scope="col" class="org-left">LaTeX</th>
+<th scope="col" class="org-left">HTML code</th>
+<th scope="col" class="org-left">HTML</th>
+<th scope="col" class="org-left">ASCII</th>
+<th scope="col" class="org-left">Latin1</th>
+<th scope="col" class="org-left">UTF-8</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Agrave</td>
+<td class="org-left"><code>\`{A}</code></td>
+<td class="org-left">\(\mbox{\`{A}}\)</td>
+<td class="org-left"><code>&amp;Agrave;</code></td>
+<td class="org-left">&amp;Agrave;</td>
+<td class="org-left">A</td>
+<td class="org-left">À</td>
+<td class="org-left">À</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">agrave</td>
+<td class="org-left"><code>\`{a}</code></td>
+<td class="org-left">\(\mbox{\`{a}}\)</td>
+<td class="org-left"><code>&amp;agrave;</code></td>
+<td class="org-left">&amp;agrave;</td>
+<td class="org-left">a</td>
+<td class="org-left">à</td>
+<td class="org-left">à</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Aacute</td>
+<td class="org-left"><code>\'{A}</code></td>
+<td class="org-left">\(\mbox{\'{A}}\)</td>
+<td class="org-left"><code>&amp;Aacute;</code></td>
+<td class="org-left">&amp;Aacute;</td>
+<td class="org-left">A</td>
+<td class="org-left">Á</td>
+<td class="org-left">Á</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">aacute</td>
+<td class="org-left"><code>\'{a}</code></td>
+<td class="org-left">\(\mbox{\'{a}}\)</td>
+<td class="org-left"><code>&amp;aacute;</code></td>
+<td class="org-left">&amp;aacute;</td>
+<td class="org-left">a</td>
+<td class="org-left">á</td>
+<td class="org-left">á</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Acirc</td>
+<td class="org-left"><code>\^{A}</code></td>
+<td class="org-left">\(\mbox{\^{A}}\)</td>
+<td class="org-left"><code>&amp;Acirc;</code></td>
+<td class="org-left">&amp;Acirc;</td>
+<td class="org-left">A</td>
+<td class="org-left">Â</td>
+<td class="org-left">Â</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">acirc</td>
+<td class="org-left"><code>\^{a}</code></td>
+<td class="org-left">\(\mbox{\^{a}}\)</td>
+<td class="org-left"><code>&amp;acirc;</code></td>
+<td class="org-left">&amp;acirc;</td>
+<td class="org-left">a</td>
+<td class="org-left">â</td>
+<td class="org-left">â</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Amacr</td>
+<td class="org-left"><code>\={A}</code></td>
+<td class="org-left">\(\mbox{\={A}}\)</td>
+<td class="org-left"><code>&amp;Amacr;</code></td>
+<td class="org-left">&amp;Amacr;</td>
+<td class="org-left">A</td>
+<td class="org-left">Ã</td>
+<td class="org-left">Ã</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">amacr</td>
+<td class="org-left"><code>\={a}</code></td>
+<td class="org-left">\(\mbox{\={a}}\)</td>
+<td class="org-left"><code>&amp;amacr;</code></td>
+<td class="org-left">&amp;amacr;</td>
+<td class="org-left">a</td>
+<td class="org-left">ã</td>
+<td class="org-left">ã</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Atilde</td>
+<td class="org-left"><code>\~{A}</code></td>
+<td class="org-left">\(\mbox{\~{A}}\)</td>
+<td class="org-left"><code>&amp;Atilde;</code></td>
+<td class="org-left">&amp;Atilde;</td>
+<td class="org-left">A</td>
+<td class="org-left">Ã</td>
+<td class="org-left">Ã</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">atilde</td>
+<td class="org-left"><code>\~{a}</code></td>
+<td class="org-left">\(\mbox{\~{a}}\)</td>
+<td class="org-left"><code>&amp;atilde;</code></td>
+<td class="org-left">&amp;atilde;</td>
+<td class="org-left">a</td>
+<td class="org-left">ã</td>
+<td class="org-left">ã</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Auml</td>
+<td class="org-left"><code>\"{A}</code></td>
+<td class="org-left">\(\mbox{\"{A}}\)</td>
+<td class="org-left"><code>&amp;Auml;</code></td>
+<td class="org-left">&amp;Auml;</td>
+<td class="org-left">Ae</td>
+<td class="org-left">Ä</td>
+<td class="org-left">Ä</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">auml</td>
+<td class="org-left"><code>\"{a}</code></td>
+<td class="org-left">\(\mbox{\"{a}}\)</td>
+<td class="org-left"><code>&amp;auml;</code></td>
+<td class="org-left">&amp;auml;</td>
+<td class="org-left">ae</td>
+<td class="org-left">ä</td>
+<td class="org-left">ä</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Aring</td>
+<td class="org-left"><code>\AA{}</code></td>
+<td class="org-left">\(\mbox{\AA{}}\)</td>
+<td class="org-left"><code>&amp;Aring;</code></td>
+<td class="org-left">&amp;Aring;</td>
+<td class="org-left">A</td>
+<td class="org-left">Å</td>
+<td class="org-left">Å</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">AA</td>
+<td class="org-left"><code>\AA{}</code></td>
+<td class="org-left">\(\mbox{\AA{}}\)</td>
+<td class="org-left"><code>&amp;Aring;</code></td>
+<td class="org-left">&amp;Aring;</td>
+<td class="org-left">A</td>
+<td class="org-left">Å</td>
+<td class="org-left">Å</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">aring</td>
+<td class="org-left"><code>\aa{}</code></td>
+<td class="org-left">\(\mbox{\aa{}}\)</td>
+<td class="org-left"><code>&amp;aring;</code></td>
+<td class="org-left">&amp;aring;</td>
+<td class="org-left">a</td>
+<td class="org-left">å</td>
+<td class="org-left">å</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">AElig</td>
+<td class="org-left"><code>\AE{}</code></td>
+<td class="org-left">\(\mbox{\AE{}}\)</td>
+<td class="org-left"><code>&amp;AElig;</code></td>
+<td class="org-left">&amp;AElig;</td>
+<td class="org-left">AE</td>
+<td class="org-left">Æ</td>
+<td class="org-left">Æ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">aelig</td>
+<td class="org-left"><code>\ae{}</code></td>
+<td class="org-left">\(\mbox{\ae{}}\)</td>
+<td class="org-left"><code>&amp;aelig;</code></td>
+<td class="org-left">&amp;aelig;</td>
+<td class="org-left">ae</td>
+<td class="org-left">æ</td>
+<td class="org-left">æ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Ccedil</td>
+<td class="org-left"><code>\c{C}</code></td>
+<td class="org-left">\(\mbox{\c{C}}\)</td>
+<td class="org-left"><code>&amp;Ccedil;</code></td>
+<td class="org-left">&amp;Ccedil;</td>
+<td class="org-left">C</td>
+<td class="org-left">Ç</td>
+<td class="org-left">Ç</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ccedil</td>
+<td class="org-left"><code>\c{c}</code></td>
+<td class="org-left">\(\mbox{\c{c}}\)</td>
+<td class="org-left"><code>&amp;ccedil;</code></td>
+<td class="org-left">&amp;ccedil;</td>
+<td class="org-left">c</td>
+<td class="org-left">ç</td>
+<td class="org-left">ç</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Egrave</td>
+<td class="org-left"><code>\`{E}</code></td>
+<td class="org-left">\(\mbox{\`{E}}\)</td>
+<td class="org-left"><code>&amp;Egrave;</code></td>
+<td class="org-left">&amp;Egrave;</td>
+<td class="org-left">E</td>
+<td class="org-left">È</td>
+<td class="org-left">È</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">egrave</td>
+<td class="org-left"><code>\`{e}</code></td>
+<td class="org-left">\(\mbox{\`{e}}\)</td>
+<td class="org-left"><code>&amp;egrave;</code></td>
+<td class="org-left">&amp;egrave;</td>
+<td class="org-left">e</td>
+<td class="org-left">è</td>
+<td class="org-left">è</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Eacute</td>
+<td class="org-left"><code>\'{E}</code></td>
+<td class="org-left">\(\mbox{\'{E}}\)</td>
+<td class="org-left"><code>&amp;Eacute;</code></td>
+<td class="org-left">&amp;Eacute;</td>
+<td class="org-left">E</td>
+<td class="org-left">É</td>
+<td class="org-left">É</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">eacute</td>
+<td class="org-left"><code>\'{e}</code></td>
+<td class="org-left">\(\mbox{\'{e}}\)</td>
+<td class="org-left"><code>&amp;eacute;</code></td>
+<td class="org-left">&amp;eacute;</td>
+<td class="org-left">e</td>
+<td class="org-left">é</td>
+<td class="org-left">é</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Ecirc</td>
+<td class="org-left"><code>\^{E}</code></td>
+<td class="org-left">\(\mbox{\^{E}}\)</td>
+<td class="org-left"><code>&amp;Ecirc;</code></td>
+<td class="org-left">&amp;Ecirc;</td>
+<td class="org-left">E</td>
+<td class="org-left">Ê</td>
+<td class="org-left">Ê</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ecirc</td>
+<td class="org-left"><code>\^{e}</code></td>
+<td class="org-left">\(\mbox{\^{e}}\)</td>
+<td class="org-left"><code>&amp;ecirc;</code></td>
+<td class="org-left">&amp;ecirc;</td>
+<td class="org-left">e</td>
+<td class="org-left">ê</td>
+<td class="org-left">ê</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Euml</td>
+<td class="org-left"><code>\"{E}</code></td>
+<td class="org-left">\(\mbox{\"{E}}\)</td>
+<td class="org-left"><code>&amp;Euml;</code></td>
+<td class="org-left">&amp;Euml;</td>
+<td class="org-left">E</td>
+<td class="org-left">Ë</td>
+<td class="org-left">Ë</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">euml</td>
+<td class="org-left"><code>\"{e}</code></td>
+<td class="org-left">\(\mbox{\"{e}}\)</td>
+<td class="org-left"><code>&amp;euml;</code></td>
+<td class="org-left">&amp;euml;</td>
+<td class="org-left">e</td>
+<td class="org-left">ë</td>
+<td class="org-left">ë</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Igrave</td>
+<td class="org-left"><code>\`{I}</code></td>
+<td class="org-left">\(\mbox{\`{I}}\)</td>
+<td class="org-left"><code>&amp;Igrave;</code></td>
+<td class="org-left">&amp;Igrave;</td>
+<td class="org-left">I</td>
+<td class="org-left">Ì</td>
+<td class="org-left">Ì</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">igrave</td>
+<td class="org-left"><code>\`{i}</code></td>
+<td class="org-left">\(\mbox{\`{i}}\)</td>
+<td class="org-left"><code>&amp;igrave;</code></td>
+<td class="org-left">&amp;igrave;</td>
+<td class="org-left">i</td>
+<td class="org-left">ì</td>
+<td class="org-left">ì</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Iacute</td>
+<td class="org-left"><code>\'{I}</code></td>
+<td class="org-left">\(\mbox{\'{I}}\)</td>
+<td class="org-left"><code>&amp;Iacute;</code></td>
+<td class="org-left">&amp;Iacute;</td>
+<td class="org-left">I</td>
+<td class="org-left">Í</td>
+<td class="org-left">Í</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">iacute</td>
+<td class="org-left"><code>\'{i}</code></td>
+<td class="org-left">\(\mbox{\'{i}}\)</td>
+<td class="org-left"><code>&amp;iacute;</code></td>
+<td class="org-left">&amp;iacute;</td>
+<td class="org-left">i</td>
+<td class="org-left">í</td>
+<td class="org-left">í</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Idot</td>
+<td class="org-left"><code>\.{I}</code></td>
+<td class="org-left">\(\mbox{\.{I}}\)</td>
+<td class="org-left"><code>&amp;idot;</code></td>
+<td class="org-left">&amp;idot;</td>
+<td class="org-left">I</td>
+<td class="org-left">İ</td>
+<td class="org-left">İ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">inodot</td>
+<td class="org-left"><code>\i</code></td>
+<td class="org-left">\(\mbox{\i}\)</td>
+<td class="org-left"><code>&amp;inodot;</code></td>
+<td class="org-left">&amp;inodot;</td>
+<td class="org-left">i</td>
+<td class="org-left">ı</td>
+<td class="org-left">ı</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Icirc</td>
+<td class="org-left"><code>\^{I}</code></td>
+<td class="org-left">\(\mbox{\^{I}}\)</td>
+<td class="org-left"><code>&amp;Icirc;</code></td>
+<td class="org-left">&amp;Icirc;</td>
+<td class="org-left">I</td>
+<td class="org-left">Î</td>
+<td class="org-left">Î</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">icirc</td>
+<td class="org-left"><code>\^{i}</code></td>
+<td class="org-left">\(\mbox{\^{i}}\)</td>
+<td class="org-left"><code>&amp;icirc;</code></td>
+<td class="org-left">&amp;icirc;</td>
+<td class="org-left">i</td>
+<td class="org-left">î</td>
+<td class="org-left">î</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Iuml</td>
+<td class="org-left"><code>\"{I}</code></td>
+<td class="org-left">\(\mbox{\"{I}}\)</td>
+<td class="org-left"><code>&amp;Iuml;</code></td>
+<td class="org-left">&amp;Iuml;</td>
+<td class="org-left">I</td>
+<td class="org-left">Ï</td>
+<td class="org-left">Ï</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">iuml</td>
+<td class="org-left"><code>\"{i}</code></td>
+<td class="org-left">\(\mbox{\"{i}}\)</td>
+<td class="org-left"><code>&amp;iuml;</code></td>
+<td class="org-left">&amp;iuml;</td>
+<td class="org-left">i</td>
+<td class="org-left">ï</td>
+<td class="org-left">ï</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Ntilde</td>
+<td class="org-left"><code>\~{N}</code></td>
+<td class="org-left">\(\mbox{\~{N}}\)</td>
+<td class="org-left"><code>&amp;Ntilde;</code></td>
+<td class="org-left">&amp;Ntilde;</td>
+<td class="org-left">N</td>
+<td class="org-left">Ñ</td>
+<td class="org-left">Ñ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ntilde</td>
+<td class="org-left"><code>\~{n}</code></td>
+<td class="org-left">\(\mbox{\~{n}}\)</td>
+<td class="org-left"><code>&amp;ntilde;</code></td>
+<td class="org-left">&amp;ntilde;</td>
+<td class="org-left">n</td>
+<td class="org-left">ñ</td>
+<td class="org-left">ñ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Ograve</td>
+<td class="org-left"><code>\`{O}</code></td>
+<td class="org-left">\(\mbox{\`{O}}\)</td>
+<td class="org-left"><code>&amp;Ograve;</code></td>
+<td class="org-left">&amp;Ograve;</td>
+<td class="org-left">O</td>
+<td class="org-left">Ò</td>
+<td class="org-left">Ò</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ograve</td>
+<td class="org-left"><code>\`{o}</code></td>
+<td class="org-left">\(\mbox{\`{o}}\)</td>
+<td class="org-left"><code>&amp;ograve;</code></td>
+<td class="org-left">&amp;ograve;</td>
+<td class="org-left">o</td>
+<td class="org-left">ò</td>
+<td class="org-left">ò</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Oacute</td>
+<td class="org-left"><code>\'{O}</code></td>
+<td class="org-left">\(\mbox{\'{O}}\)</td>
+<td class="org-left"><code>&amp;Oacute;</code></td>
+<td class="org-left">&amp;Oacute;</td>
+<td class="org-left">O</td>
+<td class="org-left">Ó</td>
+<td class="org-left">Ó</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">oacute</td>
+<td class="org-left"><code>\'{o}</code></td>
+<td class="org-left">\(\mbox{\'{o}}\)</td>
+<td class="org-left"><code>&amp;oacute;</code></td>
+<td class="org-left">&amp;oacute;</td>
+<td class="org-left">o</td>
+<td class="org-left">ó</td>
+<td class="org-left">ó</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Ocirc</td>
+<td class="org-left"><code>\^{O}</code></td>
+<td class="org-left">\(\mbox{\^{O}}\)</td>
+<td class="org-left"><code>&amp;Ocirc;</code></td>
+<td class="org-left">&amp;Ocirc;</td>
+<td class="org-left">O</td>
+<td class="org-left">Ô</td>
+<td class="org-left">Ô</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ocirc</td>
+<td class="org-left"><code>\^{o}</code></td>
+<td class="org-left">\(\mbox{\^{o}}\)</td>
+<td class="org-left"><code>&amp;ocirc;</code></td>
+<td class="org-left">&amp;ocirc;</td>
+<td class="org-left">o</td>
+<td class="org-left">ô</td>
+<td class="org-left">ô</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Otilde</td>
+<td class="org-left"><code>\~{O}</code></td>
+<td class="org-left">\(\mbox{\~{O}}\)</td>
+<td class="org-left"><code>&amp;Otilde;</code></td>
+<td class="org-left">&amp;Otilde;</td>
+<td class="org-left">O</td>
+<td class="org-left">Õ</td>
+<td class="org-left">Õ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">otilde</td>
+<td class="org-left"><code>\~{o}</code></td>
+<td class="org-left">\(\mbox{\~{o}}\)</td>
+<td class="org-left"><code>&amp;otilde;</code></td>
+<td class="org-left">&amp;otilde;</td>
+<td class="org-left">o</td>
+<td class="org-left">õ</td>
+<td class="org-left">õ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Ouml</td>
+<td class="org-left"><code>\"{O}</code></td>
+<td class="org-left">\(\mbox{\"{O}}\)</td>
+<td class="org-left"><code>&amp;Ouml;</code></td>
+<td class="org-left">&amp;Ouml;</td>
+<td class="org-left">Oe</td>
+<td class="org-left">Ö</td>
+<td class="org-left">Ö</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ouml</td>
+<td class="org-left"><code>\"{o}</code></td>
+<td class="org-left">\(\mbox{\"{o}}\)</td>
+<td class="org-left"><code>&amp;ouml;</code></td>
+<td class="org-left">&amp;ouml;</td>
+<td class="org-left">oe</td>
+<td class="org-left">ö</td>
+<td class="org-left">ö</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Oslash</td>
+<td class="org-left"><code>\O</code></td>
+<td class="org-left">\(\mbox{\O}\)</td>
+<td class="org-left"><code>&amp;Oslash;</code></td>
+<td class="org-left">&amp;Oslash;</td>
+<td class="org-left">O</td>
+<td class="org-left">Ø</td>
+<td class="org-left">Ø</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">oslash</td>
+<td class="org-left"><code>\o{}</code></td>
+<td class="org-left">\(\mbox{\o{}}\)</td>
+<td class="org-left"><code>&amp;oslash;</code></td>
+<td class="org-left">&amp;oslash;</td>
+<td class="org-left">o</td>
+<td class="org-left">ø</td>
+<td class="org-left">ø</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">OElig</td>
+<td class="org-left"><code>\OE{}</code></td>
+<td class="org-left">\(\mbox{\OE{}}\)</td>
+<td class="org-left"><code>&amp;OElig;</code></td>
+<td class="org-left">&amp;OElig;</td>
+<td class="org-left">OE</td>
+<td class="org-left">OE</td>
+<td class="org-left">Œ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">oelig</td>
+<td class="org-left"><code>\oe{}</code></td>
+<td class="org-left">\(\mbox{\oe{}}\)</td>
+<td class="org-left"><code>&amp;oelig;</code></td>
+<td class="org-left">&amp;oelig;</td>
+<td class="org-left">oe</td>
+<td class="org-left">oe</td>
+<td class="org-left">œ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Scaron</td>
+<td class="org-left"><code>\v{S}</code></td>
+<td class="org-left">\(\mbox{\v{S}}\)</td>
+<td class="org-left"><code>&amp;Scaron;</code></td>
+<td class="org-left">&amp;Scaron;</td>
+<td class="org-left">S</td>
+<td class="org-left">S</td>
+<td class="org-left">Š</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">scaron</td>
+<td class="org-left"><code>\v{s}</code></td>
+<td class="org-left">\(\mbox{\v{s}}\)</td>
+<td class="org-left"><code>&amp;scaron;</code></td>
+<td class="org-left">&amp;scaron;</td>
+<td class="org-left">s</td>
+<td class="org-left">s</td>
+<td class="org-left">š</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">szlig</td>
+<td class="org-left"><code>\ss{}</code></td>
+<td class="org-left">\(\mbox{\ss{}}\)</td>
+<td class="org-left"><code>&amp;szlig;</code></td>
+<td class="org-left">&amp;szlig;</td>
+<td class="org-left">ss</td>
+<td class="org-left">ß</td>
+<td class="org-left">ß</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Ugrave</td>
+<td class="org-left"><code>\`{U}</code></td>
+<td class="org-left">\(\mbox{\`{U}}\)</td>
+<td class="org-left"><code>&amp;Ugrave;</code></td>
+<td class="org-left">&amp;Ugrave;</td>
+<td class="org-left">U</td>
+<td class="org-left">Ù</td>
+<td class="org-left">Ù</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ugrave</td>
+<td class="org-left"><code>\`{u}</code></td>
+<td class="org-left">\(\mbox{\`{u}}\)</td>
+<td class="org-left"><code>&amp;ugrave;</code></td>
+<td class="org-left">&amp;ugrave;</td>
+<td class="org-left">u</td>
+<td class="org-left">ù</td>
+<td class="org-left">ù</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Uacute</td>
+<td class="org-left"><code>\'{U}</code></td>
+<td class="org-left">\(\mbox{\'{U}}\)</td>
+<td class="org-left"><code>&amp;Uacute;</code></td>
+<td class="org-left">&amp;Uacute;</td>
+<td class="org-left">U</td>
+<td class="org-left">Ú</td>
+<td class="org-left">Ú</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">uacute</td>
+<td class="org-left"><code>\'{u}</code></td>
+<td class="org-left">\(\mbox{\'{u}}\)</td>
+<td class="org-left"><code>&amp;uacute;</code></td>
+<td class="org-left">&amp;uacute;</td>
+<td class="org-left">u</td>
+<td class="org-left">ú</td>
+<td class="org-left">ú</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Ucirc</td>
+<td class="org-left"><code>\^{U}</code></td>
+<td class="org-left">\(\mbox{\^{U}}\)</td>
+<td class="org-left"><code>&amp;Ucirc;</code></td>
+<td class="org-left">&amp;Ucirc;</td>
+<td class="org-left">U</td>
+<td class="org-left">Û</td>
+<td class="org-left">Û</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ucirc</td>
+<td class="org-left"><code>\^{u}</code></td>
+<td class="org-left">\(\mbox{\^{u}}\)</td>
+<td class="org-left"><code>&amp;ucirc;</code></td>
+<td class="org-left">&amp;ucirc;</td>
+<td class="org-left">u</td>
+<td class="org-left">û</td>
+<td class="org-left">û</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Uuml</td>
+<td class="org-left"><code>\"{U}</code></td>
+<td class="org-left">\(\mbox{\"{U}}\)</td>
+<td class="org-left"><code>&amp;Uuml;</code></td>
+<td class="org-left">&amp;Uuml;</td>
+<td class="org-left">Ue</td>
+<td class="org-left">Ü</td>
+<td class="org-left">Ü</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">uuml</td>
+<td class="org-left"><code>\"{u}</code></td>
+<td class="org-left">\(\mbox{\"{u}}\)</td>
+<td class="org-left"><code>&amp;uuml;</code></td>
+<td class="org-left">&amp;uuml;</td>
+<td class="org-left">ue</td>
+<td class="org-left">ü</td>
+<td class="org-left">ü</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Yacute</td>
+<td class="org-left"><code>\'{Y}</code></td>
+<td class="org-left">\(\mbox{\'{Y}}\)</td>
+<td class="org-left"><code>&amp;Yacute;</code></td>
+<td class="org-left">&amp;Yacute;</td>
+<td class="org-left">Y</td>
+<td class="org-left">Ý</td>
+<td class="org-left">Ý</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">yacute</td>
+<td class="org-left"><code>\'{y}</code></td>
+<td class="org-left">\(\mbox{\'{y}}\)</td>
+<td class="org-left"><code>&amp;yacute;</code></td>
+<td class="org-left">&amp;yacute;</td>
+<td class="org-left">y</td>
+<td class="org-left">ý</td>
+<td class="org-left">ý</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Yuml</td>
+<td class="org-left"><code>\"{Y}</code></td>
+<td class="org-left">\(\mbox{\"{Y}}\)</td>
+<td class="org-left"><code>&amp;Yuml;</code></td>
+<td class="org-left">&amp;Yuml;</td>
+<td class="org-left">Y</td>
+<td class="org-left">Y</td>
+<td class="org-left">Ÿ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">yuml</td>
+<td class="org-left"><code>\"{y}</code></td>
+<td class="org-left">\(\mbox{\"{y}}\)</td>
+<td class="org-left"><code>&amp;yuml;</code></td>
+<td class="org-left">&amp;yuml;</td>
+<td class="org-left">y</td>
+<td class="org-left">ÿ</td>
+<td class="org-left">ÿ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">fnof</td>
+<td class="org-left"><code>\textit{f}</code></td>
+<td class="org-left">\(\mbox{\textit{f}}\)</td>
+<td class="org-left"><code>&amp;fnof;</code></td>
+<td class="org-left">&amp;fnof;</td>
+<td class="org-left">f</td>
+<td class="org-left">f</td>
+<td class="org-left">ƒ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">real</td>
+<td class="org-left"><code>\Re</code></td>
+<td class="org-left">\(\Re\)</td>
+<td class="org-left"><code>&amp;real;</code></td>
+<td class="org-left">&amp;real;</td>
+<td class="org-left">R</td>
+<td class="org-left">R</td>
+<td class="org-left">ℜ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">image</td>
+<td class="org-left"><code>\Im</code></td>
+<td class="org-left">\(\Im\)</td>
+<td class="org-left"><code>&amp;image;</code></td>
+<td class="org-left">&amp;image;</td>
+<td class="org-left">I</td>
+<td class="org-left">I</td>
+<td class="org-left">ℑ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">weierp</td>
+<td class="org-left"><code>\wp</code></td>
+<td class="org-left">\(\wp\)</td>
+<td class="org-left"><code>&amp;weierp;</code></td>
+<td class="org-left">&amp;weierp;</td>
+<td class="org-left">P</td>
+<td class="org-left">P</td>
+<td class="org-left">℘</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ell</td>
+<td class="org-left"><code>\ell</code></td>
+<td class="org-left">\(\ell\)</td>
+<td class="org-left"><code>&amp;ell;</code></td>
+<td class="org-left">&amp;ell;</td>
+<td class="org-left">ell</td>
+<td class="org-left">ell</td>
+<td class="org-left">ℓ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">imath</td>
+<td class="org-left"><code>\imath</code></td>
+<td class="org-left">\(\imath\)</td>
+<td class="org-left"><code>&amp;imath;</code></td>
+<td class="org-left">&amp;imath;</td>
+<td class="org-left">[dotless i]</td>
+<td class="org-left">dotless i</td>
+<td class="org-left">ı</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">jmath</td>
+<td class="org-left"><code>\jmath</code></td>
+<td class="org-left">\(\jmath\)</td>
+<td class="org-left"><code>&amp;jmath;</code></td>
+<td class="org-left">&amp;jmath;</td>
+<td class="org-left">[dotless j]</td>
+<td class="org-left">dotless j</td>
+<td class="org-left">ȷ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Alpha</td>
+<td class="org-left"><code>A</code></td>
+<td class="org-left">\(\mbox{A}\)</td>
+<td class="org-left"><code>&amp;Alpha;</code></td>
+<td class="org-left">&amp;Alpha;</td>
+<td class="org-left">Alpha</td>
+<td class="org-left">Alpha</td>
+<td class="org-left">Α</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">alpha</td>
+<td class="org-left"><code>\alpha</code></td>
+<td class="org-left">\(\alpha\)</td>
+<td class="org-left"><code>&amp;alpha;</code></td>
+<td class="org-left">&amp;alpha;</td>
+<td class="org-left">alpha</td>
+<td class="org-left">alpha</td>
+<td class="org-left">α</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Beta</td>
+<td class="org-left"><code>B</code></td>
+<td class="org-left">\(\mbox{B}\)</td>
+<td class="org-left"><code>&amp;Beta;</code></td>
+<td class="org-left">&amp;Beta;</td>
+<td class="org-left">Beta</td>
+<td class="org-left">Beta</td>
+<td class="org-left">Β</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">beta</td>
+<td class="org-left"><code>\beta</code></td>
+<td class="org-left">\(\beta\)</td>
+<td class="org-left"><code>&amp;beta;</code></td>
+<td class="org-left">&amp;beta;</td>
+<td class="org-left">beta</td>
+<td class="org-left">beta</td>
+<td class="org-left">β</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Gamma</td>
+<td class="org-left"><code>\Gamma</code></td>
+<td class="org-left">\(\Gamma\)</td>
+<td class="org-left"><code>&amp;Gamma;</code></td>
+<td class="org-left">&amp;Gamma;</td>
+<td class="org-left">Gamma</td>
+<td class="org-left">Gamma</td>
+<td class="org-left">Γ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">gamma</td>
+<td class="org-left"><code>\gamma</code></td>
+<td class="org-left">\(\gamma\)</td>
+<td class="org-left"><code>&amp;gamma;</code></td>
+<td class="org-left">&amp;gamma;</td>
+<td class="org-left">gamma</td>
+<td class="org-left">gamma</td>
+<td class="org-left">γ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Delta</td>
+<td class="org-left"><code>\Delta</code></td>
+<td class="org-left">\(\Delta\)</td>
+<td class="org-left"><code>&amp;Delta;</code></td>
+<td class="org-left">&amp;Delta;</td>
+<td class="org-left">Delta</td>
+<td class="org-left">Delta</td>
+<td class="org-left">Δ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">delta</td>
+<td class="org-left"><code>\delta</code></td>
+<td class="org-left">\(\delta\)</td>
+<td class="org-left"><code>&amp;delta;</code></td>
+<td class="org-left">&amp;delta;</td>
+<td class="org-left">delta</td>
+<td class="org-left">delta</td>
+<td class="org-left">δ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Epsilon</td>
+<td class="org-left"><code>E</code></td>
+<td class="org-left">\(\mbox{E}\)</td>
+<td class="org-left"><code>&amp;Epsilon;</code></td>
+<td class="org-left">&amp;Epsilon;</td>
+<td class="org-left">Epsilon</td>
+<td class="org-left">Epsilon</td>
+<td class="org-left">Ε</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">epsilon</td>
+<td class="org-left"><code>\epsilon</code></td>
+<td class="org-left">\(\epsilon\)</td>
+<td class="org-left"><code>&amp;epsilon;</code></td>
+<td class="org-left">&amp;epsilon;</td>
+<td class="org-left">epsilon</td>
+<td class="org-left">epsilon</td>
+<td class="org-left">ε</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">varepsilon</td>
+<td class="org-left"><code>\varepsilon</code></td>
+<td class="org-left">\(\varepsilon\)</td>
+<td class="org-left"><code>&amp;epsilon;</code></td>
+<td class="org-left">&amp;epsilon;</td>
+<td class="org-left">varepsilon</td>
+<td class="org-left">varepsilon</td>
+<td class="org-left">ε</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Zeta</td>
+<td class="org-left"><code>Z</code></td>
+<td class="org-left">\(\mbox{Z}\)</td>
+<td class="org-left"><code>&amp;Zeta;</code></td>
+<td class="org-left">&amp;Zeta;</td>
+<td class="org-left">Zeta</td>
+<td class="org-left">Zeta</td>
+<td class="org-left">Ζ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">zeta</td>
+<td class="org-left"><code>\zeta</code></td>
+<td class="org-left">\(\zeta\)</td>
+<td class="org-left"><code>&amp;zeta;</code></td>
+<td class="org-left">&amp;zeta;</td>
+<td class="org-left">zeta</td>
+<td class="org-left">zeta</td>
+<td class="org-left">ζ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Eta</td>
+<td class="org-left"><code>H</code></td>
+<td class="org-left">\(\mbox{H}\)</td>
+<td class="org-left"><code>&amp;Eta;</code></td>
+<td class="org-left">&amp;Eta;</td>
+<td class="org-left">Eta</td>
+<td class="org-left">Eta</td>
+<td class="org-left">Η</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">eta</td>
+<td class="org-left"><code>\eta</code></td>
+<td class="org-left">\(\eta\)</td>
+<td class="org-left"><code>&amp;eta;</code></td>
+<td class="org-left">&amp;eta;</td>
+<td class="org-left">eta</td>
+<td class="org-left">eta</td>
+<td class="org-left">η</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Theta</td>
+<td class="org-left"><code>\Theta</code></td>
+<td class="org-left">\(\Theta\)</td>
+<td class="org-left"><code>&amp;Theta;</code></td>
+<td class="org-left">&amp;Theta;</td>
+<td class="org-left">Theta</td>
+<td class="org-left">Theta</td>
+<td class="org-left">Θ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">theta</td>
+<td class="org-left"><code>\theta</code></td>
+<td class="org-left">\(\theta\)</td>
+<td class="org-left"><code>&amp;theta;</code></td>
+<td class="org-left">&amp;theta;</td>
+<td class="org-left">theta</td>
+<td class="org-left">theta</td>
+<td class="org-left">θ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">thetasym</td>
+<td class="org-left"><code>\vartheta</code></td>
+<td class="org-left">\(\vartheta\)</td>
+<td class="org-left"><code>&amp;thetasym;</code></td>
+<td class="org-left">&amp;thetasym;</td>
+<td class="org-left">theta</td>
+<td class="org-left">theta</td>
+<td class="org-left">ϑ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">vartheta</td>
+<td class="org-left"><code>\vartheta</code></td>
+<td class="org-left">\(\vartheta\)</td>
+<td class="org-left"><code>&amp;thetasym;</code></td>
+<td class="org-left">&amp;thetasym;</td>
+<td class="org-left">theta</td>
+<td class="org-left">theta</td>
+<td class="org-left">ϑ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Iota</td>
+<td class="org-left"><code>I</code></td>
+<td class="org-left">\(\mbox{I}\)</td>
+<td class="org-left"><code>&amp;Iota;</code></td>
+<td class="org-left">&amp;Iota;</td>
+<td class="org-left">Iota</td>
+<td class="org-left">Iota</td>
+<td class="org-left">Ι</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">iota</td>
+<td class="org-left"><code>\iota</code></td>
+<td class="org-left">\(\iota\)</td>
+<td class="org-left"><code>&amp;iota;</code></td>
+<td class="org-left">&amp;iota;</td>
+<td class="org-left">iota</td>
+<td class="org-left">iota</td>
+<td class="org-left">ι</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Kappa</td>
+<td class="org-left"><code>K</code></td>
+<td class="org-left">\(\mbox{K}\)</td>
+<td class="org-left"><code>&amp;Kappa;</code></td>
+<td class="org-left">&amp;Kappa;</td>
+<td class="org-left">Kappa</td>
+<td class="org-left">Kappa</td>
+<td class="org-left">Κ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">kappa</td>
+<td class="org-left"><code>\kappa</code></td>
+<td class="org-left">\(\kappa\)</td>
+<td class="org-left"><code>&amp;kappa;</code></td>
+<td class="org-left">&amp;kappa;</td>
+<td class="org-left">kappa</td>
+<td class="org-left">kappa</td>
+<td class="org-left">κ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Lambda</td>
+<td class="org-left"><code>\Lambda</code></td>
+<td class="org-left">\(\Lambda\)</td>
+<td class="org-left"><code>&amp;Lambda;</code></td>
+<td class="org-left">&amp;Lambda;</td>
+<td class="org-left">Lambda</td>
+<td class="org-left">Lambda</td>
+<td class="org-left">Λ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">lambda</td>
+<td class="org-left"><code>\lambda</code></td>
+<td class="org-left">\(\lambda\)</td>
+<td class="org-left"><code>&amp;lambda;</code></td>
+<td class="org-left">&amp;lambda;</td>
+<td class="org-left">lambda</td>
+<td class="org-left">lambda</td>
+<td class="org-left">λ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Mu</td>
+<td class="org-left"><code>M</code></td>
+<td class="org-left">\(\mbox{M}\)</td>
+<td class="org-left"><code>&amp;Mu;</code></td>
+<td class="org-left">&amp;Mu;</td>
+<td class="org-left">Mu</td>
+<td class="org-left">Mu</td>
+<td class="org-left">Μ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">mu</td>
+<td class="org-left"><code>\mu</code></td>
+<td class="org-left">\(\mu\)</td>
+<td class="org-left"><code>&amp;mu;</code></td>
+<td class="org-left">&amp;mu;</td>
+<td class="org-left">mu</td>
+<td class="org-left">mu</td>
+<td class="org-left">μ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">nu</td>
+<td class="org-left"><code>\nu</code></td>
+<td class="org-left">\(\nu\)</td>
+<td class="org-left"><code>&amp;nu;</code></td>
+<td class="org-left">&amp;nu;</td>
+<td class="org-left">nu</td>
+<td class="org-left">nu</td>
+<td class="org-left">ν</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Nu</td>
+<td class="org-left"><code>N</code></td>
+<td class="org-left">\(\mbox{N}\)</td>
+<td class="org-left"><code>&amp;Nu;</code></td>
+<td class="org-left">&amp;Nu;</td>
+<td class="org-left">Nu</td>
+<td class="org-left">Nu</td>
+<td class="org-left">Ν</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Xi</td>
+<td class="org-left"><code>\Xi</code></td>
+<td class="org-left">\(\Xi\)</td>
+<td class="org-left"><code>&amp;Xi;</code></td>
+<td class="org-left">&amp;Xi;</td>
+<td class="org-left">Xi</td>
+<td class="org-left">Xi</td>
+<td class="org-left">Ξ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">xi</td>
+<td class="org-left"><code>\xi</code></td>
+<td class="org-left">\(\xi\)</td>
+<td class="org-left"><code>&amp;xi;</code></td>
+<td class="org-left">&amp;xi;</td>
+<td class="org-left">xi</td>
+<td class="org-left">xi</td>
+<td class="org-left">ξ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Omicron</td>
+<td class="org-left"><code>O</code></td>
+<td class="org-left">\(\mbox{O}\)</td>
+<td class="org-left"><code>&amp;Omicron;</code></td>
+<td class="org-left">&amp;Omicron;</td>
+<td class="org-left">Omicron</td>
+<td class="org-left">Omicron</td>
+<td class="org-left">Ο</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">omicron</td>
+<td class="org-left"><code>\textit{o}</code></td>
+<td class="org-left">\(\mbox{\textit{o}}\)</td>
+<td class="org-left"><code>&amp;omicron;</code></td>
+<td class="org-left">&amp;omicron;</td>
+<td class="org-left">omicron</td>
+<td class="org-left">omicron</td>
+<td class="org-left">ο</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Pi</td>
+<td class="org-left"><code>\Pi</code></td>
+<td class="org-left">\(\Pi\)</td>
+<td class="org-left"><code>&amp;Pi;</code></td>
+<td class="org-left">&amp;Pi;</td>
+<td class="org-left">Pi</td>
+<td class="org-left">Pi</td>
+<td class="org-left">Π</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">pi</td>
+<td class="org-left"><code>\pi</code></td>
+<td class="org-left">\(\pi\)</td>
+<td class="org-left"><code>&amp;pi;</code></td>
+<td class="org-left">&amp;pi;</td>
+<td class="org-left">pi</td>
+<td class="org-left">pi</td>
+<td class="org-left">π</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Rho</td>
+<td class="org-left"><code>P</code></td>
+<td class="org-left">\(\mbox{P}\)</td>
+<td class="org-left"><code>&amp;Rho;</code></td>
+<td class="org-left">&amp;Rho;</td>
+<td class="org-left">Rho</td>
+<td class="org-left">Rho</td>
+<td class="org-left">Ρ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">rho</td>
+<td class="org-left"><code>\rho</code></td>
+<td class="org-left">\(\rho\)</td>
+<td class="org-left"><code>&amp;rho;</code></td>
+<td class="org-left">&amp;rho;</td>
+<td class="org-left">rho</td>
+<td class="org-left">rho</td>
+<td class="org-left">ρ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sigma</td>
+<td class="org-left"><code>\Sigma</code></td>
+<td class="org-left">\(\Sigma\)</td>
+<td class="org-left"><code>&amp;Sigma;</code></td>
+<td class="org-left">&amp;Sigma;</td>
+<td class="org-left">Sigma</td>
+<td class="org-left">Sigma</td>
+<td class="org-left">Σ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">sigma</td>
+<td class="org-left"><code>\sigma</code></td>
+<td class="org-left">\(\sigma\)</td>
+<td class="org-left"><code>&amp;sigma;</code></td>
+<td class="org-left">&amp;sigma;</td>
+<td class="org-left">sigma</td>
+<td class="org-left">sigma</td>
+<td class="org-left">σ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">sigmaf</td>
+<td class="org-left"><code>\varsigma</code></td>
+<td class="org-left">\(\varsigma\)</td>
+<td class="org-left"><code>&amp;sigmaf;</code></td>
+<td class="org-left">&amp;sigmaf;</td>
+<td class="org-left">sigmaf</td>
+<td class="org-left">sigmaf</td>
+<td class="org-left">ς</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">varsigma</td>
+<td class="org-left"><code>\varsigma</code></td>
+<td class="org-left">\(\varsigma\)</td>
+<td class="org-left"><code>&amp;sigmaf;</code></td>
+<td class="org-left">&amp;sigmaf;</td>
+<td class="org-left">varsigma</td>
+<td class="org-left">varsigma</td>
+<td class="org-left">ς</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tau</td>
+<td class="org-left"><code>T</code></td>
+<td class="org-left">\(\mbox{T}\)</td>
+<td class="org-left"><code>&amp;Tau;</code></td>
+<td class="org-left">&amp;Tau;</td>
+<td class="org-left">Tau</td>
+<td class="org-left">Tau</td>
+<td class="org-left">Τ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Upsilon</td>
+<td class="org-left"><code>\Upsilon</code></td>
+<td class="org-left">\(\Upsilon\)</td>
+<td class="org-left"><code>&amp;Upsilon;</code></td>
+<td class="org-left">&amp;Upsilon;</td>
+<td class="org-left">Upsilon</td>
+<td class="org-left">Upsilon</td>
+<td class="org-left">Υ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">upsih</td>
+<td class="org-left"><code>\Upsilon</code></td>
+<td class="org-left">\(\Upsilon\)</td>
+<td class="org-left"><code>&amp;upsih;</code></td>
+<td class="org-left">&amp;upsih;</td>
+<td class="org-left">upsilon</td>
+<td class="org-left">upsilon</td>
+<td class="org-left">ϒ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">upsilon</td>
+<td class="org-left"><code>\upsilon</code></td>
+<td class="org-left">\(\upsilon\)</td>
+<td class="org-left"><code>&amp;upsilon;</code></td>
+<td class="org-left">&amp;upsilon;</td>
+<td class="org-left">upsilon</td>
+<td class="org-left">upsilon</td>
+<td class="org-left">υ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Phi</td>
+<td class="org-left"><code>\Phi</code></td>
+<td class="org-left">\(\Phi\)</td>
+<td class="org-left"><code>&amp;Phi;</code></td>
+<td class="org-left">&amp;Phi;</td>
+<td class="org-left">Phi</td>
+<td class="org-left">Phi</td>
+<td class="org-left">Φ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">phi</td>
+<td class="org-left"><code>\phi</code></td>
+<td class="org-left">\(\phi\)</td>
+<td class="org-left"><code>&amp;phi;</code></td>
+<td class="org-left">&amp;phi;</td>
+<td class="org-left">phi</td>
+<td class="org-left">phi</td>
+<td class="org-left">ɸ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">varphi</td>
+<td class="org-left"><code>\varphi</code></td>
+<td class="org-left">\(\varphi\)</td>
+<td class="org-left"><code>&amp;varphi;</code></td>
+<td class="org-left">&amp;varphi;</td>
+<td class="org-left">varphi</td>
+<td class="org-left">varphi</td>
+<td class="org-left">φ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Chi</td>
+<td class="org-left"><code>X</code></td>
+<td class="org-left">\(\mbox{X}\)</td>
+<td class="org-left"><code>&amp;Chi;</code></td>
+<td class="org-left">&amp;Chi;</td>
+<td class="org-left">Chi</td>
+<td class="org-left">Chi</td>
+<td class="org-left">Χ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">chi</td>
+<td class="org-left"><code>\chi</code></td>
+<td class="org-left">\(\chi\)</td>
+<td class="org-left"><code>&amp;chi;</code></td>
+<td class="org-left">&amp;chi;</td>
+<td class="org-left">chi</td>
+<td class="org-left">chi</td>
+<td class="org-left">χ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">acutex</td>
+<td class="org-left"><code>\acute x</code></td>
+<td class="org-left">\(\acute x\)</td>
+<td class="org-left"><code>&amp;acute;x</code></td>
+<td class="org-left">&amp;acute;x</td>
+<td class="org-left">'x</td>
+<td class="org-left">'x</td>
+<td class="org-left">𝑥́</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Psi</td>
+<td class="org-left"><code>\Psi</code></td>
+<td class="org-left">\(\Psi\)</td>
+<td class="org-left"><code>&amp;Psi;</code></td>
+<td class="org-left">&amp;Psi;</td>
+<td class="org-left">Psi</td>
+<td class="org-left">Psi</td>
+<td class="org-left">Ψ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">psi</td>
+<td class="org-left"><code>\psi</code></td>
+<td class="org-left">\(\psi\)</td>
+<td class="org-left"><code>&amp;psi;</code></td>
+<td class="org-left">&amp;psi;</td>
+<td class="org-left">psi</td>
+<td class="org-left">psi</td>
+<td class="org-left">ψ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">tau</td>
+<td class="org-left"><code>\tau</code></td>
+<td class="org-left">\(\tau\)</td>
+<td class="org-left"><code>&amp;tau;</code></td>
+<td class="org-left">&amp;tau;</td>
+<td class="org-left">tau</td>
+<td class="org-left">tau</td>
+<td class="org-left">τ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Omega</td>
+<td class="org-left"><code>\Omega</code></td>
+<td class="org-left">\(\Omega\)</td>
+<td class="org-left"><code>&amp;Omega;</code></td>
+<td class="org-left">&amp;Omega;</td>
+<td class="org-left">Omega</td>
+<td class="org-left">Omega</td>
+<td class="org-left">Ω</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">omega</td>
+<td class="org-left"><code>\omega</code></td>
+<td class="org-left">\(\omega\)</td>
+<td class="org-left"><code>&amp;omega;</code></td>
+<td class="org-left">&amp;omega;</td>
+<td class="org-left">omega</td>
+<td class="org-left">omega</td>
+<td class="org-left">ω</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">piv</td>
+<td class="org-left"><code>\varpi</code></td>
+<td class="org-left">\(\varpi\)</td>
+<td class="org-left"><code>&amp;piv;</code></td>
+<td class="org-left">&amp;piv;</td>
+<td class="org-left">omega-pi</td>
+<td class="org-left">omega-pi</td>
+<td class="org-left">ϖ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">varpi</td>
+<td class="org-left"><code>\varpi</code></td>
+<td class="org-left">\(\varpi\)</td>
+<td class="org-left"><code>&amp;piv;</code></td>
+<td class="org-left">&amp;piv;</td>
+<td class="org-left">omega-pi</td>
+<td class="org-left">omega-pi</td>
+<td class="org-left">ϖ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">partial</td>
+<td class="org-left"><code>\partial</code></td>
+<td class="org-left">\(\partial\)</td>
+<td class="org-left"><code>&amp;part;</code></td>
+<td class="org-left">&amp;part;</td>
+<td class="org-left">[partial differential]</td>
+<td class="org-left">[partial differential]</td>
+<td class="org-left">∂</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">alefsym</td>
+<td class="org-left"><code>\aleph</code></td>
+<td class="org-left">\(\aleph\)</td>
+<td class="org-left"><code>&amp;alefsym;</code></td>
+<td class="org-left">&amp;alefsym;</td>
+<td class="org-left">aleph</td>
+<td class="org-left">aleph</td>
+<td class="org-left">ℵ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">aleph</td>
+<td class="org-left"><code>\aleph</code></td>
+<td class="org-left">\(\aleph\)</td>
+<td class="org-left"><code>&amp;aleph;</code></td>
+<td class="org-left">&amp;aleph;</td>
+<td class="org-left">aleph</td>
+<td class="org-left">aleph</td>
+<td class="org-left">ℵ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">gimel</td>
+<td class="org-left"><code>\gimel</code></td>
+<td class="org-left">\(\gimel\)</td>
+<td class="org-left"><code>&amp;gimel;</code></td>
+<td class="org-left">&amp;gimel;</td>
+<td class="org-left">gimel</td>
+<td class="org-left">gimel</td>
+<td class="org-left">ℷ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">beth</td>
+<td class="org-left"><code>\beth</code></td>
+<td class="org-left">\(\beth\)</td>
+<td class="org-left"><code>&amp;beth;</code></td>
+<td class="org-left">&amp;beth;</td>
+<td class="org-left">beth</td>
+<td class="org-left">beth</td>
+<td class="org-left">ב</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">dalet</td>
+<td class="org-left"><code>\daleth</code></td>
+<td class="org-left">\(\daleth\)</td>
+<td class="org-left"><code>&amp;daleth;</code></td>
+<td class="org-left">&amp;daleth;</td>
+<td class="org-left">dalet</td>
+<td class="org-left">dalet</td>
+<td class="org-left">ד</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ETH</td>
+<td class="org-left"><code>\DH{}</code></td>
+<td class="org-left">\(\mbox{\DH{}}\)</td>
+<td class="org-left"><code>&amp;ETH;</code></td>
+<td class="org-left">&amp;ETH;</td>
+<td class="org-left">D</td>
+<td class="org-left">Ð</td>
+<td class="org-left">Ð</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">eth</td>
+<td class="org-left"><code>\dh{}</code></td>
+<td class="org-left">\(\mbox{\dh{}}\)</td>
+<td class="org-left"><code>&amp;eth;</code></td>
+<td class="org-left">&amp;eth;</td>
+<td class="org-left">dh</td>
+<td class="org-left">ð</td>
+<td class="org-left">ð</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">THORN</td>
+<td class="org-left"><code>\TH{}</code></td>
+<td class="org-left">\(\mbox{\TH{}}\)</td>
+<td class="org-left"><code>&amp;THORN;</code></td>
+<td class="org-left">&amp;THORN;</td>
+<td class="org-left">TH</td>
+<td class="org-left">Þ</td>
+<td class="org-left">Þ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">thorn</td>
+<td class="org-left"><code>\th{}</code></td>
+<td class="org-left">\(\mbox{\th{}}\)</td>
+<td class="org-left"><code>&amp;thorn;</code></td>
+<td class="org-left">&amp;thorn;</td>
+<td class="org-left">th</td>
+<td class="org-left">þ</td>
+<td class="org-left">þ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">dots</td>
+<td class="org-left"><code>\dots{}</code></td>
+<td class="org-left">\(\mbox{\dots{}}\)</td>
+<td class="org-left"><code>&amp;hellip;</code></td>
+<td class="org-left">&amp;hellip;</td>
+<td class="org-left">&#x2026;</td>
+<td class="org-left">&#x2026;</td>
+<td class="org-left">…</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">cdots</td>
+<td class="org-left"><code>\cdots{}</code></td>
+<td class="org-left">\(\cdots{}\)</td>
+<td class="org-left"><code>&amp;ctdot;</code></td>
+<td class="org-left">&amp;ctdot;</td>
+<td class="org-left">&#x2026;</td>
+<td class="org-left">&#x2026;</td>
+<td class="org-left">⋯</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">hellip</td>
+<td class="org-left"><code>\dots{}</code></td>
+<td class="org-left">\(\mbox{\dots{}}\)</td>
+<td class="org-left"><code>&amp;hellip;</code></td>
+<td class="org-left">&amp;hellip;</td>
+<td class="org-left">&#x2026;</td>
+<td class="org-left">&#x2026;</td>
+<td class="org-left">…</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">middot</td>
+<td class="org-left"><code>\textperiodcentered{}</code></td>
+<td class="org-left">\(\mbox{\textperiodcentered{}}\)</td>
+<td class="org-left"><code>&amp;middot;</code></td>
+<td class="org-left">&amp;middot;</td>
+<td class="org-left">.</td>
+<td class="org-left">·</td>
+<td class="org-left">·</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">iexcl</td>
+<td class="org-left"><code>!`</code></td>
+<td class="org-left">\(\mbox{!`}\)</td>
+<td class="org-left"><code>&amp;iexcl;</code></td>
+<td class="org-left">&amp;iexcl;</td>
+<td class="org-left">!</td>
+<td class="org-left">¡</td>
+<td class="org-left">¡</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">iquest</td>
+<td class="org-left"><code>?`</code></td>
+<td class="org-left">\(\mbox{?`}\)</td>
+<td class="org-left"><code>&amp;iquest;</code></td>
+<td class="org-left">&amp;iquest;</td>
+<td class="org-left">?</td>
+<td class="org-left">¿</td>
+<td class="org-left">¿</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">shy</td>
+<td class="org-left"><code>\-</code></td>
+<td class="org-left">\(\mbox{\-}\)</td>
+<td class="org-left"><code>&amp;shy;</code></td>
+<td class="org-left">&amp;shy;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ndash</td>
+<td class="org-left"><code>--</code></td>
+<td class="org-left">\(\mbox{--}\)</td>
+<td class="org-left"><code>&amp;ndash;</code></td>
+<td class="org-left">&amp;ndash;</td>
+<td class="org-left">-</td>
+<td class="org-left">-</td>
+<td class="org-left">–</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">mdash</td>
+<td class="org-left"><code>---</code></td>
+<td class="org-left">\(\mbox{---}\)</td>
+<td class="org-left"><code>&amp;mdash;</code></td>
+<td class="org-left">&amp;mdash;</td>
+<td class="org-left">--</td>
+<td class="org-left">--</td>
+<td class="org-left">—</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">quot</td>
+<td class="org-left"><code>\textquotedbl{}</code></td>
+<td class="org-left">\(\mbox{\textquotedbl{}}\)</td>
+<td class="org-left"><code>&amp;quot;</code></td>
+<td class="org-left">&amp;quot;</td>
+<td class="org-left">"</td>
+<td class="org-left">"</td>
+<td class="org-left">"</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">acute</td>
+<td class="org-left"><code>\textasciiacute{}</code></td>
+<td class="org-left">\(\mbox{\textasciiacute{}}\)</td>
+<td class="org-left"><code>&amp;acute;</code></td>
+<td class="org-left">&amp;acute;</td>
+<td class="org-left">'</td>
+<td class="org-left">´</td>
+<td class="org-left">´</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ldquo</td>
+<td class="org-left"><code>\textquotedblleft{}</code></td>
+<td class="org-left">\(\mbox{\textquotedblleft{}}\)</td>
+<td class="org-left"><code>&amp;ldquo;</code></td>
+<td class="org-left">&amp;ldquo;</td>
+<td class="org-left">"</td>
+<td class="org-left">"</td>
+<td class="org-left">“</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">rdquo</td>
+<td class="org-left"><code>\textquotedblright{}</code></td>
+<td class="org-left">\(\mbox{\textquotedblright{}}\)</td>
+<td class="org-left"><code>&amp;rdquo;</code></td>
+<td class="org-left">&amp;rdquo;</td>
+<td class="org-left">"</td>
+<td class="org-left">"</td>
+<td class="org-left">”</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">bdquo</td>
+<td class="org-left"><code>\quotedblbase{}</code></td>
+<td class="org-left">\(\mbox{\quotedblbase{}}\)</td>
+<td class="org-left"><code>&amp;bdquo;</code></td>
+<td class="org-left">&amp;bdquo;</td>
+<td class="org-left">"</td>
+<td class="org-left">"</td>
+<td class="org-left">„</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">lsquo</td>
+<td class="org-left"><code>\textquoteleft{}</code></td>
+<td class="org-left">\(\mbox{\textquoteleft{}}\)</td>
+<td class="org-left"><code>&amp;lsquo;</code></td>
+<td class="org-left">&amp;lsquo;</td>
+<td class="org-left">`</td>
+<td class="org-left">`</td>
+<td class="org-left">‘</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">rsquo</td>
+<td class="org-left"><code>\textquoteright{}</code></td>
+<td class="org-left">\(\mbox{\textquoteright{}}\)</td>
+<td class="org-left"><code>&amp;rsquo;</code></td>
+<td class="org-left">&amp;rsquo;</td>
+<td class="org-left">'</td>
+<td class="org-left">'</td>
+<td class="org-left">’</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">sbquo</td>
+<td class="org-left"><code>\quotesinglbase{}</code></td>
+<td class="org-left">\(\mbox{\quotesinglbase{}}\)</td>
+<td class="org-left"><code>&amp;sbquo;</code></td>
+<td class="org-left">&amp;sbquo;</td>
+<td class="org-left">,</td>
+<td class="org-left">,</td>
+<td class="org-left">‚</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">laquo</td>
+<td class="org-left"><code>\guillemotleft{}</code></td>
+<td class="org-left">\(\mbox{\guillemotleft{}}\)</td>
+<td class="org-left"><code>&amp;laquo;</code></td>
+<td class="org-left">&amp;laquo;</td>
+<td class="org-left">&lt;&lt;</td>
+<td class="org-left">«</td>
+<td class="org-left">«</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">raquo</td>
+<td class="org-left"><code>\guillemotright{}</code></td>
+<td class="org-left">\(\mbox{\guillemotright{}}\)</td>
+<td class="org-left"><code>&amp;raquo;</code></td>
+<td class="org-left">&amp;raquo;</td>
+<td class="org-left">&gt;&gt;</td>
+<td class="org-left">»</td>
+<td class="org-left">»</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">lsaquo</td>
+<td class="org-left"><code>\guilsinglleft{}</code></td>
+<td class="org-left">\(\mbox{\guilsinglleft{}}\)</td>
+<td class="org-left"><code>&amp;lsaquo;</code></td>
+<td class="org-left">&amp;lsaquo;</td>
+<td class="org-left">&lt;</td>
+<td class="org-left">&lt;</td>
+<td class="org-left">‹</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">rsaquo</td>
+<td class="org-left"><code>\guilsinglright{}</code></td>
+<td class="org-left">\(\mbox{\guilsinglright{}}\)</td>
+<td class="org-left"><code>&amp;rsaquo;</code></td>
+<td class="org-left">&amp;rsaquo;</td>
+<td class="org-left">&gt;</td>
+<td class="org-left">&gt;</td>
+<td class="org-left">›</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">circ</td>
+<td class="org-left"><code>\^{}</code></td>
+<td class="org-left">\(\mbox{\^{}}\)</td>
+<td class="org-left"><code>&amp;circ;</code></td>
+<td class="org-left">&amp;circ;</td>
+<td class="org-left">^</td>
+<td class="org-left">^</td>
+<td class="org-left">∘</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">vert</td>
+<td class="org-left"><code>\vert{}</code></td>
+<td class="org-left">\(\vert{}\)</td>
+<td class="org-left"><code>&amp;vert;</code></td>
+<td class="org-left">&amp;vert;</td>
+<td class="org-left">&vert;</td>
+<td class="org-left">&vert;</td>
+<td class="org-left">&vert;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">vbar</td>
+<td class="org-left">=</td>
+<td class="org-left">=</td>
+<td class="org-left">$\mbox{</td>
+<td class="org-left">}$</td>
+<td class="org-left">=</td>
+<td class="org-left">=</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&vert;</td>
+<td class="org-left">&vert;</td>
+<td class="org-left">&vert;</td>
+</tr>
+
+<tr>
+<td class="org-left">brvbar</td>
+<td class="org-left"><code>\textbrokenbar{}</code></td>
+<td class="org-left">\(\mbox{\textbrokenbar{}}\)</td>
+<td class="org-left"><code>&amp;brvbar;</code></td>
+<td class="org-left">&amp;brvbar;</td>
+<td class="org-left">&vert;</td>
+<td class="org-left">¦</td>
+<td class="org-left">¦</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">S</td>
+<td class="org-left"><code>\S</code></td>
+<td class="org-left">\(\mbox{\S}\)</td>
+<td class="org-left"><code>&amp;sect;</code></td>
+<td class="org-left">&amp;sect;</td>
+<td class="org-left">section</td>
+<td class="org-left">§</td>
+<td class="org-left">§</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">sect</td>
+<td class="org-left"><code>\S</code></td>
+<td class="org-left">\(\mbox{\S}\)</td>
+<td class="org-left"><code>&amp;sect;</code></td>
+<td class="org-left">&amp;sect;</td>
+<td class="org-left">section</td>
+<td class="org-left">§</td>
+<td class="org-left">§</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">P</td>
+<td class="org-left"><code>\P{}</code></td>
+<td class="org-left">\(\mbox{\P{}}\)</td>
+<td class="org-left"><code>&amp;para;</code></td>
+<td class="org-left">&amp;para;</td>
+<td class="org-left">paragraph</td>
+<td class="org-left">¶</td>
+<td class="org-left">¶</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">para</td>
+<td class="org-left"><code>\P{}</code></td>
+<td class="org-left">\(\mbox{\P{}}\)</td>
+<td class="org-left"><code>&amp;para;</code></td>
+<td class="org-left">&amp;para;</td>
+<td class="org-left">paragraph</td>
+<td class="org-left">¶</td>
+<td class="org-left">¶</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">amp</td>
+<td class="org-left"><code>\&amp;</code></td>
+<td class="org-left">\(\mbox{\&}\)</td>
+<td class="org-left"><code>&amp;amp;</code></td>
+<td class="org-left">&amp;amp;</td>
+<td class="org-left">&amp;</td>
+<td class="org-left">&amp;</td>
+<td class="org-left">&amp;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">lt</td>
+<td class="org-left"><code>\textless{}</code></td>
+<td class="org-left">\(\mbox{\textless{}}\)</td>
+<td class="org-left"><code>&amp;lt;</code></td>
+<td class="org-left">&amp;lt;</td>
+<td class="org-left">&lt;</td>
+<td class="org-left">&lt;</td>
+<td class="org-left">&lt;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">gt</td>
+<td class="org-left"><code>\textgreater{}</code></td>
+<td class="org-left">\(\mbox{\textgreater{}}\)</td>
+<td class="org-left"><code>&amp;gt;</code></td>
+<td class="org-left">&amp;gt;</td>
+<td class="org-left">&gt;</td>
+<td class="org-left">&gt;</td>
+<td class="org-left">&gt;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">tilde</td>
+<td class="org-left"><code>\textasciitilde{}</code></td>
+<td class="org-left">\(\mbox{\textasciitilde{}}\)</td>
+<td class="org-left"><code>~</code></td>
+<td class="org-left">~</td>
+<td class="org-left">~</td>
+<td class="org-left">~</td>
+<td class="org-left">~</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">slash</td>
+<td class="org-left"><code>/</code></td>
+<td class="org-left">\(\mbox{/}\)</td>
+<td class="org-left"><code>/</code></td>
+<td class="org-left">/</td>
+<td class="org-left">/</td>
+<td class="org-left">/</td>
+<td class="org-left">/</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">plus</td>
+<td class="org-left"><code>+</code></td>
+<td class="org-left">\(\mbox{+}\)</td>
+<td class="org-left"><code>+</code></td>
+<td class="org-left">+</td>
+<td class="org-left">+</td>
+<td class="org-left">+</td>
+<td class="org-left">+</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">under</td>
+<td class="org-left"><code>\_</code></td>
+<td class="org-left">\(\mbox{\_}\)</td>
+<td class="org-left"><code>_</code></td>
+<td class="org-left">_</td>
+<td class="org-left">_</td>
+<td class="org-left">_</td>
+<td class="org-left">_</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">equal</td>
+<td class="org-left"><code>=</code></td>
+<td class="org-left">\(\mbox{=}\)</td>
+<td class="org-left"><code>=</code></td>
+<td class="org-left">=</td>
+<td class="org-left">=</td>
+<td class="org-left">=</td>
+<td class="org-left">=</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">asciicirc</td>
+<td class="org-left"><code>\textasciicircum{}</code></td>
+<td class="org-left">\(\mbox{\textasciicircum{}}\)</td>
+<td class="org-left"><code>^</code></td>
+<td class="org-left">^</td>
+<td class="org-left">^</td>
+<td class="org-left">^</td>
+<td class="org-left">^</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">dagger</td>
+<td class="org-left"><code>\textdagger{}</code></td>
+<td class="org-left">\(\mbox{\textdagger{}}\)</td>
+<td class="org-left"><code>&amp;dagger;</code></td>
+<td class="org-left">&amp;dagger;</td>
+<td class="org-left">[dagger]</td>
+<td class="org-left">[dagger]</td>
+<td class="org-left">†</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">dag</td>
+<td class="org-left"><code>\dag{}</code></td>
+<td class="org-left">\(\mbox{\dag{}}\)</td>
+<td class="org-left"><code>&amp;dagger;</code></td>
+<td class="org-left">&amp;dagger;</td>
+<td class="org-left">[dagger]</td>
+<td class="org-left">[dagger]</td>
+<td class="org-left">†</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dagger</td>
+<td class="org-left"><code>\textdaggerdbl{}</code></td>
+<td class="org-left">\(\mbox{\textdaggerdbl{}}\)</td>
+<td class="org-left"><code>&amp;Dagger;</code></td>
+<td class="org-left">&amp;Dagger;</td>
+<td class="org-left">[doubledagger]</td>
+<td class="org-left">[doubledagger]</td>
+<td class="org-left">‡</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ddag</td>
+<td class="org-left"><code>\ddag{}</code></td>
+<td class="org-left">\(\mbox{\ddag{}}\)</td>
+<td class="org-left"><code>&amp;Dagger;</code></td>
+<td class="org-left">&amp;Dagger;</td>
+<td class="org-left">[doubledagger]</td>
+<td class="org-left">[doubledagger]</td>
+<td class="org-left">‡</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">nbsp</td>
+<td class="org-left"><code>~</code></td>
+<td class="org-left">\(\mbox{~}\)</td>
+<td class="org-left"><code>&amp;nbsp;</code></td>
+<td class="org-left">&amp;nbsp;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ensp</td>
+<td class="org-left"><code>\hspace*{.5em}</code></td>
+<td class="org-left">\(\mbox{\hspace*{.5em}}\)</td>
+<td class="org-left"><code>&amp;ensp;</code></td>
+<td class="org-left">&amp;ensp;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"> </td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">emsp</td>
+<td class="org-left"><code>\hspace*{1em}</code></td>
+<td class="org-left">\(\mbox{\hspace*{1em}}\)</td>
+<td class="org-left"><code>&amp;emsp;</code></td>
+<td class="org-left">&amp;emsp;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"> </td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">thinsp</td>
+<td class="org-left"><code>\hspace*{.2em}</code></td>
+<td class="org-left">\(\mbox{\hspace*{.2em}}\)</td>
+<td class="org-left"><code>&amp;thinsp;</code></td>
+<td class="org-left">&amp;thinsp;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"> </td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">curren</td>
+<td class="org-left"><code>\textcurrency{}</code></td>
+<td class="org-left">\(\mbox{\textcurrency{}}\)</td>
+<td class="org-left"><code>&amp;curren;</code></td>
+<td class="org-left">&amp;curren;</td>
+<td class="org-left">curr.</td>
+<td class="org-left">¤</td>
+<td class="org-left">¤</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">cent</td>
+<td class="org-left"><code>\textcent{}</code></td>
+<td class="org-left">\(\mbox{\textcent{}}\)</td>
+<td class="org-left"><code>&amp;cent;</code></td>
+<td class="org-left">&amp;cent;</td>
+<td class="org-left">cent</td>
+<td class="org-left">¢</td>
+<td class="org-left">¢</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">pound</td>
+<td class="org-left"><code>\pounds{}</code></td>
+<td class="org-left">\(\mbox{\pounds{}}\)</td>
+<td class="org-left"><code>&amp;pound;</code></td>
+<td class="org-left">&amp;pound;</td>
+<td class="org-left">pound</td>
+<td class="org-left">£</td>
+<td class="org-left">£</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">yen</td>
+<td class="org-left"><code>\textyen{}</code></td>
+<td class="org-left">\(\mbox{\textyen{}}\)</td>
+<td class="org-left"><code>&amp;yen;</code></td>
+<td class="org-left">&amp;yen;</td>
+<td class="org-left">yen</td>
+<td class="org-left">¥</td>
+<td class="org-left">¥</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">euro</td>
+<td class="org-left"><code>\texteuro{}</code></td>
+<td class="org-left">\(\mbox{\texteuro{}}\)</td>
+<td class="org-left"><code>&amp;euro;</code></td>
+<td class="org-left">&amp;euro;</td>
+<td class="org-left">EUR</td>
+<td class="org-left">EUR</td>
+<td class="org-left">€</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">EUR</td>
+<td class="org-left"><code>\texteuro{}</code></td>
+<td class="org-left">\(\mbox{\texteuro{}}\)</td>
+<td class="org-left"><code>&amp;euro;</code></td>
+<td class="org-left">&amp;euro;</td>
+<td class="org-left">EUR</td>
+<td class="org-left">EUR</td>
+<td class="org-left">€</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">dollar</td>
+<td class="org-left"><code>\$</code></td>
+<td class="org-left">\(\mbox{\\)}$</td>
+<td class="org-left"><code>$</code></td>
+<td class="org-left">$</td>
+<td class="org-left">$</td>
+<td class="org-left">$</td>
+<td class="org-left">$</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">USD</td>
+<td class="org-left"><code>\$</code></td>
+<td class="org-left">\(\mbox{\\)}$</td>
+<td class="org-left"><code>$</code></td>
+<td class="org-left">$</td>
+<td class="org-left">$</td>
+<td class="org-left">$</td>
+<td class="org-left">$</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">copy</td>
+<td class="org-left"><code>\textcopyright{}</code></td>
+<td class="org-left">\(\mbox{\textcopyright{}}\)</td>
+<td class="org-left"><code>&amp;copy;</code></td>
+<td class="org-left">&amp;copy;</td>
+<td class="org-left">(c)</td>
+<td class="org-left">©</td>
+<td class="org-left">©</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">reg</td>
+<td class="org-left"><code>\textregistered{}</code></td>
+<td class="org-left">\(\mbox{\textregistered{}}\)</td>
+<td class="org-left"><code>&amp;reg;</code></td>
+<td class="org-left">&amp;reg;</td>
+<td class="org-left">(r)</td>
+<td class="org-left">®</td>
+<td class="org-left">®</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">trade</td>
+<td class="org-left"><code>\texttrademark{}</code></td>
+<td class="org-left">\(\mbox{\texttrademark{}}\)</td>
+<td class="org-left"><code>&amp;trade;</code></td>
+<td class="org-left">&amp;trade;</td>
+<td class="org-left">TM</td>
+<td class="org-left">TM</td>
+<td class="org-left">™</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">minus</td>
+<td class="org-left"><code>-</code></td>
+<td class="org-left">\(-\)</td>
+<td class="org-left"><code>&amp;minus;</code></td>
+<td class="org-left">&amp;minus;</td>
+<td class="org-left">-</td>
+<td class="org-left">-</td>
+<td class="org-left">−</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">pm</td>
+<td class="org-left"><code>\textpm{}</code></td>
+<td class="org-left">\(\mbox{\textpm{}}\)</td>
+<td class="org-left"><code>&amp;plusmn;</code></td>
+<td class="org-left">&amp;plusmn;</td>
+<td class="org-left">+-</td>
+<td class="org-left">±</td>
+<td class="org-left">±</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">plusmn</td>
+<td class="org-left"><code>\textpm{}</code></td>
+<td class="org-left">\(\mbox{\textpm{}}\)</td>
+<td class="org-left"><code>&amp;plusmn;</code></td>
+<td class="org-left">&amp;plusmn;</td>
+<td class="org-left">+-</td>
+<td class="org-left">±</td>
+<td class="org-left">±</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">times</td>
+<td class="org-left"><code>\texttimes{}</code></td>
+<td class="org-left">\(\mbox{\texttimes{}}\)</td>
+<td class="org-left"><code>&amp;times;</code></td>
+<td class="org-left">&amp;times;</td>
+<td class="org-left">*</td>
+<td class="org-left">×</td>
+<td class="org-left">×</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">frasl</td>
+<td class="org-left"><code>/</code></td>
+<td class="org-left">\(\mbox{/}\)</td>
+<td class="org-left"><code>&amp;frasl;</code></td>
+<td class="org-left">&amp;frasl;</td>
+<td class="org-left">/</td>
+<td class="org-left">/</td>
+<td class="org-left">⁄</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">colon</td>
+<td class="org-left"><code>\colon</code></td>
+<td class="org-left">\(\colon\)</td>
+<td class="org-left"><code>:</code></td>
+<td class="org-left">:</td>
+<td class="org-left">:</td>
+<td class="org-left">:</td>
+<td class="org-left">:</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">div</td>
+<td class="org-left"><code>\textdiv{}</code></td>
+<td class="org-left">\(\mbox{\textdiv{}}\)</td>
+<td class="org-left"><code>&amp;divide;</code></td>
+<td class="org-left">&amp;divide;</td>
+<td class="org-left">/</td>
+<td class="org-left">÷</td>
+<td class="org-left">÷</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">frac12</td>
+<td class="org-left"><code>\textonehalf{}</code></td>
+<td class="org-left">\(\mbox{\textonehalf{}}\)</td>
+<td class="org-left"><code>&amp;frac12;</code></td>
+<td class="org-left">&amp;frac12;</td>
+<td class="org-left">1/2</td>
+<td class="org-left">½</td>
+<td class="org-left">½</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">frac14</td>
+<td class="org-left"><code>\textonequarter{}</code></td>
+<td class="org-left">\(\mbox{\textonequarter{}}\)</td>
+<td class="org-left"><code>&amp;frac14;</code></td>
+<td class="org-left">&amp;frac14;</td>
+<td class="org-left">1/4</td>
+<td class="org-left">¼</td>
+<td class="org-left">¼</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">frac34</td>
+<td class="org-left"><code>\textthreequarters{}</code></td>
+<td class="org-left">\(\mbox{\textthreequarters{}}\)</td>
+<td class="org-left"><code>&amp;frac34;</code></td>
+<td class="org-left">&amp;frac34;</td>
+<td class="org-left">3/4</td>
+<td class="org-left">¾</td>
+<td class="org-left">¾</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">permil</td>
+<td class="org-left"><code>\textperthousand{}</code></td>
+<td class="org-left">\(\mbox{\textperthousand{}}\)</td>
+<td class="org-left"><code>&amp;permil;</code></td>
+<td class="org-left">&amp;permil;</td>
+<td class="org-left">per thousand</td>
+<td class="org-left">per thousand</td>
+<td class="org-left">‰</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">sup1</td>
+<td class="org-left"><code>\textonesuperior{}</code></td>
+<td class="org-left">\(\mbox{\textonesuperior{}}\)</td>
+<td class="org-left"><code>&amp;sup1;</code></td>
+<td class="org-left">&amp;sup1;</td>
+<td class="org-left">^1</td>
+<td class="org-left">¹</td>
+<td class="org-left">¹</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">sup2</td>
+<td class="org-left"><code>\texttwosuperior{}</code></td>
+<td class="org-left">\(\mbox{\texttwosuperior{}}\)</td>
+<td class="org-left"><code>&amp;sup2;</code></td>
+<td class="org-left">&amp;sup2;</td>
+<td class="org-left">^2</td>
+<td class="org-left">²</td>
+<td class="org-left">²</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">sup3</td>
+<td class="org-left"><code>\textthreesuperior{}</code></td>
+<td class="org-left">\(\mbox{\textthreesuperior{}}\)</td>
+<td class="org-left"><code>&amp;sup3;</code></td>
+<td class="org-left">&amp;sup3;</td>
+<td class="org-left">^3</td>
+<td class="org-left">³</td>
+<td class="org-left">³</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">radic</td>
+<td class="org-left"><code>\sqrt{\,}</code></td>
+<td class="org-left">\(\sqrt{\,}\)</td>
+<td class="org-left"><code>&amp;radic;</code></td>
+<td class="org-left">&amp;radic;</td>
+<td class="org-left">[square root]</td>
+<td class="org-left">[square root]</td>
+<td class="org-left">√</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">sum</td>
+<td class="org-left"><code>\sum</code></td>
+<td class="org-left">\(\sum\)</td>
+<td class="org-left"><code>&amp;sum;</code></td>
+<td class="org-left">&amp;sum;</td>
+<td class="org-left">[sum]</td>
+<td class="org-left">[sum]</td>
+<td class="org-left">∑</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">prod</td>
+<td class="org-left"><code>\prod</code></td>
+<td class="org-left">\(\prod\)</td>
+<td class="org-left"><code>&amp;prod;</code></td>
+<td class="org-left">&amp;prod;</td>
+<td class="org-left">[product]</td>
+<td class="org-left">[n-ary product]</td>
+<td class="org-left">∏</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">micro</td>
+<td class="org-left"><code>\textmu{}</code></td>
+<td class="org-left">\(\mbox{\textmu{}}\)</td>
+<td class="org-left"><code>&amp;micro;</code></td>
+<td class="org-left">&amp;micro;</td>
+<td class="org-left">micro</td>
+<td class="org-left">µ</td>
+<td class="org-left">µ</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">macr</td>
+<td class="org-left"><code>\textasciimacron{}</code></td>
+<td class="org-left">\(\mbox{\textasciimacron{}}\)</td>
+<td class="org-left"><code>&amp;macr;</code></td>
+<td class="org-left">&amp;macr;</td>
+<td class="org-left">[macron]</td>
+<td class="org-left">¯</td>
+<td class="org-left">¯</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">deg</td>
+<td class="org-left"><code>\textdegree{}</code></td>
+<td class="org-left">\(\mbox{\textdegree{}}\)</td>
+<td class="org-left"><code>&amp;deg;</code></td>
+<td class="org-left">&amp;deg;</td>
+<td class="org-left">degree</td>
+<td class="org-left">°</td>
+<td class="org-left">°</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">prime</td>
+<td class="org-left"><code>\prime</code></td>
+<td class="org-left">\(\prime\)</td>
+<td class="org-left"><code>&amp;prime;</code></td>
+<td class="org-left">&amp;prime;</td>
+<td class="org-left">'</td>
+<td class="org-left">'</td>
+<td class="org-left">′</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Prime</td>
+<td class="org-left"><code>\prime{}\prime</code></td>
+<td class="org-left">\(\prime{}\prime\)</td>
+<td class="org-left"><code>&amp;Prime;</code></td>
+<td class="org-left">&amp;Prime;</td>
+<td class="org-left">''</td>
+<td class="org-left">''</td>
+<td class="org-left">″</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">infin</td>
+<td class="org-left"><code>\infty</code></td>
+<td class="org-left">\(\infty\)</td>
+<td class="org-left"><code>&amp;infin;</code></td>
+<td class="org-left">&amp;infin;</td>
+<td class="org-left">[infinity]</td>
+<td class="org-left">[infinity]</td>
+<td class="org-left">∞</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">infty</td>
+<td class="org-left"><code>\infty</code></td>
+<td class="org-left">\(\infty\)</td>
+<td class="org-left"><code>&amp;infin;</code></td>
+<td class="org-left">&amp;infin;</td>
+<td class="org-left">[infinity]</td>
+<td class="org-left">[infinity]</td>
+<td class="org-left">∞</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">prop</td>
+<td class="org-left"><code>\propto</code></td>
+<td class="org-left">\(\propto\)</td>
+<td class="org-left"><code>&amp;prop;</code></td>
+<td class="org-left">&amp;prop;</td>
+<td class="org-left">[proportional to]</td>
+<td class="org-left">[proportional to]</td>
+<td class="org-left">∝</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">propto</td>
+<td class="org-left"><code>\propto</code></td>
+<td class="org-left">\(\propto\)</td>
+<td class="org-left"><code>&amp;prop;</code></td>
+<td class="org-left">&amp;prop;</td>
+<td class="org-left">[proportional to]</td>
+<td class="org-left">[proportional to]</td>
+<td class="org-left">∝</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">not</td>
+<td class="org-left"><code>\textlnot{}</code></td>
+<td class="org-left">\(\mbox{\textlnot{}}\)</td>
+<td class="org-left"><code>&amp;not;</code></td>
+<td class="org-left">&amp;not;</td>
+<td class="org-left">[angled dash]</td>
+<td class="org-left">¬</td>
+<td class="org-left">¬</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">neg</td>
+<td class="org-left"><code>\neg{}</code></td>
+<td class="org-left">\(\neg{}\)</td>
+<td class="org-left"><code>&amp;not;</code></td>
+<td class="org-left">&amp;not;</td>
+<td class="org-left">[angled dash]</td>
+<td class="org-left">¬</td>
+<td class="org-left">¬</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">land</td>
+<td class="org-left"><code>\land</code></td>
+<td class="org-left">\(\land\)</td>
+<td class="org-left"><code>&amp;and;</code></td>
+<td class="org-left">&amp;and;</td>
+<td class="org-left">[logical and]</td>
+<td class="org-left">[logical and]</td>
+<td class="org-left">∧</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">wedge</td>
+<td class="org-left"><code>\wedge</code></td>
+<td class="org-left">\(\wedge\)</td>
+<td class="org-left"><code>&amp;and;</code></td>
+<td class="org-left">&amp;and;</td>
+<td class="org-left">[logical and]</td>
+<td class="org-left">[logical and]</td>
+<td class="org-left">∧</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">lor</td>
+<td class="org-left"><code>\lor</code></td>
+<td class="org-left">\(\lor\)</td>
+<td class="org-left"><code>&amp;or;</code></td>
+<td class="org-left">&amp;or;</td>
+<td class="org-left">[logical or]</td>
+<td class="org-left">[logical or]</td>
+<td class="org-left">∨</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">vee</td>
+<td class="org-left"><code>\vee</code></td>
+<td class="org-left">\(\vee\)</td>
+<td class="org-left"><code>&amp;or;</code></td>
+<td class="org-left">&amp;or;</td>
+<td class="org-left">[logical or]</td>
+<td class="org-left">[logical or]</td>
+<td class="org-left">∨</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">cap</td>
+<td class="org-left"><code>\cap</code></td>
+<td class="org-left">\(\cap\)</td>
+<td class="org-left"><code>&amp;cap;</code></td>
+<td class="org-left">&amp;cap;</td>
+<td class="org-left">[intersection]</td>
+<td class="org-left">[intersection]</td>
+<td class="org-left">∩</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">cup</td>
+<td class="org-left"><code>\cup</code></td>
+<td class="org-left">\(\cup\)</td>
+<td class="org-left"><code>&amp;cup;</code></td>
+<td class="org-left">&amp;cup;</td>
+<td class="org-left">[union]</td>
+<td class="org-left">[union]</td>
+<td class="org-left">∪</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">smile</td>
+<td class="org-left"><code>\smile</code></td>
+<td class="org-left">\(\smile\)</td>
+<td class="org-left"><code>&amp;smile;</code></td>
+<td class="org-left">&amp;smile;</td>
+<td class="org-left">[cup product]</td>
+<td class="org-left">[cup product]</td>
+<td class="org-left">⌣</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">frown</td>
+<td class="org-left"><code>\frown</code></td>
+<td class="org-left">\(\frown\)</td>
+<td class="org-left"><code>&amp;frown;</code></td>
+<td class="org-left">&amp;frown;</td>
+<td class="org-left">[Cap product]</td>
+<td class="org-left">[cap product]</td>
+<td class="org-left">⌢</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">int</td>
+<td class="org-left"><code>\int</code></td>
+<td class="org-left">\(\int\)</td>
+<td class="org-left"><code>&amp;int;</code></td>
+<td class="org-left">&amp;int;</td>
+<td class="org-left">[integral]</td>
+<td class="org-left">[integral]</td>
+<td class="org-left">∫</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">therefore</td>
+<td class="org-left"><code>\therefore</code></td>
+<td class="org-left">\(\therefore\)</td>
+<td class="org-left"><code>&amp;there4;</code></td>
+<td class="org-left">&amp;there4;</td>
+<td class="org-left">[therefore]</td>
+<td class="org-left">[therefore]</td>
+<td class="org-left">∴</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">there4</td>
+<td class="org-left"><code>\therefore</code></td>
+<td class="org-left">\(\therefore\)</td>
+<td class="org-left"><code>&amp;there4;</code></td>
+<td class="org-left">&amp;there4;</td>
+<td class="org-left">[therefore]</td>
+<td class="org-left">[therefore]</td>
+<td class="org-left">∴</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">because</td>
+<td class="org-left"><code>\because</code></td>
+<td class="org-left">\(\because\)</td>
+<td class="org-left"><code>&amp;because;</code></td>
+<td class="org-left">&amp;because;</td>
+<td class="org-left">[because]</td>
+<td class="org-left">[because]</td>
+<td class="org-left">∵</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">sim</td>
+<td class="org-left"><code>\sim</code></td>
+<td class="org-left">\(\sim\)</td>
+<td class="org-left"><code>&amp;sim;</code></td>
+<td class="org-left">&amp;sim;</td>
+<td class="org-left">~</td>
+<td class="org-left">~</td>
+<td class="org-left">∼</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">cong</td>
+<td class="org-left"><code>\cong</code></td>
+<td class="org-left">\(\cong\)</td>
+<td class="org-left"><code>&amp;cong;</code></td>
+<td class="org-left">&amp;cong;</td>
+<td class="org-left">[approx. equal to]</td>
+<td class="org-left">[approx. equal to]</td>
+<td class="org-left">≅</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">simeq</td>
+<td class="org-left"><code>\simeq</code></td>
+<td class="org-left">\(\simeq\)</td>
+<td class="org-left"><code>&amp;cong;</code></td>
+<td class="org-left">&amp;cong;</td>
+<td class="org-left">[approx. equal to]</td>
+<td class="org-left">[approx. equal to]</td>
+<td class="org-left">≅</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">asymp</td>
+<td class="org-left"><code>\asymp</code></td>
+<td class="org-left">\(\asymp\)</td>
+<td class="org-left"><code>&amp;asymp;</code></td>
+<td class="org-left">&amp;asymp;</td>
+<td class="org-left">[almost equal to]</td>
+<td class="org-left">[almost equal to]</td>
+<td class="org-left">≈</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">approx</td>
+<td class="org-left"><code>\approx</code></td>
+<td class="org-left">\(\approx\)</td>
+<td class="org-left"><code>&amp;asymp;</code></td>
+<td class="org-left">&amp;asymp;</td>
+<td class="org-left">[almost equal to]</td>
+<td class="org-left">[almost equal to]</td>
+<td class="org-left">≈</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ne</td>
+<td class="org-left"><code>\ne</code></td>
+<td class="org-left">\(\ne\)</td>
+<td class="org-left"><code>&amp;ne;</code></td>
+<td class="org-left">&amp;ne;</td>
+<td class="org-left">[not equal to]</td>
+<td class="org-left">[not equal to]</td>
+<td class="org-left">≠</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">neq</td>
+<td class="org-left"><code>\neq</code></td>
+<td class="org-left">\(\neq\)</td>
+<td class="org-left"><code>&amp;ne;</code></td>
+<td class="org-left">&amp;ne;</td>
+<td class="org-left">[not equal to]</td>
+<td class="org-left">[not equal to]</td>
+<td class="org-left">≠</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">equiv</td>
+<td class="org-left"><code>\equiv</code></td>
+<td class="org-left">\(\equiv\)</td>
+<td class="org-left"><code>&amp;equiv;</code></td>
+<td class="org-left">&amp;equiv;</td>
+<td class="org-left">[identical to]</td>
+<td class="org-left">[identical to]</td>
+<td class="org-left">≡</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">triangleq</td>
+<td class="org-left"><code>\triangleq</code></td>
+<td class="org-left">\(\triangleq\)</td>
+<td class="org-left"><code>&amp;triangleq;</code></td>
+<td class="org-left">&amp;triangleq;</td>
+<td class="org-left">[defined to]</td>
+<td class="org-left">[defined to]</td>
+<td class="org-left">≜</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">le</td>
+<td class="org-left"><code>\le</code></td>
+<td class="org-left">\(\le\)</td>
+<td class="org-left"><code>&amp;le;</code></td>
+<td class="org-left">&amp;le;</td>
+<td class="org-left">&lt;=</td>
+<td class="org-left">&lt;=</td>
+<td class="org-left">≤</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">leq</td>
+<td class="org-left"><code>\le</code></td>
+<td class="org-left">\(\le\)</td>
+<td class="org-left"><code>&amp;le;</code></td>
+<td class="org-left">&amp;le;</td>
+<td class="org-left">&lt;=</td>
+<td class="org-left">&lt;=</td>
+<td class="org-left">≤</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ge</td>
+<td class="org-left"><code>\ge</code></td>
+<td class="org-left">\(\ge\)</td>
+<td class="org-left"><code>&amp;ge;</code></td>
+<td class="org-left">&amp;ge;</td>
+<td class="org-left">&gt;=</td>
+<td class="org-left">&gt;=</td>
+<td class="org-left">≥</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">geq</td>
+<td class="org-left"><code>\ge</code></td>
+<td class="org-left">\(\ge\)</td>
+<td class="org-left"><code>&amp;ge;</code></td>
+<td class="org-left">&amp;ge;</td>
+<td class="org-left">&gt;=</td>
+<td class="org-left">&gt;=</td>
+<td class="org-left">≥</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">lessgtr</td>
+<td class="org-left"><code>\lessgtr</code></td>
+<td class="org-left">\(\lessgtr\)</td>
+<td class="org-left"><code>&amp;lessgtr;</code></td>
+<td class="org-left">&amp;lessgtr;</td>
+<td class="org-left">[less than or greater than]</td>
+<td class="org-left">[less than or greater than]</td>
+<td class="org-left">≶</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">lesseqgtr</td>
+<td class="org-left"><code>\lesseqgtr</code></td>
+<td class="org-left">\(\lesseqgtr\)</td>
+<td class="org-left"><code>&amp;lesseqgtr;</code></td>
+<td class="org-left">&amp;lesseqgtr;</td>
+<td class="org-left">[less than or equal or greater than or equal]</td>
+<td class="org-left">[less than or equal or greater than or equal]</td>
+<td class="org-left">⋚</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ll</td>
+<td class="org-left"><code>\ll</code></td>
+<td class="org-left">\(\ll\)</td>
+<td class="org-left"><code>&amp;Lt;</code></td>
+<td class="org-left">&amp;Lt;</td>
+<td class="org-left">&lt;&lt;</td>
+<td class="org-left">&lt;&lt;</td>
+<td class="org-left">≪</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Ll</td>
+<td class="org-left"><code>\lll</code></td>
+<td class="org-left">\(\lll\)</td>
+<td class="org-left"><code>&amp;Ll;</code></td>
+<td class="org-left">&amp;Ll;</td>
+<td class="org-left">&lt;&lt;&lt;</td>
+<td class="org-left">&lt;&lt;&lt;</td>
+<td class="org-left">⋘</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">lll</td>
+<td class="org-left"><code>\lll</code></td>
+<td class="org-left">\(\lll\)</td>
+<td class="org-left"><code>&amp;Ll;</code></td>
+<td class="org-left">&amp;Ll;</td>
+<td class="org-left">&lt;&lt;&lt;</td>
+<td class="org-left">&lt;&lt;&lt;</td>
+<td class="org-left">⋘</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">gg</td>
+<td class="org-left"><code>\gg</code></td>
+<td class="org-left">\(\gg\)</td>
+<td class="org-left"><code>&amp;Gt;</code></td>
+<td class="org-left">&amp;Gt;</td>
+<td class="org-left">&gt;&gt;</td>
+<td class="org-left">&gt;&gt;</td>
+<td class="org-left">≫</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Gg</td>
+<td class="org-left"><code>\ggg</code></td>
+<td class="org-left">\(\ggg\)</td>
+<td class="org-left"><code>&amp;Gg;</code></td>
+<td class="org-left">&amp;Gg;</td>
+<td class="org-left">&gt;&gt;&gt;</td>
+<td class="org-left">&gt;&gt;&gt;</td>
+<td class="org-left">⋙</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">ggg</td>
+<td class="org-left"><code>\ggg</code></td>
+<td class="org-left">\(\ggg\)</td>
+<td class="org-left"><code>&amp;Gg;</code></td>
+<td class="org-left">&amp;Gg;</td>
+<td class="org-left">&gt;&gt;&gt;</td>
+<td class="org-left">&gt;&gt;&gt;</td>
+<td class="org-left">⋙</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">prec</td>
+<td class="org-left"><code>\prec</code></td>
+<td class="org-left">\(\prec\)</td>
+<td class="org-left"><code>&amp;pr;</code></td>
+<td class="org-left">&amp;pr;</td>
+<td class="org-left">[precedes]</td>
+<td class="org-left">[precedes]</td>
+<td class="org-left">≺</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">preceq</td>
+<td class="org-left"><code>\preceq</code></td>
+<td class="org-left">\(\preceq\)</td>
+<td class="org-left"><code>&amp;prcue;</code></td>
+<td class="org-left">&amp;prcue;</td>
+<td class="org-left">[precedes or equal]</td>
+<td class="org-left">[precedes or equal]</td>
+<td class="org-left">≼</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">preccurlyeq</td>
+<td class="org-left"><code>\preccurlyeq</code></td>
+<td class="org-left">\(\preccurlyeq\)</td>
+<td class="org-left"><code>&amp;prcue;</code></td>
+<td class="org-left">&amp;prcue;</td>
+<td class="org-left">[precedes or equal]</td>
+<td class="org-left">[precedes or equal]</td>
+<td class="org-left">≼</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">succ</td>
+<td class="org-left"><code>\succ</code></td>
+<td class="org-left">\(\succ\)</td>
+<td class="org-left"><code>&amp;sc;</code></td>
+<td class="org-left">&amp;sc;</td>
+<td class="org-left">[succeeds]</td>
+<td class="org-left">[succeeds]</td>
+<td class="org-left">≻</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">succeq</td>
+<td class="org-left"><code>\succeq</code></td>
+<td class="org-left">\(\succeq\)</td>
+<td class="org-left"><code>&amp;sccue;</code></td>
+<td class="org-left">&amp;sccue;</td>
+<td class="org-left">[succeeds or equal]</td>
+<td class="org-left">[succeeds or equal]</td>
+<td class="org-left">≽</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">succcurlyeq</td>
+<td class="org-left"><code>\succcurlyeq</code></td>
+<td class="org-left">\(\succcurlyeq\)</td>
+<td class="org-left"><code>&amp;sccue;</code></td>
+<td class="org-left">&amp;sccue;</td>
+<td class="org-left">[succeeds or equal]</td>
+<td class="org-left">[succeeds or equal]</td>
+<td class="org-left">≽</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">sub</td>
+<td class="org-left"><code>\subset</code></td>
+<td class="org-left">\(\subset\)</td>
+<td class="org-left"><code>&amp;sub;</code></td>
+<td class="org-left">&amp;sub;</td>
+<td class="org-left">[subset of]</td>
+<td class="org-left">[subset of]</td>
+<td class="org-left">⊂</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">subset</td>
+<td class="org-left"><code>\subset</code></td>
+<td class="org-left">\(\subset\)</td>
+<td class="org-left"><code>&amp;sub;</code></td>
+<td class="org-left">&amp;sub;</td>
+<td class="org-left">[subset of]</td>
+<td class="org-left">[subset of]</td>
+<td class="org-left">⊂</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">sup</td>
+<td class="org-left"><code>\supset</code></td>
+<td class="org-left">\(\supset\)</td>
+<td class="org-left"><code>&amp;sup;</code></td>
+<td class="org-left">&amp;sup;</td>
+<td class="org-left">[superset of]</td>
+<td class="org-left">[superset of]</td>
+<td class="org-left">⊃</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">supset</td>
+<td class="org-left"><code>\supset</code></td>
+<td class="org-left">\(\supset\)</td>
+<td class="org-left"><code>&amp;sup;</code></td>
+<td class="org-left">&amp;sup;</td>
+<td class="org-left">[superset of]</td>
+<td class="org-left">[superset of]</td>
+<td class="org-left">⊃</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">nsub</td>
+<td class="org-left"><code>\not\subset</code></td>
+<td class="org-left">\(\not\subset\)</td>
+<td class="org-left"><code>&amp;nsub;</code></td>
+<td class="org-left">&amp;nsub;</td>
+<td class="org-left">[not a subset of]</td>
+<td class="org-left">[not a subset of</td>
+<td class="org-left">⊄</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">sube</td>
+<td class="org-left"><code>\subseteq</code></td>
+<td class="org-left">\(\subseteq\)</td>
+<td class="org-left"><code>&amp;sube;</code></td>
+<td class="org-left">&amp;sube;</td>
+<td class="org-left">[subset of or equal to]</td>
+<td class="org-left">[subset of or equal to]</td>
+<td class="org-left">⊆</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">nsup</td>
+<td class="org-left"><code>\not\supset</code></td>
+<td class="org-left">\(\not\supset\)</td>
+<td class="org-left"><code>&amp;nsup;</code></td>
+<td class="org-left">&amp;nsup;</td>
+<td class="org-left">[not a superset of]</td>
+<td class="org-left">[not a superset of]</td>
+<td class="org-left">⊅</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">supe</td>
+<td class="org-left"><code>\supseteq</code></td>
+<td class="org-left">\(\supseteq\)</td>
+<td class="org-left"><code>&amp;supe;</code></td>
+<td class="org-left">&amp;supe;</td>
+<td class="org-left">[superset of or equal to]</td>
+<td class="org-left">[superset of or equal to]</td>
+<td class="org-left">⊇</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">setminus</td>
+<td class="org-left"><code>\setminus</code></td>
+<td class="org-left">\(\setminus\)</td>
+<td class="org-left"><code>&amp;setminus;</code></td>
+<td class="org-left">&amp;setminus;</td>
+<td class="org-left">"</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Steve Downey</p>
+<p class="date">Created: 2025-04-21 Mon 21:30</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
