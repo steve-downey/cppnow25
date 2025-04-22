@@ -130,12 +130,6 @@ Functions that can take or return functions.
 Those might be closures.
 
 * Things Are What They Do
-** ruler
-#+begin_src cpp
-0         1         2         3         4         5         6         7
-01234567890123456789012345678901234567890123456789012345678901234567890123456789
-#+end_src
-
 ** Either example with typeclass map
 *** Shape of typeclass map
 #+transclude: [[file:./code/examples/either.cpp::735bf5a8-0156-4907-96e8-5878efec8255]] :lines 2- :src cpp :end "735bf5a8-0156-4907-96e8-5878efec8255 end"
@@ -156,35 +150,125 @@ Those might be closures.
 #+transclude: [[file:./code/examples/either.cpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
 
 ** Pair example with typeclass map
-* Implementing Data with Lambda
-** ~Either~
-*** Construction
-    /left/   = \lambda a. \lambda l. \lambda r. l a
 
-    /right/  = \lambda b. \lambda l. \lambda r. r b
+*** Shape of typeclass map
+#+transclude: [[file:./code/examples/either.cpp::735bf5a8-0156-4907-96e8-5878efec8255]] :lines 2- :src cpp :end "735bf5a8-0156-4907-96e8-5878efec8255 end"
+
+*** Typeclass for =std::pair=
+#+transclude: [[file:./code/examples/either.cpp::a1310e75-cee5-4701-8828-9ceef8073ef8]] :lines 2- :src cpp :end "a1310e75-cee5-4701-8828-9ceef8073ef8 end"
+
+*** Test function and construction
+#+transclude: [[file:./code/examples/either.cpp::3522d0d3-d0e7-46ea-9523-9da2ec0075bd]] :lines 2- :src cpp :end "3522d0d3-d0e7-46ea-9523-9da2ec0075bd end"
+
+*** Case switch
+#+transclude: [[file:./code/examples/either.cpp::ef0d2d45-e59e-4d70-a5a7-933016d63238]] :lines 2- :src cpp :end "ef0d2d45-e59e-4d70-a5a7-933016d63238 end"
+
+*** Calling the test function
+#+transclude: [[file:./code/examples/either.cpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
+
+* Implementing Data with Lambda
+** Closures and Partial Application
+Closures mean we can hold on to values.
+
+Partial Application means we can defer using the values.
+
+1. \lambda x f. f x
+2. (\lambda x f. f x) a \rightarrow \lambda f. f a
+3. ((\lambda x f. f x) a) g \rightarrow g a
+
+** Continuation Passing Style
+Pass functions to closures to defer what to do next.
+
+Two main strategies for encoding:
+- Church :: the /folds/ or /catamorphisms/ for an ADT
+- Scott :: the /pattern matching/ or /visitor/ for an ADT
+
+** Recursive vs Non-recursive Types
+For non-recursive types these are the same.
+
+Either, Pair, Maybe, Boolean are non-recursive.
+
+List is recursive.
+
+** ~Either~
+*** Definition
+#+begin_src haskell
+data  Either a b
+  = Left a
+  | Right b
+#+end_src
+*** Construction
+    /left/   = \lambda a l r. l a
+
+    /right/  = \lambda b l r. r b
 
 #+transclude: [[file:./code/src/smd/streams/either.hpp::f055237e-37d9-4bfc-871d-cc97aa6d7ef4]] :lines 2- :src cpp :end "f055237e-37d9-4bfc-871d-cc97aa6d7ef4 end"
 
 *** Case Analysis
-    /either/ = \lambda l. \lambda r. \lambda e. e l r
+    /either/ = \lambda l r e. e l r
 
-    #+transclude: [[file:./code/src/smd/streams/either.hpp::e0662959-cb6d-4b91-ac55-59b195160004]] :lines 2- :src cpp :end "e0662959-cb6d-4b91-ac55-59b195160004 end"
+#+transclude: [[file:./code/src/smd/streams/either.hpp::e0662959-cb6d-4b91-ac55-59b195160004]] :lines 2- :src cpp :end "e0662959-cb6d-4b91-ac55-59b195160004 end"
 
 ** ~Pair~
+*** Definition
+#+begin_src haskell
+data  Pair l r
+  = Pair l r
+#+end_src
+*** Construction
+    /pair/ = \lambda l r p. p l r
+*** Primitive Functions
+    /fst/ = \lambda p. p (\lambda l r. l)
+
+    /snd/ = \lambda p. p (\lambda l r. r)
+
 #+transclude: [[file:./code/src/smd/streams/pair.hpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
 
 ** ~Maybe~
+*** Definition
+#+begin_src haskell
+    data Maybe a
+      = Nothing
+      | Just a
+#+end_src
+*** Construction
+
 #+transclude: [[file:./code/src/smd/streams/maybe.hpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
 
 ** ~Boolean~
+*** Construction
+    #+begin_src haskell
+    data Bool
+      = False
+      | True
+    #+end_src
+
 #+transclude: [[file:./code/src/smd/streams/boolean.hpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
 
 ** ~List~
+*** Construction
+    #+begin_src haskell
+    data List a
+      = Nil
+      | Cons a (List a)
+    #+end_src
 #+transclude: [[file:./code/src/smd/streams/list.hpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
+*** Church Encoding
 
+/nil/  = \lambda c n . n
+
+/cons/ = \lambda x xs c n . c x (xs c n)
+
+*** Scott Encoding
+
+/nil/  = \lambda c n . n
+
+/cons/ = \lambda x xs c n . c x xs
 * The Pattern(s)
-** Scott Encoding
 ** Church Encoding
+
+** Scott Encoding
+
 * Connections
 ** Folds
 ** Catamorphisms
