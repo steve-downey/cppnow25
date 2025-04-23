@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Building Streams out of Hot Air</title>
+<meta name="author" content="Steve Downey"/>
+<meta name="description" content="
+"/>
+<meta name="keywords" content=" "/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../etc/my_theme.css" id="theme"/>
+
+<link rel="stylesheet" href="../etc/modus-vivendi-tinted.css"/>
+
+<link rel="stylesheet" href="../etc/footer.css"/>
+<link rel="stylesheet" type="text/css" href="../etc/modus-vivendi-tinted.css"/>
+<link rel="stylesheet" type="text/css" href="../etc/modus-vivendi-tinted.css" />
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-background="./title.png">
+<p>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Code Test</h2>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span class="org-type">int</span> <span class="org-function-name">main</span><span class="org-rainbow-delimiters-depth-1">()</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+    <span class="org-constant">std</span>::cout &lt;&lt; <span class="org-string">"hello, world\n"</span>;
+<span class="org-rainbow-delimiters-depth-1">}</span>
+</pre>
+</div>
+
+<p>
+Inline <code>code</code> and <code>verbatim</code>.
+</p>
+
+<p>
+And export <code class="src src-cpp"><span class="org-type">int</span> <span class="org-function-name">main</span><span class="org-rainbow-delimiters-depth-1">(){}</span></code> in line as an inline block.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2" class="r-fit-text"><span class="section-number-2">2.</span> Building sender streams out of senders</h2>
+<p>
+We're going to build an async stream, an infinite list, out of nothing but senders.
+</p>
+
+<p class="fragment (appear)">
+Along the way we'll take a look at the last 80 years of computer science, including some areas of current active research.
+</p>
+
+<p class="fragment (appear)">
+Having a better idea of how senders, and functions like them, are grounded in theory gives us a better idea of how they can be used and where to look to borrow designs and insights.
+</p>
+
+</section>
+<section>
+<blockquote>
+<p>
+We don't just borrow [syntax]; on occasion, [C++] has pursued other languages down alleyways to beat them unconscious and rifle their pockets for new [semantics].
+</p>
+
+<p>
+&#x2014;(with apologies to) James D. Nicoll
+</p>
+</blockquote>
+
+</section>
+<section>
+<blockquote>
+<p>
+I'm going to show you even a more horrible thing, a definition of CONS in terms of nothing but air, hot air.
+</p>
+
+<p>
+&#x2014;Gerald Jay Sussman, Computational Objects
+</p>
+</blockquote>
+<p>
+
+<a href="https://ocw.mit.edu/courses/6-001-structure-and-interpretation-of-computer-programs-spring-2005/resources/5b-computational-objects/">Video Lectures - 5B: Computational Objects</a>
+</p>
+<aside class="notes">
+<p>
+C++ P2300 Senders are computations to be performed&#x2014;"an object that describes work".  (see Niebler et al. 2024, 4.3) Taking designs that suspend computation are a natural place to begin when planning senders. Models that do so in an otherwise strict evaluation environment can be easier to reason about for porting to C++ than from default lazy environments, such as Haskell.
+</p>
+
+<p>
+By 'air' Sussman meant building a data structure out of nothing but higher order lambda expressions in <code>scheme</code>. The technique is also a common implementation technique for functional programming languages, and turns out to be one of the ways pattern matching is supported.
+</p>
+
+<p>
+This can be implemented directly using C++ lambda, particularly easily now that recursive lambda is possible using <code>deducing this</code>. We start out by implementing <code>Either</code>, then <code>Pair</code>, <code>Maybe</code>, <code>Boolean</code>, and then see how recursive types can be made, such as a <code>cons</code> <code>list</code>. The core of the pattern is closely related to generalized <code>fold</code>, or <code>catamorphism</code>, and has deep connections with the <code>Visitor</code> pattern.
+</p>
+
+<p>
+Changing perspective from inductive types, like <code>list</code> to coinductive, infinite, types, like <code>stream</code>, means looking at deconstruction, or observation, of <code>codata</code>. The pattern of dispatching to handlers remains the same, though, with some slight inversion.
+</p>
+
+<p>
+This guides us to a concrete Sender design which can be implemented as concrete sender types, rather than wrapping unnamed higher order functions. This also helps avoid recursion in the type system, hiding the uninteresting intermediate types being sent. Also, this provides an excuse to  demonstrate implementing a sender. There are not enough examples, but writing a sender is intended to be within the scope of work for an intermediate C++ developer.
+</p>
+
+<p>
+At the end we will have an async queue and an async stream implemented using just senders.
+</p>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Lambda expressions</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> The core</h3>
+<dl>
+<dt><i>x</i></dt><dd>a variable.</dd>
+<dt>&lambda; <i>x</i>. <i>M</i></dt><dd>a function of one variable with definition <i>M</i>.</dd>
+<dt><i>M</i> <i>N</i></dt><dd>application of the function <i>M</i> to the argument <i>N</i>.</dd>
+
+</dl>
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> &Beta;-reduction</h3>
+<p>
+((&lambda; x. <i>M</i>) <i>N</i>) &rarr; (<i>M</i>[x:= <i>N</i> ])
+</p>
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Multi-variable extension</h3>
+<p>
+&lambda; x y. <i>M</i> &rarr; &lambda; x (&lambda; y. <i>M</i>)
+</p>
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Closures</h2>
+<dl>
+<dt>Closure</dt><dd>A function that retains access to the names contained in the scope in which it was created.</dd>
+
+</dl>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Higher Order Functions</h2>
+<p>
+Functions that can take or return functions.
+</p>
+
+<p>
+Those might be closures.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Things Are What They Do</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+</section>
+<section id="slide-6-1">
+<h3 id="6-1"><span class="section-number-3">6.1.</span> Either example with typeclass map</h3>
+<div class="outline-text-3" id="text-6-1">
+</div>
+</section>
+<section id="slide-6-1-1">
+<h4 id="6-1-1"><span class="section-number-4">6.1.1.</span> Shape of typeclass map</h4>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">typename</span> <span class="org-type">E</span>, <span class="org-keyword">typename</span> <span class="org-type">L</span>, <span class="org-keyword">typename</span> <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-keyword">struct</span> <span class="org-type">EitherTypeclass</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">left</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">L</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">E</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">right</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">R</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">E</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">isLeft</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">bool</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">isRight</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">bool</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">fromLeft</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span>, <span class="org-type">L</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">L</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">fromRight</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span>, <span class="org-type">L</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">L</span>;
+        <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-keyword">typename</span> <span class="org-type">C</span><span class="org-rainbow-delimiters-depth-2">&gt;</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">either</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span> <span class="org-variable-name">e</span>, <span class="org-type">invocable_r</span><span class="org-rainbow-delimiters-depth-3">&lt;</span><span class="org-type">C</span>, <span class="org-type">L</span><span class="org-rainbow-delimiters-depth-3">&gt;</span> <span class="org-keyword">auto</span>,
+                              <span class="org-type">invocable_r</span><span class="org-rainbow-delimiters-depth-3">&lt;</span><span class="org-type">C</span>, <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-3">&gt;</span> <span class="org-keyword">auto</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">C</span>;
+<span class="org-rainbow-delimiters-depth-1">}</span>;
+</pre>
+</div>
+</section>
+<section id="slide-6-1-2">
+<h4 id="6-1-2"><span class="section-number-4">6.1.2.</span> Typeclass for <code>std::expected</code></h4>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">typename</span> <span class="org-type">L</span>, <span class="org-keyword">typename</span> <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
+<span class="org-keyword">struct</span> <span class="org-type">EitherTypeclass</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-constant">std</span>::<span class="org-type">expected</span><span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">L</span>, <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-2">&gt;</span>, <span class="org-type">L</span>, <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+        <span class="org-keyword">using</span> <span class="org-type">E</span> = <span class="org-constant">std</span>::<span class="org-type">expected</span><span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">L</span>, <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-2">&gt;</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">left</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">L</span> <span class="org-variable-name">l</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">E</span> <span class="org-rainbow-delimiters-depth-2">{</span> <span class="org-keyword">return</span> l; <span class="org-rainbow-delimiters-depth-2">}</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">right</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">R</span> <span class="org-variable-name">r</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">E</span> <span class="org-rainbow-delimiters-depth-2">{</span> <span class="org-keyword">return</span> <span class="org-constant">std</span>::unexpected<span class="org-rainbow-delimiters-depth-3">{</span>r<span class="org-rainbow-delimiters-depth-3">}</span>; <span class="org-rainbow-delimiters-depth-2">}</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">isLeft</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span> <span class="org-variable-name">e</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">bool</span> <span class="org-rainbow-delimiters-depth-2">{</span> <span class="org-keyword">return</span> e.has_value<span class="org-rainbow-delimiters-depth-3">()</span>; <span class="org-rainbow-delimiters-depth-2">}</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">isRight</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span> <span class="org-variable-name">e</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">bool</span> <span class="org-rainbow-delimiters-depth-2">{</span> <span class="org-keyword">return</span> <span class="org-keyword">not</span> e.has_value<span class="org-rainbow-delimiters-depth-3">()</span>; <span class="org-rainbow-delimiters-depth-2">}</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">fromLeft</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span> <span class="org-variable-name">e</span>, <span class="org-type">L</span> <span class="org-variable-name">l</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">L</span> <span class="org-rainbow-delimiters-depth-2">{</span>
+                <span class="org-keyword">return</span> isLeft<span class="org-rainbow-delimiters-depth-3">(</span>e<span class="org-rainbow-delimiters-depth-3">)</span> ? e.value<span class="org-rainbow-delimiters-depth-3">()</span> : l;
+        <span class="org-rainbow-delimiters-depth-2">}</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">fromRight</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span> <span class="org-variable-name">e</span>, <span class="org-type">R</span> <span class="org-variable-name">r</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">R</span> <span class="org-rainbow-delimiters-depth-2">{</span>
+                <span class="org-keyword">return</span> isRight<span class="org-rainbow-delimiters-depth-3">(</span>e<span class="org-rainbow-delimiters-depth-3">)</span> ? e.error<span class="org-rainbow-delimiters-depth-3">()</span> : r;
+        <span class="org-rainbow-delimiters-depth-2">}</span>
+
+        <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-keyword">typename</span> <span class="org-type">C</span><span class="org-rainbow-delimiters-depth-2">&gt;</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">either</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span> <span class="org-variable-name">e</span>, <span class="org-type">invocable_r</span><span class="org-rainbow-delimiters-depth-3">&lt;</span><span class="org-type">C</span>, <span class="org-type">L</span><span class="org-rainbow-delimiters-depth-3">&gt;</span> <span class="org-keyword">auto</span> <span class="org-variable-name">left</span>,
+                              <span class="org-type">invocable_r</span><span class="org-rainbow-delimiters-depth-3">&lt;</span><span class="org-type">C</span>, <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-3">&gt;</span> <span class="org-keyword">auto</span> <span class="org-variable-name">right</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">C</span> <span class="org-rainbow-delimiters-depth-2">{</span>
+                <span class="org-keyword">return</span> isLeft<span class="org-rainbow-delimiters-depth-3">(</span>e<span class="org-rainbow-delimiters-depth-3">)</span> ? left<span class="org-rainbow-delimiters-depth-3">(</span>e.value<span class="org-rainbow-delimiters-depth-4">()</span><span class="org-rainbow-delimiters-depth-3">)</span> : right<span class="org-rainbow-delimiters-depth-3">(</span>e.error<span class="org-rainbow-delimiters-depth-4">()</span><span class="org-rainbow-delimiters-depth-3">)</span>;
+        <span class="org-rainbow-delimiters-depth-2">}</span>
+<span class="org-rainbow-delimiters-depth-1">}</span>;
+</pre>
+</div>
+</section>
+<section id="slide-6-1-3">
+<h4 id="6-1-3"><span class="section-number-4">6.1.3.</span> Test function and construction</h4>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">typename</span> <span class="org-type">Either</span>, <span class="org-keyword">typename</span> <span class="org-type">Left</span>, <span class="org-keyword">typename</span> <span class="org-type">Right</span>,
+          <span class="org-keyword">auto</span> <span class="org-variable-name">either_map</span> = <span class="org-type">either_typeclass</span><span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">Either</span>, <span class="org-type">Left</span>, <span class="org-type">Right</span><span class="org-rainbow-delimiters-depth-2">&gt;</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
+<span class="org-type">void</span> <span class="org-function-name">test_function</span><span class="org-rainbow-delimiters-depth-1">()</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">l</span> = either_map.left<span class="org-rainbow-delimiters-depth-2">(</span>7<span class="org-rainbow-delimiters-depth-2">)</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">r</span> = either_map.right<span class="org-rainbow-delimiters-depth-2">(</span>9.0<span class="org-rainbow-delimiters-depth-2">)</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-type">bool</span> <span class="org-variable-name">b1</span> = either_map.isLeft<span class="org-rainbow-delimiters-depth-2">(</span>l<span class="org-rainbow-delimiters-depth-2">)</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-type">bool</span> <span class="org-variable-name">b2</span> = either_map.isLeft<span class="org-rainbow-delimiters-depth-2">(</span>r<span class="org-rainbow-delimiters-depth-2">)</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-type">bool</span> <span class="org-variable-name">b3</span> = either_map.isRight<span class="org-rainbow-delimiters-depth-2">(</span>l<span class="org-rainbow-delimiters-depth-2">)</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-type">bool</span> <span class="org-variable-name">b4</span> = either_map.isRight<span class="org-rainbow-delimiters-depth-2">(</span>r<span class="org-rainbow-delimiters-depth-2">)</span>;
+        static_assert<span class="org-rainbow-delimiters-depth-2">(</span>b1 == <span class="org-constant">true</span><span class="org-rainbow-delimiters-depth-2">)</span>;
+        static_assert<span class="org-rainbow-delimiters-depth-2">(</span>b2 == <span class="org-constant">false</span><span class="org-rainbow-delimiters-depth-2">)</span>;
+        static_assert<span class="org-rainbow-delimiters-depth-2">(</span>b3 == <span class="org-constant">false</span><span class="org-rainbow-delimiters-depth-2">)</span>;
+        static_assert<span class="org-rainbow-delimiters-depth-2">(</span>b4 == <span class="org-constant">true</span><span class="org-rainbow-delimiters-depth-2">)</span>;
+</pre>
+</div>
+</section>
+<section id="slide-6-1-4">
+<h4 id="6-1-4"><span class="section-number-4">6.1.4.</span> <code>fromLeft</code> and <code>fromRight</code></h4>
+<div class="org-src-container">
+
+<pre class="src src-cpp">        <span class="org-keyword">constexpr</span> <span class="org-type">int</span> <span class="org-variable-name">k1</span> = either_map.fromLeft<span class="org-rainbow-delimiters-depth-1">(</span>l, 11<span class="org-rainbow-delimiters-depth-1">)</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-type">int</span> <span class="org-variable-name">k2</span> = either_map.fromLeft<span class="org-rainbow-delimiters-depth-1">(</span>r, 11<span class="org-rainbow-delimiters-depth-1">)</span>;
+        static_assert<span class="org-rainbow-delimiters-depth-1">(</span>k1 == 7<span class="org-rainbow-delimiters-depth-1">)</span>;
+        static_assert<span class="org-rainbow-delimiters-depth-1">(</span>k2 == 11<span class="org-rainbow-delimiters-depth-1">)</span>;
+
+        <span class="org-keyword">constexpr</span> <span class="org-type">double</span> <span class="org-variable-name">k3</span> = either_map.fromRight<span class="org-rainbow-delimiters-depth-1">(</span>l, 11<span class="org-rainbow-delimiters-depth-1">)</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-type">double</span> <span class="org-variable-name">k4</span> = either_map.fromRight<span class="org-rainbow-delimiters-depth-1">(</span>r, 11<span class="org-rainbow-delimiters-depth-1">)</span>;
+        static_assert<span class="org-rainbow-delimiters-depth-1">(</span>k3 == 11.0<span class="org-rainbow-delimiters-depth-1">)</span>;
+        static_assert<span class="org-rainbow-delimiters-depth-1">(</span>k4 == 9.0<span class="org-rainbow-delimiters-depth-1">)</span>;
+</pre>
+</div>
+</section>
+<section id="slide-6-1-5">
+<h4 id="6-1-5"><span class="section-number-4">6.1.5.</span> Case switch</h4>
+<div class="org-src-container">
+
+<pre class="src src-cpp">        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">match</span> = <span class="org-rainbow-delimiters-depth-1">[</span>=<span class="org-rainbow-delimiters-depth-1">](</span><span class="org-keyword">auto</span> <span class="org-variable-name">e</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+                <span class="org-keyword">return</span> either_map.<span class="org-keyword">template</span> either<span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">double</span><span class="org-rainbow-delimiters-depth-2">&gt;(</span>
+                        e, <span class="org-rainbow-delimiters-depth-3">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">x</span><span class="org-rainbow-delimiters-depth-3">)</span> -&gt; <span class="org-type">double</span> <span class="org-rainbow-delimiters-depth-3">{</span> <span class="org-keyword">return</span> 2 * x; <span class="org-rainbow-delimiters-depth-3">}</span>,
+                        <span class="org-rainbow-delimiters-depth-3">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">x</span><span class="org-rainbow-delimiters-depth-3">)</span> -&gt; <span class="org-type">double</span> <span class="org-rainbow-delimiters-depth-3">{</span> <span class="org-keyword">return</span> 3 * x; <span class="org-rainbow-delimiters-depth-3">}</span><span class="org-rainbow-delimiters-depth-2">)</span>;
+        <span class="org-rainbow-delimiters-depth-1">}</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-type">double</span> <span class="org-variable-name">d1</span> = match<span class="org-rainbow-delimiters-depth-1">(</span>l<span class="org-rainbow-delimiters-depth-1">)</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-type">double</span> <span class="org-variable-name">d2</span> = match<span class="org-rainbow-delimiters-depth-1">(</span>r<span class="org-rainbow-delimiters-depth-1">)</span>;
+        static_assert<span class="org-rainbow-delimiters-depth-1">(</span>d1 == 14.0<span class="org-rainbow-delimiters-depth-1">)</span>;
+        static_assert<span class="org-rainbow-delimiters-depth-1">(</span>d2 == 27.0<span class="org-rainbow-delimiters-depth-1">)</span>;
+<span class="org-rainbow-delimiters-unmatched">}</span>
+</pre>
+</div>
+</section>
+<section id="slide-6-1-6">
+<h4 id="6-1-6"><span class="section-number-4">6.1.6.</span> Calling the test function</h4>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span class="org-type">int</span> <span class="org-function-name">main</span><span class="org-rainbow-delimiters-depth-1">()</span> <span class="org-rainbow-delimiters-depth-1">{</span> test_function<span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-constant">std</span>::<span class="org-type">expected</span><span class="org-rainbow-delimiters-depth-3">&lt;</span><span class="org-type">int</span>, <span class="org-type">double</span><span class="org-rainbow-delimiters-depth-3">&gt;</span>, <span class="org-type">int</span>, <span class="org-type">double</span><span class="org-rainbow-delimiters-depth-2">&gt;()</span>; <span class="org-rainbow-delimiters-depth-1">}</span>
+</pre>
+</div>
+</section>
+<section id="slide-6-2">
+<h3 id="6-2"><span class="section-number-3">6.2.</span> Pair example with typeclass map</h3>
+<div class="outline-text-3" id="text-6-2">
+</div>
+</section>
+<section id="slide-6-2-1">
+<h4 id="6-2-1"><span class="section-number-4">6.2.1.</span> Shape of typeclass map</h4>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">typename</span> <span class="org-type">E</span>, <span class="org-keyword">typename</span> <span class="org-type">L</span>, <span class="org-keyword">typename</span> <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-keyword">struct</span> <span class="org-type">EitherTypeclass</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">left</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">L</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">E</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">right</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">R</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">E</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">isLeft</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">bool</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">isRight</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">bool</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">fromLeft</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span>, <span class="org-type">L</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">L</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">fromRight</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span>, <span class="org-type">L</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">L</span>;
+        <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-keyword">typename</span> <span class="org-type">C</span><span class="org-rainbow-delimiters-depth-2">&gt;</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">either</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span> <span class="org-variable-name">e</span>, <span class="org-type">invocable_r</span><span class="org-rainbow-delimiters-depth-3">&lt;</span><span class="org-type">C</span>, <span class="org-type">L</span><span class="org-rainbow-delimiters-depth-3">&gt;</span> <span class="org-keyword">auto</span>,
+                              <span class="org-type">invocable_r</span><span class="org-rainbow-delimiters-depth-3">&lt;</span><span class="org-type">C</span>, <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-3">&gt;</span> <span class="org-keyword">auto</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">C</span>;
+<span class="org-rainbow-delimiters-depth-1">}</span>;
+</pre>
+</div>
+</section>
+<section id="slide-6-2-2">
+<h4 id="6-2-2"><span class="section-number-4">6.2.2.</span> Typeclass for <code>std::pair</code></h4>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">typename</span> <span class="org-type">L</span>, <span class="org-keyword">typename</span> <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
+<span class="org-keyword">struct</span> <span class="org-type">EitherTypeclass</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-constant">std</span>::<span class="org-type">expected</span><span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">L</span>, <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-2">&gt;</span>, <span class="org-type">L</span>, <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+        <span class="org-keyword">using</span> <span class="org-type">E</span> = <span class="org-constant">std</span>::<span class="org-type">expected</span><span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">L</span>, <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-2">&gt;</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">left</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">L</span> <span class="org-variable-name">l</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">E</span> <span class="org-rainbow-delimiters-depth-2">{</span> <span class="org-keyword">return</span> l; <span class="org-rainbow-delimiters-depth-2">}</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">right</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">R</span> <span class="org-variable-name">r</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">E</span> <span class="org-rainbow-delimiters-depth-2">{</span> <span class="org-keyword">return</span> <span class="org-constant">std</span>::unexpected<span class="org-rainbow-delimiters-depth-3">{</span>r<span class="org-rainbow-delimiters-depth-3">}</span>; <span class="org-rainbow-delimiters-depth-2">}</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">isLeft</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span> <span class="org-variable-name">e</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">bool</span> <span class="org-rainbow-delimiters-depth-2">{</span> <span class="org-keyword">return</span> e.has_value<span class="org-rainbow-delimiters-depth-3">()</span>; <span class="org-rainbow-delimiters-depth-2">}</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">isRight</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span> <span class="org-variable-name">e</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">bool</span> <span class="org-rainbow-delimiters-depth-2">{</span> <span class="org-keyword">return</span> <span class="org-keyword">not</span> e.has_value<span class="org-rainbow-delimiters-depth-3">()</span>; <span class="org-rainbow-delimiters-depth-2">}</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">fromLeft</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span> <span class="org-variable-name">e</span>, <span class="org-type">L</span> <span class="org-variable-name">l</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">L</span> <span class="org-rainbow-delimiters-depth-2">{</span>
+                <span class="org-keyword">return</span> isLeft<span class="org-rainbow-delimiters-depth-3">(</span>e<span class="org-rainbow-delimiters-depth-3">)</span> ? e.value<span class="org-rainbow-delimiters-depth-3">()</span> : l;
+        <span class="org-rainbow-delimiters-depth-2">}</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">fromRight</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span> <span class="org-variable-name">e</span>, <span class="org-type">R</span> <span class="org-variable-name">r</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">R</span> <span class="org-rainbow-delimiters-depth-2">{</span>
+                <span class="org-keyword">return</span> isRight<span class="org-rainbow-delimiters-depth-3">(</span>e<span class="org-rainbow-delimiters-depth-3">)</span> ? e.error<span class="org-rainbow-delimiters-depth-3">()</span> : r;
+        <span class="org-rainbow-delimiters-depth-2">}</span>
+
+        <span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-keyword">typename</span> <span class="org-type">C</span><span class="org-rainbow-delimiters-depth-2">&gt;</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-function-name">either</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">E</span> <span class="org-variable-name">e</span>, <span class="org-type">invocable_r</span><span class="org-rainbow-delimiters-depth-3">&lt;</span><span class="org-type">C</span>, <span class="org-type">L</span><span class="org-rainbow-delimiters-depth-3">&gt;</span> <span class="org-keyword">auto</span> <span class="org-variable-name">left</span>,
+                              <span class="org-type">invocable_r</span><span class="org-rainbow-delimiters-depth-3">&lt;</span><span class="org-type">C</span>, <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-3">&gt;</span> <span class="org-keyword">auto</span> <span class="org-variable-name">right</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-keyword">const</span> -&gt; <span class="org-type">C</span> <span class="org-rainbow-delimiters-depth-2">{</span>
+                <span class="org-keyword">return</span> isLeft<span class="org-rainbow-delimiters-depth-3">(</span>e<span class="org-rainbow-delimiters-depth-3">)</span> ? left<span class="org-rainbow-delimiters-depth-3">(</span>e.value<span class="org-rainbow-delimiters-depth-4">()</span><span class="org-rainbow-delimiters-depth-3">)</span> : right<span class="org-rainbow-delimiters-depth-3">(</span>e.error<span class="org-rainbow-delimiters-depth-4">()</span><span class="org-rainbow-delimiters-depth-3">)</span>;
+        <span class="org-rainbow-delimiters-depth-2">}</span>
+<span class="org-rainbow-delimiters-depth-1">}</span>;
+</pre>
+</div>
+</section>
+<section id="slide-6-2-3">
+<h4 id="6-2-3"><span class="section-number-4">6.2.3.</span> Test function and construction</h4>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">typename</span> <span class="org-type">Either</span>, <span class="org-keyword">typename</span> <span class="org-type">Left</span>, <span class="org-keyword">typename</span> <span class="org-type">Right</span>,
+          <span class="org-keyword">auto</span> <span class="org-variable-name">either_map</span> = <span class="org-type">either_typeclass</span><span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">Either</span>, <span class="org-type">Left</span>, <span class="org-type">Right</span><span class="org-rainbow-delimiters-depth-2">&gt;</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
+<span class="org-type">void</span> <span class="org-function-name">test_function</span><span class="org-rainbow-delimiters-depth-1">()</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">l</span> = either_map.left<span class="org-rainbow-delimiters-depth-2">(</span>7<span class="org-rainbow-delimiters-depth-2">)</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">r</span> = either_map.right<span class="org-rainbow-delimiters-depth-2">(</span>9.0<span class="org-rainbow-delimiters-depth-2">)</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-type">bool</span> <span class="org-variable-name">b1</span> = either_map.isLeft<span class="org-rainbow-delimiters-depth-2">(</span>l<span class="org-rainbow-delimiters-depth-2">)</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-type">bool</span> <span class="org-variable-name">b2</span> = either_map.isLeft<span class="org-rainbow-delimiters-depth-2">(</span>r<span class="org-rainbow-delimiters-depth-2">)</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-type">bool</span> <span class="org-variable-name">b3</span> = either_map.isRight<span class="org-rainbow-delimiters-depth-2">(</span>l<span class="org-rainbow-delimiters-depth-2">)</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-type">bool</span> <span class="org-variable-name">b4</span> = either_map.isRight<span class="org-rainbow-delimiters-depth-2">(</span>r<span class="org-rainbow-delimiters-depth-2">)</span>;
+        static_assert<span class="org-rainbow-delimiters-depth-2">(</span>b1 == <span class="org-constant">true</span><span class="org-rainbow-delimiters-depth-2">)</span>;
+        static_assert<span class="org-rainbow-delimiters-depth-2">(</span>b2 == <span class="org-constant">false</span><span class="org-rainbow-delimiters-depth-2">)</span>;
+        static_assert<span class="org-rainbow-delimiters-depth-2">(</span>b3 == <span class="org-constant">false</span><span class="org-rainbow-delimiters-depth-2">)</span>;
+        static_assert<span class="org-rainbow-delimiters-depth-2">(</span>b4 == <span class="org-constant">true</span><span class="org-rainbow-delimiters-depth-2">)</span>;
+</pre>
+</div>
+</section>
+<section id="slide-6-2-4">
+<h4 id="6-2-4"><span class="section-number-4">6.2.4.</span> Case switch</h4>
+<div class="org-src-container">
+
+<pre class="src src-cpp">        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">match</span> = <span class="org-rainbow-delimiters-depth-1">[</span>=<span class="org-rainbow-delimiters-depth-1">](</span><span class="org-keyword">auto</span> <span class="org-variable-name">e</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+                <span class="org-keyword">return</span> either_map.<span class="org-keyword">template</span> either<span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">double</span><span class="org-rainbow-delimiters-depth-2">&gt;(</span>
+                        e, <span class="org-rainbow-delimiters-depth-3">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">x</span><span class="org-rainbow-delimiters-depth-3">)</span> -&gt; <span class="org-type">double</span> <span class="org-rainbow-delimiters-depth-3">{</span> <span class="org-keyword">return</span> 2 * x; <span class="org-rainbow-delimiters-depth-3">}</span>,
+                        <span class="org-rainbow-delimiters-depth-3">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">x</span><span class="org-rainbow-delimiters-depth-3">)</span> -&gt; <span class="org-type">double</span> <span class="org-rainbow-delimiters-depth-3">{</span> <span class="org-keyword">return</span> 3 * x; <span class="org-rainbow-delimiters-depth-3">}</span><span class="org-rainbow-delimiters-depth-2">)</span>;
+        <span class="org-rainbow-delimiters-depth-1">}</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-type">double</span> <span class="org-variable-name">d1</span> = match<span class="org-rainbow-delimiters-depth-1">(</span>l<span class="org-rainbow-delimiters-depth-1">)</span>;
+        <span class="org-keyword">constexpr</span> <span class="org-type">double</span> <span class="org-variable-name">d2</span> = match<span class="org-rainbow-delimiters-depth-1">(</span>r<span class="org-rainbow-delimiters-depth-1">)</span>;
+        static_assert<span class="org-rainbow-delimiters-depth-1">(</span>d1 == 14.0<span class="org-rainbow-delimiters-depth-1">)</span>;
+        static_assert<span class="org-rainbow-delimiters-depth-1">(</span>d2 == 27.0<span class="org-rainbow-delimiters-depth-1">)</span>;
+<span class="org-rainbow-delimiters-unmatched">}</span>
+</pre>
+</div>
+</section>
+<section id="slide-6-2-5">
+<h4 id="6-2-5"><span class="section-number-4">6.2.5.</span> Calling the test function</h4>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span class="org-type">int</span> <span class="org-function-name">main</span><span class="org-rainbow-delimiters-depth-1">()</span> <span class="org-rainbow-delimiters-depth-1">{</span> test_function<span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-constant">std</span>::<span class="org-type">expected</span><span class="org-rainbow-delimiters-depth-3">&lt;</span><span class="org-type">int</span>, <span class="org-type">double</span><span class="org-rainbow-delimiters-depth-3">&gt;</span>, <span class="org-type">int</span>, <span class="org-type">double</span><span class="org-rainbow-delimiters-depth-2">&gt;()</span>; <span class="org-rainbow-delimiters-depth-1">}</span>
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> Implementing Data with Lambda</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+</section>
+<section id="slide-7-1">
+<h3 id="7-1"><span class="section-number-3">7.1.</span> Closures and Partial Application</h3>
+<p>
+Closures mean we can hold on to values.
+</p>
+
+<p>
+Partial Application means we can defer using the values.
+</p>
+
+<ol>
+<li>&lambda; x f. f x</li>
+<li>(&lambda; x f. f x) a &rarr; &lambda; f. f a</li>
+<li>((&lambda; x f. f x) a) g &rarr; g a</li>
+
+</ol>
+</section>
+<section id="slide-7-2">
+<h3 id="7-2"><span class="section-number-3">7.2.</span> Continuation Passing Style</h3>
+<p>
+Pass functions to closures to defer what to do next.
+</p>
+
+<p>
+Two main strategies for encoding:
+</p>
+<dl>
+<dt>Church</dt><dd>the <i>folds</i> or <i>catamorphisms</i> for an ADT</dd>
+<dt>Scott</dt><dd>the <i>pattern matching</i> or <i>visitor</i> for an ADT</dd>
+
+</dl>
+</section>
+<section id="slide-7-3">
+<h3 id="7-3"><span class="section-number-3">7.3.</span> Recursive vs Non-recursive Types</h3>
+<p>
+For non-recursive types these are the same.
+</p>
+
+<p>
+Either, Pair, Maybe, Boolean are non-recursive.
+</p>
+
+<p>
+List is recursive.
+</p>
+</section>
+<section id="slide-7-4">
+<h3 id="7-4"><span class="section-number-3">7.4.</span> <code>Either</code></h3>
+<div class="outline-text-3" id="text-7-4">
+</div>
+</section>
+<section id="slide-7-4-1">
+<h4 id="7-4-1"><span class="section-number-4">7.4.1.</span> Definition</h4>
+<div class="org-src-container">
+
+<pre class="src src-haskell">data  Either a b
+  = Left a
+  | Right b&#955;&gt; 
+</pre>
+</div>
+</section>
+<section id="slide-7-4-2">
+<h4 id="7-4-2"><span class="section-number-4">7.4.2.</span> Construction</h4>
+<p>
+<i>left</i>   = &lambda; a l r. l a
+</p>
+
+<p>
+<i>right</i>  = &lambda; b l r. r b
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span class="org-keyword">inline</span> <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">left</span> = <span class="org-rainbow-delimiters-depth-1">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">a</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+        <span class="org-keyword">return</span> <span class="org-rainbow-delimiters-depth-2">[</span>a<span class="org-rainbow-delimiters-depth-2">](</span><span class="org-keyword">auto</span> <span class="org-variable-name">l</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span> <span class="org-keyword">return</span> <span class="org-rainbow-delimiters-depth-3">[</span>l, a<span class="org-rainbow-delimiters-depth-3">](</span><span class="org-keyword">auto</span> <span class="org-variable-name">_</span><span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span> <span class="org-keyword">return</span> l<span class="org-rainbow-delimiters-depth-4">(</span>a<span class="org-rainbow-delimiters-depth-4">)</span>; <span class="org-rainbow-delimiters-depth-3">}</span>; <span class="org-rainbow-delimiters-depth-2">}</span>;
+<span class="org-rainbow-delimiters-depth-1">}</span>;
+
+<span class="org-keyword">inline</span> <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">right</span> = <span class="org-rainbow-delimiters-depth-1">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">b</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+        <span class="org-keyword">return</span> <span class="org-rainbow-delimiters-depth-2">[</span>b<span class="org-rainbow-delimiters-depth-2">](</span><span class="org-keyword">auto</span> <span class="org-variable-name">_</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span> <span class="org-keyword">return</span> <span class="org-rainbow-delimiters-depth-3">[</span>b<span class="org-rainbow-delimiters-depth-3">](</span><span class="org-keyword">auto</span> <span class="org-variable-name">r</span><span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span> <span class="org-keyword">return</span> r<span class="org-rainbow-delimiters-depth-4">(</span>b<span class="org-rainbow-delimiters-depth-4">)</span>; <span class="org-rainbow-delimiters-depth-3">}</span>; <span class="org-rainbow-delimiters-depth-2">}</span>;
+<span class="org-rainbow-delimiters-depth-1">}</span>;
+</pre>
+</div>
+</section>
+<section id="slide-7-4-3">
+<h4 id="7-4-3"><span class="section-number-4">7.4.3.</span> Case Analysis</h4>
+<p>
+<i>either</i> = &lambda; l r e. e l r
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span class="org-keyword">inline</span> <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">either</span> = <span class="org-rainbow-delimiters-depth-1">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">l</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+        <span class="org-keyword">return</span> <span class="org-rainbow-delimiters-depth-2">[</span>l<span class="org-rainbow-delimiters-depth-2">](</span><span class="org-keyword">auto</span> <span class="org-variable-name">r</span><span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">{</span> <span class="org-keyword">return</span> <span class="org-rainbow-delimiters-depth-3">[</span>l, r<span class="org-rainbow-delimiters-depth-3">](</span><span class="org-keyword">auto</span> <span class="org-variable-name">e</span><span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span> <span class="org-keyword">return</span> e<span class="org-rainbow-delimiters-depth-4">(</span>l<span class="org-rainbow-delimiters-depth-4">)(</span>r<span class="org-rainbow-delimiters-depth-4">)</span>; <span class="org-rainbow-delimiters-depth-3">}</span>; <span class="org-rainbow-delimiters-depth-2">}</span>;
+<span class="org-rainbow-delimiters-depth-1">}</span>;
+</pre>
+</div>
+</section>
+<section id="slide-7-5">
+<h3 id="7-5"><span class="section-number-3">7.5.</span> <code>Pair</code></h3>
+<div class="outline-text-3" id="text-7-5">
+</div>
+</section>
+<section id="slide-7-5-1">
+<h4 id="7-5-1"><span class="section-number-4">7.5.1.</span> Definition</h4>
+<div class="org-src-container">
+
+<pre class="src src-haskell">data  Pair l r
+  = Pair l r&#955;&gt; 
+</pre>
+</div>
+</section>
+<section id="slide-7-5-2">
+<h4 id="7-5-2"><span class="section-number-4">7.5.2.</span> Construction</h4>
+<p>
+<i>pair</i> = &lambda; l r p. p l r
+</p>
+</section>
+<section id="slide-7-5-3">
+<h4 id="7-5-3"><span class="section-number-4">7.5.3.</span> Primitive Functions</h4>
+<p>
+<i>fst</i> = &lambda; p. p (&lambda; l r. l)
+</p>
+
+<p>
+<i>snd</i> = &lambda; p. p (&lambda; l r. r)
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span class="org-comment-delimiter">// </span><span class="org-comment">SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception</span>
+
+<span class="org-preprocessor">#if</span><span class="org-negation-char"><span class="org-preprocessor">n</span></span><span class="org-preprocessor">def</span> INCLUDED_SMD_STREAMS_PAIR
+<span class="org-preprocessor">#define</span> <span class="org-variable-name">INCLUDED_SMD_STREAMS_PAIR</span>
+
+<span class="org-keyword">namespace</span> <span class="org-constant">smd</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+<span class="org-keyword">namespace</span> <span class="org-constant">streams</span> <span class="org-rainbow-delimiters-depth-2">{</span>
+
+<span class="org-comment-delimiter">// </span><span class="org-comment">PAIR</span>
+
+<span class="org-comment-delimiter">/*</span>
+<span class="org-comment">    pair = &#955;l r p. p l r</span>
+<span class="org-comment">    fst = &#955;p. p (&#955;l r. l)</span>
+<span class="org-comment">    snd = &#955;p. p (&#955;l r. r)</span>
+<span class="org-comment-delimiter">*/</span>
+
+<span class="org-keyword">inline</span> <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">pair</span> = <span class="org-rainbow-delimiters-depth-3">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">l</span>, <span class="org-keyword">auto</span> <span class="org-variable-name">r</span><span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+  <span class="org-keyword">return</span> <span class="org-rainbow-delimiters-depth-4">[</span>l, r<span class="org-rainbow-delimiters-depth-4">](</span><span class="org-keyword">auto</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-4">)</span> <span class="org-rainbow-delimiters-depth-4">{</span> <span class="org-keyword">return</span> p<span class="org-rainbow-delimiters-depth-5">(</span>l, r<span class="org-rainbow-delimiters-depth-5">)</span>; <span class="org-rainbow-delimiters-depth-4">}</span>;
+<span class="org-rainbow-delimiters-depth-3">}</span>;
+
+<span class="org-keyword">inline</span> <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">fst</span> = <span class="org-rainbow-delimiters-depth-3">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+  <span class="org-keyword">return</span> p<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-rainbow-delimiters-depth-5">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">l</span>, <span class="org-keyword">auto</span> <span class="org-variable-name">r</span><span class="org-rainbow-delimiters-depth-5">)</span> <span class="org-rainbow-delimiters-depth-5">{</span> <span class="org-keyword">return</span> l; <span class="org-rainbow-delimiters-depth-5">}</span><span class="org-rainbow-delimiters-depth-4">)</span>;
+<span class="org-rainbow-delimiters-depth-3">}</span>;
+
+<span class="org-keyword">inline</span> <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">snd</span> = <span class="org-rainbow-delimiters-depth-3">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+  <span class="org-keyword">return</span> p<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-rainbow-delimiters-depth-5">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">l</span>, <span class="org-keyword">auto</span> <span class="org-variable-name">r</span><span class="org-rainbow-delimiters-depth-5">)</span> <span class="org-rainbow-delimiters-depth-5">{</span> <span class="org-keyword">return</span> r; <span class="org-rainbow-delimiters-depth-5">}</span><span class="org-rainbow-delimiters-depth-4">)</span>;
+<span class="org-rainbow-delimiters-depth-3">}</span>;
+
+<span class="org-rainbow-delimiters-depth-2">}</span> <span class="org-comment-delimiter">// </span><span class="org-comment">namespace streams</span>
+<span class="org-rainbow-delimiters-depth-1">}</span> <span class="org-comment-delimiter">// </span><span class="org-comment">namespace smd</span>
+
+<span class="org-preprocessor">#endif</span>
+</pre>
+</div>
+</section>
+<section id="slide-7-6">
+<h3 id="7-6"><span class="section-number-3">7.6.</span> <code>Maybe</code></h3>
+<div class="outline-text-3" id="text-7-6">
+</div>
+</section>
+<section id="slide-7-6-1">
+<h4 id="7-6-1"><span class="section-number-4">7.6.1.</span> Definition</h4>
+<div class="org-src-container">
+
+<pre class="src src-haskell">    data Maybe a
+      = Nothing
+      | Just a&#955;&gt; 
+</pre>
+</div>
+</section>
+<section id="slide-7-6-2">
+<h4 id="7-6-2"><span class="section-number-4">7.6.2.</span> Construction</h4>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span class="org-comment-delimiter">// </span><span class="org-comment">SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception</span>
+<span class="org-preprocessor">#if</span><span class="org-negation-char"><span class="org-preprocessor">n</span></span><span class="org-preprocessor">def</span> INCLUDED_SMD_STREAMS_MAYBE
+<span class="org-preprocessor">#define</span> <span class="org-variable-name">INCLUDED_SMD_STREAMS_MAYBE</span>
+
+<span class="org-preprocessor">#include</span> <span class="org-string"><span class="org-rainbow-delimiters-depth-1">&lt;</span></span><span class="org-string">cstdlib</span><span class="org-string"><span class="org-rainbow-delimiters-depth-1">&gt;</span></span>
+
+<span class="org-keyword">namespace</span> <span class="org-constant">smd</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+<span class="org-keyword">namespace</span> <span class="org-constant">streams</span> <span class="org-rainbow-delimiters-depth-2">{</span>
+
+<span class="org-comment-delimiter">// </span><span class="org-comment">MAYBE</span>
+<span class="org-comment-delimiter">/*</span>
+<span class="org-comment">nothing = &#955;. &#955;n.&#955;j.n</span>
+<span class="org-comment">   just = &#955;x.&#955;n.&#955;j.j x</span>
+<span class="org-comment-delimiter">*/</span>
+
+<span class="org-keyword">inline</span> <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">nothing</span> = <span class="org-rainbow-delimiters-depth-3">[]()</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+  <span class="org-keyword">return</span> <span class="org-rainbow-delimiters-depth-4">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">n</span><span class="org-rainbow-delimiters-depth-4">)</span> <span class="org-rainbow-delimiters-depth-4">{</span> <span class="org-keyword">return</span> <span class="org-rainbow-delimiters-depth-5">[</span>n<span class="org-rainbow-delimiters-depth-5">](</span><span class="org-keyword">auto</span> <span class="org-variable-name">_</span><span class="org-rainbow-delimiters-depth-5">)</span> <span class="org-rainbow-delimiters-depth-5">{</span> <span class="org-keyword">return</span> n<span class="org-rainbow-delimiters-depth-6">()</span>; <span class="org-rainbow-delimiters-depth-5">}</span>; <span class="org-rainbow-delimiters-depth-4">}</span>;
+<span class="org-rainbow-delimiters-depth-3">}</span>;
+
+<span class="org-keyword">inline</span> <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">just</span> = <span class="org-rainbow-delimiters-depth-3">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">x</span><span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+  <span class="org-keyword">return</span> <span class="org-rainbow-delimiters-depth-4">[</span>x<span class="org-rainbow-delimiters-depth-4">](</span><span class="org-keyword">auto</span> <span class="org-variable-name">_</span><span class="org-rainbow-delimiters-depth-4">)</span> <span class="org-rainbow-delimiters-depth-4">{</span> <span class="org-keyword">return</span> <span class="org-rainbow-delimiters-depth-5">[</span>x<span class="org-rainbow-delimiters-depth-5">](</span><span class="org-keyword">auto</span> <span class="org-variable-name">j</span><span class="org-rainbow-delimiters-depth-5">)</span> <span class="org-rainbow-delimiters-depth-5">{</span> <span class="org-keyword">return</span> j<span class="org-rainbow-delimiters-depth-6">(</span>x<span class="org-rainbow-delimiters-depth-6">)</span>; <span class="org-rainbow-delimiters-depth-5">}</span>; <span class="org-rainbow-delimiters-depth-4">}</span>;
+<span class="org-rainbow-delimiters-depth-3">}</span>;
+
+<span class="org-comment-delimiter">// </span><span class="org-comment">inline constexpr auto nothing = []() {</span>
+<span class="org-comment-delimiter">//     </span><span class="org-comment">return [](auto n, auto _) { return n(); };</span>
+<span class="org-comment-delimiter">// </span><span class="org-comment">};</span>
+
+<span class="org-comment-delimiter">// </span><span class="org-comment">inline constexpr auto just = [](auto x) {</span>
+<span class="org-comment-delimiter">//     </span><span class="org-comment">return [x](auto _, auto j) { return j(x); };</span>
+<span class="org-comment-delimiter">// </span><span class="org-comment">};</span>
+
+<span class="org-keyword">inline</span> <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">isNothing</span> = <span class="org-rainbow-delimiters-depth-3">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">m</span><span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+  <span class="org-keyword">return</span> m<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-rainbow-delimiters-depth-5">[]()</span> <span class="org-rainbow-delimiters-depth-5">{</span> <span class="org-keyword">return</span> <span class="org-constant">true</span>; <span class="org-rainbow-delimiters-depth-5">}</span><span class="org-rainbow-delimiters-depth-4">)(</span><span class="org-rainbow-delimiters-depth-5">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">_</span><span class="org-rainbow-delimiters-depth-5">)</span> <span class="org-rainbow-delimiters-depth-5">{</span> <span class="org-keyword">return</span> <span class="org-constant">false</span>; <span class="org-rainbow-delimiters-depth-5">}</span><span class="org-rainbow-delimiters-depth-4">)</span>;
+<span class="org-rainbow-delimiters-depth-3">}</span>;
+<span class="org-keyword">inline</span> <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">isJust</span> = <span class="org-rainbow-delimiters-depth-3">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">m</span><span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+  <span class="org-keyword">return</span> m<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-rainbow-delimiters-depth-5">[]()</span> <span class="org-rainbow-delimiters-depth-5">{</span> <span class="org-keyword">return</span> <span class="org-constant">false</span>; <span class="org-rainbow-delimiters-depth-5">}</span><span class="org-rainbow-delimiters-depth-4">)(</span><span class="org-rainbow-delimiters-depth-5">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">_</span><span class="org-rainbow-delimiters-depth-5">)</span> <span class="org-rainbow-delimiters-depth-5">{</span> <span class="org-keyword">return</span> <span class="org-constant">true</span>; <span class="org-rainbow-delimiters-depth-5">}</span><span class="org-rainbow-delimiters-depth-4">)</span>;
+<span class="org-rainbow-delimiters-depth-3">}</span>;
+<span class="org-keyword">inline</span> <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">fromJust</span> = <span class="org-rainbow-delimiters-depth-3">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">m</span><span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+  <span class="org-keyword">return</span> m<span class="org-rainbow-delimiters-depth-4">(</span><span class="org-rainbow-delimiters-depth-5">[]()</span> <span class="org-rainbow-delimiters-depth-5">{</span> <span class="org-constant">std</span>::abort<span class="org-rainbow-delimiters-depth-6">()</span>; <span class="org-rainbow-delimiters-depth-5">}</span><span class="org-rainbow-delimiters-depth-4">)(</span><span class="org-rainbow-delimiters-depth-5">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">x</span><span class="org-rainbow-delimiters-depth-5">)</span> <span class="org-rainbow-delimiters-depth-5">{</span> <span class="org-keyword">return</span> x; <span class="org-rainbow-delimiters-depth-5">}</span><span class="org-rainbow-delimiters-depth-4">)</span>;
+<span class="org-rainbow-delimiters-depth-3">}</span>;
+<span class="org-keyword">inline</span> <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">maybe</span> = <span class="org-rainbow-delimiters-depth-3">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">d</span><span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">{</span>
+  <span class="org-keyword">return</span> <span class="org-rainbow-delimiters-depth-4">[</span>d<span class="org-rainbow-delimiters-depth-4">](</span><span class="org-keyword">auto</span> <span class="org-variable-name">f</span><span class="org-rainbow-delimiters-depth-4">)</span> <span class="org-rainbow-delimiters-depth-4">{</span>
+    <span class="org-keyword">return</span> <span class="org-rainbow-delimiters-depth-5">[</span>d, f<span class="org-rainbow-delimiters-depth-5">](</span><span class="org-keyword">auto</span> <span class="org-variable-name">m</span><span class="org-rainbow-delimiters-depth-5">)</span> <span class="org-rainbow-delimiters-depth-5">{</span> <span class="org-keyword">return</span> m<span class="org-rainbow-delimiters-depth-6">(</span><span class="org-rainbow-delimiters-depth-7">[</span><span class="org-constant">d</span><span class="org-rainbow-delimiters-depth-7">]()</span> <span class="org-rainbow-delimiters-depth-7">{</span> <span class="org-keyword">return</span> d; <span class="org-rainbow-delimiters-depth-7">}</span><span class="org-rainbow-delimiters-depth-6">)(</span>f<span class="org-rainbow-delimiters-depth-6">)</span>; <span class="org-rainbow-delimiters-depth-5">}</span>;
+  <span class="org-rainbow-delimiters-depth-4">}</span>;
+<span class="org-rainbow-delimiters-depth-3">}</span>;
+<span class="org-rainbow-delimiters-depth-2">}</span> <span class="org-comment-delimiter">// </span><span class="org-comment">namespace streams</span>
+<span class="org-rainbow-delimiters-depth-1">}</span> <span class="org-comment-delimiter">// </span><span class="org-comment">namespace smd</span>
+
+<span class="org-preprocessor">#endif</span>
+</pre>
+</div>
+</section>
+<section id="slide-7-7">
+<h3 id="7-7"><span class="section-number-3">7.7.</span> <code>Boolean</code></h3>
+<div class="outline-text-3" id="text-7-7">
+</div>
+</section>
+<section id="slide-7-7-1">
+<h4 id="7-7-1"><span class="section-number-4">7.7.1.</span> Construction</h4>
+<div class="org-src-container">
+
+<pre class="src src-haskell">    data Bool
+      = False
+      | True&#955;&gt; 
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-cpp">
+</pre>
+</div>
+</section>
+<section id="slide-7-8">
+<h3 id="7-8"><span class="section-number-3">7.8.</span> <code>List</code></h3>
+<div class="outline-text-3" id="text-7-8">
+</div>
+</section>
+<section id="slide-7-8-1">
+<h4 id="7-8-1"><span class="section-number-4">7.8.1.</span> Construction</h4>
+<div class="org-src-container">
+
+<pre class="src src-haskell">    data List a
+      = Nil
+      | Cons a (List a)&#955;&gt; 
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-cpp">
+</pre>
+</div>
+</section>
+<section id="slide-7-8-2">
+<h4 id="7-8-2"><span class="section-number-4">7.8.2.</span> Church Encoding</h4>
+<p>
+<i>nil</i>  = &lambda; c n . n
+</p>
+
+<p>
+<i>cons</i> = &lambda; x xs c n . c x (xs c n)
+</p>
+</section>
+<section id="slide-7-8-3">
+<h4 id="7-8-3"><span class="section-number-4">7.8.3.</span> Scott Encoding</h4>
+<p>
+<i>nil</i>  = &lambda; c n . n
+</p>
+
+<p>
+<i>cons</i> = &lambda; x xs c n . c x xs
+</p>
+</section>
+</section>
+<section>
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8.</span> The Pattern(s)</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+</section>
+<section id="slide-8-1">
+<h3 id="8-1"><span class="section-number-3">8.1.</span> Non-recursive Types</h3>
+<p>
+For a type &Tau;  with  constructors <i>A</i>, <i>B</i>, <i>C</i>, &#x2026; using types a<sub>1</sub>, a<sub>2</sub>,a<sub>3</sub>, &#x2026;
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-haskell">data T a1 a2 a3 a4
+  = A a1 a2
+  | B a2 a3
+  | C a4&#955;&gt; 
+</pre>
+</div>
+</section>
+<section id="slide-8-1-0-1">
+<h5 id="8-1-0-1"><span class="section-number-5">8.1.0.1.</span> Convert the Constructors to functions</h5>
+<ul>
+<li><i>A</i> &equiv;  &lambda; a<sub>1</sub> a<sub>2</sub> f<sub>1</sub> f<sub>2</sub> f<sub>3</sub> . f<sub>1</sub> a<sub>1</sub> a<sub>2</sub></li>
+<li><i>B</i> &equiv;  &lambda; a<sub>2</sub> a<sub>3</sub> f<sub>1</sub> f<sub>2</sub> f<sub>3</sub> . f<sub>2</sub> a<sub>2</sub> a<sub>3</sub></li>
+<li><i>C</i> &equiv;  &lambda; a<sub>4</sub> f<sub>1</sub> f<sub>2</sub> f<sub>3</sub> . f<sub>3</sub> a<sub>4</sub></li>
+
+</ul>
+</section>
+<section id="slide-8-1-0-2">
+<h5 id="8-1-0-2"><span class="section-number-5">8.1.0.2.</span> A function taking a <i>&Tau;</i></h5>
+<ul>
+<li>f (A x y) = body<sub>A</sub></li>
+<li>f (B y z) = body<sub>B</sub></li>
+<li>f (C w)   = body<sub>C</sub></li>
+
+</ul>
+</section>
+<section id="slide-8-1-0-3">
+<h5 id="8-1-0-3"><span class="section-number-5">8.1.0.3.</span> Encode the function</h5>
+<p>
+<i>f</i>  &equiv; &lambda; t . (&lambda; a<sub>1</sub> a<sub>2</sub> . body<sub>A</sub>) (&lambda; a<sub>2</sub> a<sub>3</sub> . body<sub>B</sub>) (&lambda; a<sub>4</sub> . body<sub>C</sub>)
+</p>
+
+<p>
+A &Tau; is encoded as a function that takes functions for each of the Constructors.
+</p>
+
+<p>
+It dispatches to the function that corresponds to the constructor used.
+</p>
+
+<p>
+This is how <i>Pattern Matching</i> works.
+</p>
+</section>
+<section id="slide-8-2">
+<h3 id="8-2"><span class="section-number-3">8.2.</span> Church Encoding for Recursive Types</h3>
+
+
+</section>
+<section id="slide-8-3">
+<h3 id="8-3"><span class="section-number-3">8.3.</span> Scott Encoding for Recursive Types</h3>
+</section>
+</section>
+<section>
+<section id="slide-9">
+<h2 id="9"><span class="section-number-2">9.</span> Connections</h2>
+<div class="outline-text-2" id="text-9">
+</div>
+</section>
+<section id="slide-9-1">
+<h3 id="9-1"><span class="section-number-3">9.1.</span> Folds</h3>
+</section>
+<section id="slide-9-2">
+<h3 id="9-2"><span class="section-number-3">9.2.</span> Catamorphisms</h3>
+</section>
+<section id="slide-9-3">
+<h3 id="9-3"><span class="section-number-3">9.3.</span> Visitor</h3>
+</section>
+<section id="slide-9-4">
+<h3 id="9-4"><span class="section-number-3">9.4.</span> Continuation Passing</h3>
+</section>
+</section>
+<section>
+<section id="slide-10">
+<h2 id="10"><span class="section-number-2">10.</span> Data and CoData</h2>
+<div class="outline-text-2" id="text-10">
+</div>
+</section>
+<section id="slide-10-1">
+<h3 id="10-1"><span class="section-number-3">10.1.</span> Induction and CoInduction</h3>
+</section>
+<section id="slide-10-2">
+<h3 id="10-2"><span class="section-number-3">10.2.</span> Algebras and CoAlgebras</h3>
+</section>
+<section id="slide-10-3">
+<h3 id="10-3"><span class="section-number-3">10.3.</span> State, Behavior, Identity</h3>
+<div class="outline-text-3" id="text-10-3">
+</div>
+</section>
+<section id="slide-10-3-1">
+<h4 id="10-3-1"><span class="section-number-4">10.3.1.</span> OOP</h4>
+</section>
+<section id="slide-10-3-2">
+<h4 id="10-3-2"><span class="section-number-4">10.3.2.</span> Reference Semantics</h4>
+</section>
+</section>
+<section>
+<section id="slide-11">
+<h2 id="11"><span class="section-number-2">11.</span> Streams</h2>
+<div class="outline-text-2" id="text-11">
+</div>
+</section>
+<section id="slide-11-1">
+<h3 id="11-1"><span class="section-number-3">11.1.</span> Always infinite</h3>
+</section>
+<section id="slide-11-2">
+<h3 id="11-2"><span class="section-number-3">11.2.</span> No empty stream - non-constructable</h3>
+</section>
+<section id="slide-11-3">
+<h3 id="11-3"><span class="section-number-3">11.3.</span> Defined by observation APIs</h3>
+</section>
+</section>
+<section>
+<section id="slide-12">
+<h2 id="12"><span class="section-number-2">12.</span> Implementing Senders</h2>
+<div class="outline-text-2" id="text-12">
+</div>
+</section>
+<section id="slide-12-1">
+<h3 id="12-1"><span class="section-number-3">12.1.</span> Either</h3>
+</section>
+<section id="slide-12-2">
+<h3 id="12-2"><span class="section-number-3">12.2.</span> List</h3>
+</section>
+<section id="slide-12-3">
+<h3 id="12-3"><span class="section-number-3">12.3.</span> Stream</h3>
+</section>
+<section id="slide-12-4">
+<h3 id="12-4"><span class="section-number-3">12.4.</span> Queue</h3>
+</section>
+</section>
+<section>
+<section id="slide-13">
+<h2 id="13"><span class="section-number-2">13.</span> Code Test</h2>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span class="org-type">int</span> <span class="org-function-name">main</span><span class="org-rainbow-delimiters-depth-1">()</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+    <span class="org-constant">std</span>::cout &lt;&lt; <span class="org-string">"hello, world\n"</span>;
+<span class="org-rainbow-delimiters-depth-1">}</span>
+</pre>
+</div>
+</section>
+</section>
+</div>
+</div>
+<style type="text/css">
+    /* 1. Style header/footer <div> so they are positioned as desired. */
+    #header-left {
+        position: absolute;
+        top: 0%;
+        left: 0%;
+    }
+    #header-right {
+        position: absolute;
+        top: 0%;
+        right: 0%;
+    }
+    #footer-left {
+        position: absolute;
+        bottom: 0%;
+        left: 0%;
+        font-size: 0.5em;
+    }
+</style>
+
+<!-- 2. Create hidden header/footer <div> -->
+<div id="hidden" style="display:none;">
+<div id="header">
+<div id="footer-left">© 2025 Bloomberg Finance L.P. All rights reserved.</div>
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script type="text/javascript">
+// 3. On Reveal.js ready event, copy header/footer <div> into each `.slide-background` <div>
+var header = $('#header').html();
+if ( window.location.search.match( /print-pdf/gi ) ) {
+Reveal.addEventListener( 'ready', function( event ) {
+                                  $('.slide-background').append(header);
+                                  });
+}
+else {
+$('div.reveal').append(header);
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/math/math.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/markdown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/search/search.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1600,
+height: 900,
+
+transition: 'fade',
+transitionSpeed: 'default',
+showNotes: window.location.search.match( /print-pdf/gi ) ? 'separate-page' : false,
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealMath, RevealMarkdown, RevealNotes, RevealSearch, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>
