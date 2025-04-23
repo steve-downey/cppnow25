@@ -1,7 +1,8 @@
-#+OPTIONS: ':nil *:t -:t ::t <:t H:4 \n:nil ^:nil arch:headline author:t
+#+OPTIONS: ':nil *:t -:t ::t <:t H:4 \n:nil arch:headline author:t
 #+OPTIONS: broken-links:nil c:nil creator:nil d:(not "LOGBOOK") date:t e:t
 #+OPTIONS: email:nil f:t inline:t num:5 p:nil pri:nil prop:nil stat:t tags:t
 #+OPTIONS: tasks:t tex:t timestamp:t title:t toc:nil todo:t |:t
+#+OPTIONS: ^:{}
 #+TITLE: Building Streams out of Hot Air
 #+SUBTITLE: Coinductive Types in C++ Senders
 #+DATE: <2024-02-01 Thu>
@@ -252,6 +253,7 @@ data  Pair l r
       = Nil
       | Cons a (List a)
     #+end_src
+
 #+transclude: [[file:./code/src/smd/streams/list.hpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
 *** Church Encoding
 
@@ -265,9 +267,36 @@ data  Pair l r
 
 /cons/ = \lambda x xs c n . c x xs
 * The Pattern(s)
-** Church Encoding
+** Non-recursive Types
+For a type \Tau  with  constructors /A/, /B/, /C/, ... using types a_{1}, a_{2},a_{3}, ...
 
-** Scott Encoding
+#+begin_src haskell
+data T a1 a2 a3 a4
+  = A a1 a2
+  | B a2 a3
+  | C a4
+#+end_src
+
+**** Convert the Constructors to functions
+- /A/ \equiv  \lambda a_{1} a_{2} f_{1} f_{2} f_{3} . f_{1} a_{1} a_{2}
+- /B/ \equiv  \lambda a_{2} a_{3} f_{1} f_{2} f_{3} . f_{2} a_{2} a_{3}
+- /C/ \equiv  \lambda a_{4} f_{1} f_{2} f_{3} . f_{3} a_{4}
+**** A function taking a /\Tau/
+- f (A x y) = body_{A}
+- f (B y z) = body_{B}
+- f (C w)   = body_{C}
+**** Encode the function
+/f/  \equiv \lambda t . (\lambda a_{1} a_{2} . body_{A}) (\lambda a_{2} a_{3} . body_{B}) (\lambda a_{4} . body_{C})
+
+A \Tau is encoded as a function that takes functions for each of the Constructors.
+
+It dispatches to the function that corresponds to the constructor used.
+
+This is how /Pattern Matching/ works.
+** Church Encoding for Recursive Types
+
+
+** Scott Encoding for Recursive Types
 
 * Connections
 ** Folds
