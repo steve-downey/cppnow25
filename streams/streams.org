@@ -118,9 +118,11 @@ At the end we will have an async queue and an async stream implemented using jus
 - \lambda /x/ . /M/ :: a function of one variable with definition /M/.
 - /M/ /N/ :: application of the function /M/ to the argument /N/.
 
+#+REVEAL: split:t
 ******* \Beta-reduction:
 - ((\lambda x . /M/) /N/) \rightarrow (/M/[x:= /N/])
 
+#+REVEAL: split:t
 ******* Notational Sugar
 - Multi-variable extension
   - \lambda x y . /M/ \leftrightarrow \lambda x . (\lambda y . /M/)
