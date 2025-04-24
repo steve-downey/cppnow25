@@ -115,16 +115,19 @@ At the end we will have an async queue and an async stream implemented using jus
 * Lambda expressions
 ******* The core:
 - /x/ :: a variable.
-- \lambda /x/. /M/ :: a function of one variable with definition /M/.
+- \lambda /x/ . /M/ :: a function of one variable with definition /M/.
 - /M/ /N/ :: application of the function /M/ to the argument /N/.
 
 ******* \Beta-reduction:
-- ((\lambda x. /M/) /N/) \rightarrow (/M/[x:= /N/ ])
+- ((\lambda x . /M/) /N/) \rightarrow (/M/[x:= /N/])
 
-******* Notation -- Multi-variable extension
-  - \lambda x y. /M/ \leftrightarrow \lambda x (\lambda y. /M/)
+******* Notational Sugar
+- Multi-variable extension
+  - \lambda x y . /M/ \leftrightarrow \lambda x . (\lambda y . /M/)
 or
-  - \lambda x y. /M/ \leftrightarrow \lambda x . \lambda y. /M/
+  - \lambda x y . /M/ \leftrightarrow \lambda x . \lambda y . /M/
+- Currying
+  -  (f x y z) \leftrightarrow (((f x) y) z)
 
 * Closures
 - Closure :: A function that retains access to the names contained in the scope in which it was created.
