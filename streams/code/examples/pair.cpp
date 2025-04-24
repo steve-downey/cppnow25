@@ -42,22 +42,22 @@ template <class L, class R>
 constexpr inline auto pair_typeclass<std::pair<L, R>, L, R> =
         PairTypeclass<std::pair<L, R>, L, R>{};
 
-// 3522d0d3-d0e7--9523-9da2ec0075bd
+// 3522d0d3-d0e7-46ea-9523-9da2ec0075bd
 template <typename Pair, typename Left, typename Right,
           auto pair_map = pair_typeclass<Pair, Left, Right>>
 void test_function() {
         constexpr auto p1 = pair_map.pair(7, 9.0);
-        // 3522d0d3-d0e7-46ea-9523-9da2ec0075bd end
+// 3522d0d3-d0e7-46ea-9523-9da2ec0075bd end
 
-        // 8a9dbcf7-cee4-474d-ab35-2d433f9a74fb
+// 8a9dbcf7-cee4-474d-ab35-2d433f9a74fb
         constexpr int k1 = pair_map.first(p1);
         static_assert(k1 == 7);
 
         constexpr double k3 = pair_map.second(p1);
         static_assert(k3 == 9.0);
-        // 8a9dbcf7-cee4-474d-ab35-2d433f9a74fb end
+// 8a9dbcf7-cee4-474d-ab35-2d433f9a74fb end
 
-        // ef0d2d45-e59e-4d70-a5a7-933016d63238
+// ef0d2d45-e59e-4d70-a5a7-933016d63238
         constexpr auto match = [=](auto p) -> double {
                 return pair_map.template apply<double>(
                         p, [](auto x, auto y) -> double {

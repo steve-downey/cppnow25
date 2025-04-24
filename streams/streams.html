@@ -27,8 +27,8 @@
 <p>
 </section>
 <section>
-<section id="slide-org4beb46b" data-visibility="hidden">
-<h2 id="org4beb46b">Code Test</h2>
+<section id="slide-orgb8ffa49" data-visibility="hidden">
+<h2 id="orgb8ffa49">Code Test</h2>
 <div class="org-src-container">
 
 <pre class="src src-cpp"><span class="org-type">int</span> <span class="org-function-name">main</span><span class="org-rainbow-delimiters-depth-1">()</span> <span class="org-rainbow-delimiters-depth-1">{</span>
@@ -47,8 +47,8 @@ And export <code class="src src-cpp"><span class="org-type">int</span> <span cla
 </section>
 </section>
 <section>
-<section id="slide-org1007f7e">
-<h2 id="org1007f7e" class="r-fit-text">Building sender streams out of senders</h2>
+<section id="slide-orgcdd54d5">
+<h2 id="orgcdd54d5" class="r-fit-text">Building sender streams out of senders</h2>
 <p>
 We're going to build an async stream, an infinite list, out of nothing but senders.
 </p>
@@ -117,12 +117,12 @@ At the end we will have an async queue and an async stream implemented using jus
 </section>
 </section>
 <section>
-<section id="slide-orgde8499e">
-<h2 id="orgde8499e">Lambda expressions</h2>
-<div class="outline-text-2" id="text-orgde8499e">
+<section id="slide-orgb9b67a2">
+<h2 id="orgb9b67a2">Lambda expressions</h2>
+<div class="outline-text-2" id="text-orgb9b67a2">
 </div>
 <ul class="org-ul">
-<li><a id="org66ca8ad"></a>The core:<br />
+<li><a id="org5b163dd"></a>The core:<br />
 <dl>
 <dt><i>x</i></dt><dd>a variable.</dd>
 <dt>&lambda; <i>x</i> . <i>M</i></dt><dd>a function of one variable with definition <i>M</i>.</dd>
@@ -132,9 +132,8 @@ At the end we will have an async queue and an async stream implemented using jus
 
 </section>
 <section>
-<h8>The core:</h8>
 </li>
-<li><a id="org4fdca7e"></a>&Beta;-reduction:<br />
+<li><a id="org749414d"></a>&Beta;-reduction:<br />
 <ul>
 <li>((&lambda; x . <i>M</i>) <i>N</i>) &rarr; (<i>M</i>[x:= /N/])</li>
 
@@ -142,39 +141,31 @@ At the end we will have an async queue and an async stream implemented using jus
 
 </section>
 <section>
-<h8>&Beta;-reduction:</h8>
 </li>
-<li><a id="org8520808"></a>Notational Sugar<br />
-<ul>
-<li>Multi-variable extension
+<li><a id="orgf69338c"></a>Notational Sugar<br />
+<ul class="org-ul">
+<li><a id="org3bc6598"></a>Multi-variable extension<br />
 <ul>
 <li>&lambda; x y . <i>M</i> &harr; &lambda; x . (&lambda; y . <i>M</i>)</li>
-
-</ul></li>
-
-</ul>
-<p>
-or
-</p>
-<ul>
+<li>or</li>
 <li>&lambda; x y . <i>M</i> &harr; &lambda; x . &lambda; y . <i>M</i></li>
 
 </ul>
-<ul>
-<li>Currying
+</li>
+<li><a id="org0f202d1"></a>Currying<br />
 <ul>
 <li>(f x y z) &harr; (((f x) y) z)</li>
 
-</ul></li>
-
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </section>
 </section>
 <section>
-<section id="slide-org9407691">
-<h2 id="org9407691">Closures</h2>
+<section id="slide-org280cd24">
+<h2 id="org280cd24">Closures</h2>
 <dl>
 <dt>Closure</dt><dd>A function that retains access to the names contained in the scope in which it was created.</dd>
 
@@ -182,8 +173,8 @@ or
 </section>
 </section>
 <section>
-<section id="slide-org8a78daf">
-<h2 id="org8a78daf">Higher Order Functions</h2>
+<section id="slide-orgf16c93a">
+<h2 id="orgf16c93a">Higher Order Functions</h2>
 <p>
 Functions that can take or return functions.
 </p>
@@ -194,18 +185,18 @@ Those might be closures.
 </section>
 </section>
 <section>
-<section id="slide-orgd922558">
-<h2 id="orgd922558">Things Are What They Do</h2>
-<div class="outline-text-2" id="text-orgd922558">
+<section id="slide-org07f0876">
+<h2 id="org07f0876">Things Are What They Do</h2>
+<div class="outline-text-2" id="text-org07f0876">
 </div>
 </section>
-<section id="slide-org1d55c4e">
-<h3 id="org1d55c4e">Either example with typeclass map</h3>
-<div class="outline-text-3" id="text-org1d55c4e">
+<section id="slide-org62f63c0">
+<h3 id="org62f63c0">Either example with typeclass map</h3>
+<div class="outline-text-3" id="text-org62f63c0">
 </div>
 </section>
-<section id="slide-orgde61016">
-<h4 id="orgde61016">Shape of typeclass map</h4>
+<section id="slide-orgd716b82">
+<h4 id="orgd716b82">Shape of typeclass map</h4>
 <div class="org-src-container">
 
 <pre class="src src-cpp"><span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">typename</span> <span class="org-type">E</span>, <span class="org-keyword">typename</span> <span class="org-type">L</span>, <span class="org-keyword">typename</span> <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-keyword">struct</span> <span class="org-type">EitherTypeclass</span> <span class="org-rainbow-delimiters-depth-1">{</span>
@@ -222,8 +213,8 @@ Those might be closures.
 </pre>
 </div>
 </section>
-<section id="slide-org3f2a874">
-<h4 id="org3f2a874">Either Typeclass for <code>std::expected</code></h4>
+<section id="slide-org2d1fc27">
+<h4 id="org2d1fc27">Either Typeclass for <code>std::expected</code></h4>
 <div class="org-src-container">
 
 <pre class="src src-cpp"><span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">typename</span> <span class="org-type">L</span>, <span class="org-keyword">typename</span> <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
@@ -249,8 +240,8 @@ Those might be closures.
 </pre>
 </div>
 </section>
-<section id="slide-org9b2425c">
-<h4 id="org9b2425c">Test function and construction</h4>
+<section id="slide-orged01da0">
+<h4 id="orged01da0">Test function and construction</h4>
 <div class="org-src-container">
 
 <pre class="src src-cpp"><span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">typename</span> <span class="org-type">Either</span>, <span class="org-keyword">typename</span> <span class="org-type">Left</span>, <span class="org-keyword">typename</span> <span class="org-type">Right</span>,
@@ -269,8 +260,8 @@ Those might be closures.
 </pre>
 </div>
 </section>
-<section id="slide-org73a4744">
-<h4 id="org73a4744"><code>fromLeft</code> and <code>fromRight</code></h4>
+<section id="slide-org52c66de">
+<h4 id="org52c66de"><code>fromLeft</code> and <code>fromRight</code></h4>
 <div class="org-src-container">
 
 <pre class="src src-cpp">        <span class="org-keyword">constexpr</span> <span class="org-type">int</span> <span class="org-variable-name">k1</span> = either_map.fromLeft<span class="org-rainbow-delimiters-depth-1">(</span>l, 11<span class="org-rainbow-delimiters-depth-1">)</span>;
@@ -285,8 +276,8 @@ Those might be closures.
 </pre>
 </div>
 </section>
-<section id="slide-orgeba591b">
-<h4 id="orgeba591b">Case switch</h4>
+<section id="slide-orgd563e98">
+<h4 id="orgd563e98">Case switch</h4>
 <div class="org-src-container">
 
 <pre class="src src-cpp">        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">match</span> = <span class="org-rainbow-delimiters-depth-1">[</span>=<span class="org-rainbow-delimiters-depth-1">](</span><span class="org-keyword">auto</span> <span class="org-variable-name">e</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
@@ -302,21 +293,21 @@ Those might be closures.
 </pre>
 </div>
 </section>
-<section id="slide-org846541d">
-<h4 id="org846541d">Calling the test function</h4>
+<section id="slide-org3dbdcc8">
+<h4 id="org3dbdcc8">Calling the test function</h4>
 <div class="org-src-container">
 
 <pre class="src src-cpp"><span class="org-type">int</span> <span class="org-function-name">main</span><span class="org-rainbow-delimiters-depth-1">()</span> <span class="org-rainbow-delimiters-depth-1">{</span> test_function<span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-constant">std</span>::<span class="org-type">expected</span><span class="org-rainbow-delimiters-depth-3">&lt;</span><span class="org-type">int</span>, <span class="org-type">double</span><span class="org-rainbow-delimiters-depth-3">&gt;</span>, <span class="org-type">int</span>, <span class="org-type">double</span><span class="org-rainbow-delimiters-depth-2">&gt;()</span>; <span class="org-rainbow-delimiters-depth-1">}</span>
 </pre>
 </div>
 </section>
-<section id="slide-orge63140c">
-<h3 id="orge63140c">Pair example with typeclass map</h3>
-<div class="outline-text-3" id="text-orge63140c">
+<section id="slide-orgbca90cb">
+<h3 id="orgbca90cb">Pair example with typeclass map</h3>
+<div class="outline-text-3" id="text-orgbca90cb">
 </div>
 </section>
-<section id="slide-orgf778465">
-<h4 id="orgf778465">Shape of typeclass map</h4>
+<section id="slide-org2d35d89">
+<h4 id="org2d35d89">Shape of typeclass map</h4>
 <div class="org-src-container">
 
 <pre class="src src-cpp"><span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">typename</span> <span class="org-type">P</span>, <span class="org-keyword">typename</span> <span class="org-type">L</span>, <span class="org-keyword">typename</span> <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-keyword">struct</span> <span class="org-type">PairTypeclass</span> <span class="org-rainbow-delimiters-depth-1">{</span>
@@ -329,8 +320,8 @@ Those might be closures.
 </pre>
 </div>
 </section>
-<section id="slide-org27a7220">
-<h4 id="org27a7220">Pair Typeclass for <code>std::pair</code></h4>
+<section id="slide-org9aa3811">
+<h4 id="org9aa3811">Pair Typeclass for <code>std::pair</code></h4>
 <div class="org-src-container">
 
 <pre class="src src-cpp"><span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">typename</span> <span class="org-type">L</span>, <span class="org-keyword">typename</span> <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-keyword">struct</span> <span class="org-type">PairTypeclass</span><span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-constant">std</span>::<span class="org-type">pair</span><span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">L</span>, <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-2">&gt;</span>, <span class="org-type">L</span>, <span class="org-type">R</span><span class="org-rainbow-delimiters-depth-1">&gt;</span> <span class="org-rainbow-delimiters-depth-1">{</span>
@@ -347,39 +338,19 @@ Those might be closures.
 </pre>
 </div>
 </section>
-<section id="slide-org3be926a">
-<h4 id="org3be926a">Test function and construction</h4>
+<section id="slide-orge69cac9">
+<h4 id="orge69cac9">Test function and construction</h4>
 <div class="org-src-container">
 
-<pre class="src src-cpp">
-        <span class="org-comment-delimiter">// </span><span class="org-comment">8a9dbcf7-cee4-474d-ab35-2d433f9a74fb</span>
-        <span class="org-keyword">constexpr</span> <span class="org-type">int</span> <span class="org-variable-name">k1</span> = pair_map.first<span class="org-rainbow-delimiters-depth-1">(</span>p1<span class="org-rainbow-delimiters-depth-1">)</span>;
-        static_assert<span class="org-rainbow-delimiters-depth-1">(</span>k1 == 7<span class="org-rainbow-delimiters-depth-1">)</span>;
-
-        <span class="org-keyword">constexpr</span> <span class="org-type">double</span> <span class="org-variable-name">k3</span> = pair_map.second<span class="org-rainbow-delimiters-depth-1">(</span>p1<span class="org-rainbow-delimiters-depth-1">)</span>;
-        static_assert<span class="org-rainbow-delimiters-depth-1">(</span>k3 == 9.0<span class="org-rainbow-delimiters-depth-1">)</span>;
-        <span class="org-comment-delimiter">// </span><span class="org-comment">8a9dbcf7-cee4-474d-ab35-2d433f9a74fb end</span>
-
-        <span class="org-comment-delimiter">// </span><span class="org-comment">ef0d2d45-e59e-4d70-a5a7-933016d63238</span>
-        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">match</span> = <span class="org-rainbow-delimiters-depth-1">[</span>=<span class="org-rainbow-delimiters-depth-1">](</span><span class="org-keyword">auto</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-1">)</span> -&gt; <span class="org-type">double</span> <span class="org-rainbow-delimiters-depth-1">{</span>
-                <span class="org-keyword">return</span> pair_map.<span class="org-keyword">template</span> apply<span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">double</span><span class="org-rainbow-delimiters-depth-2">&gt;(</span>
-                        p, <span class="org-rainbow-delimiters-depth-3">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">x</span>, <span class="org-keyword">auto</span> <span class="org-variable-name">y</span><span class="org-rainbow-delimiters-depth-3">)</span> -&gt; <span class="org-type">double</span> <span class="org-rainbow-delimiters-depth-3">{</span>
-                                <span class="org-keyword">return</span> 2 * x + 3 * y;
-                        <span class="org-rainbow-delimiters-depth-3">}</span><span class="org-rainbow-delimiters-depth-2">)</span>;
-        <span class="org-rainbow-delimiters-depth-1">}</span>;
-        <span class="org-keyword">constexpr</span> <span class="org-type">double</span> <span class="org-variable-name">d1</span> = match<span class="org-rainbow-delimiters-depth-1">(</span>p1<span class="org-rainbow-delimiters-depth-1">)</span>;
-        static_assert<span class="org-rainbow-delimiters-depth-1">(</span>d1 == 41.0<span class="org-rainbow-delimiters-depth-1">)</span>;
-<span class="org-rainbow-delimiters-unmatched">}</span>
-<span class="org-comment-delimiter">// </span><span class="org-comment">ef0d2d45-e59e-4d70-a5a7-933016d63238 end</span>
-
-<span class="org-comment-delimiter">// </span><span class="org-comment">9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed</span>
-<span class="org-type">int</span> <span class="org-function-name">main</span><span class="org-rainbow-delimiters-unmatched">()</span> <span class="org-rainbow-delimiters-unmatched">{</span> test_function<span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-constant">std</span>::<span class="org-type">pair</span><span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">int</span>, <span class="org-type">double</span><span class="org-rainbow-delimiters-depth-2">&gt;</span>, <span class="org-type">int</span>, <span class="org-type">double</span><span class="org-rainbow-delimiters-depth-1">&gt;()</span>; <span class="org-rainbow-delimiters-unmatched">}</span>
-<span class="org-comment-delimiter">// </span><span class="org-comment">9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end</span>
+<pre class="src src-cpp"><span class="org-keyword">template</span> <span class="org-rainbow-delimiters-depth-1">&lt;</span><span class="org-keyword">typename</span> <span class="org-type">Pair</span>, <span class="org-keyword">typename</span> <span class="org-type">Left</span>, <span class="org-keyword">typename</span> <span class="org-type">Right</span>,
+          <span class="org-keyword">auto</span> <span class="org-variable-name">pair_map</span> = <span class="org-type">pair_typeclass</span><span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-type">Pair</span>, <span class="org-type">Left</span>, <span class="org-type">Right</span><span class="org-rainbow-delimiters-depth-2">&gt;</span><span class="org-rainbow-delimiters-depth-1">&gt;</span>
+<span class="org-type">void</span> <span class="org-function-name">test_function</span><span class="org-rainbow-delimiters-depth-1">()</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">p1</span> = pair_map.pair<span class="org-rainbow-delimiters-depth-2">(</span>7, 9.0<span class="org-rainbow-delimiters-depth-2">)</span>;
 </pre>
 </div>
 </section>
-<section id="slide-orgd0256a3">
-<h4 id="orgd0256a3">Apply</h4>
+<section id="slide-orgafae162">
+<h4 id="orgafae162">Apply</h4>
 <div class="org-src-container">
 
 <pre class="src src-cpp">        <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">match</span> = <span class="org-rainbow-delimiters-depth-1">[</span>=<span class="org-rainbow-delimiters-depth-1">](</span><span class="org-keyword">auto</span> <span class="org-variable-name">p</span><span class="org-rainbow-delimiters-depth-1">)</span> -&gt; <span class="org-type">double</span> <span class="org-rainbow-delimiters-depth-1">{</span>
@@ -394,8 +365,8 @@ Those might be closures.
 </pre>
 </div>
 </section>
-<section id="slide-org10462c0">
-<h4 id="org10462c0">Calling the test function</h4>
+<section id="slide-org4f2c097">
+<h4 id="org4f2c097">Calling the test function</h4>
 <div class="org-src-container">
 
 <pre class="src src-cpp"><span class="org-type">int</span> <span class="org-function-name">main</span><span class="org-rainbow-delimiters-depth-1">()</span> <span class="org-rainbow-delimiters-depth-1">{</span> test_function<span class="org-rainbow-delimiters-depth-2">&lt;</span><span class="org-constant">std</span>::<span class="org-type">pair</span><span class="org-rainbow-delimiters-depth-3">&lt;</span><span class="org-type">int</span>, <span class="org-type">double</span><span class="org-rainbow-delimiters-depth-3">&gt;</span>, <span class="org-type">int</span>, <span class="org-type">double</span><span class="org-rainbow-delimiters-depth-2">&gt;()</span>; <span class="org-rainbow-delimiters-depth-1">}</span>
@@ -404,13 +375,13 @@ Those might be closures.
 </section>
 </section>
 <section>
-<section id="slide-org3c1360d">
-<h2 id="org3c1360d">Implementing Data with Lambda</h2>
-<div class="outline-text-2" id="text-org3c1360d">
+<section id="slide-org6f1d992">
+<h2 id="org6f1d992">Implementing Data with Lambda</h2>
+<div class="outline-text-2" id="text-org6f1d992">
 </div>
 </section>
-<section id="slide-org304717a">
-<h3 id="org304717a">Closures and Partial Application</h3>
+<section id="slide-org621a2e0">
+<h3 id="org621a2e0">Closures and Partial Application</h3>
 <p>
 Closures mean we can hold on to values.
 </p>
@@ -426,8 +397,8 @@ Partial Application means we can defer using the values.
 
 </ol>
 </section>
-<section id="slide-orgba2db7f">
-<h3 id="orgba2db7f">Continuation Passing Style</h3>
+<section id="slide-org0ae5e4f">
+<h3 id="org0ae5e4f">Continuation Passing Style</h3>
 <p>
 Pass functions to closures to defer what to do next.
 </p>
@@ -441,8 +412,8 @@ Two main strategies for encoding:
 
 </dl>
 </section>
-<section id="slide-orgd137b00">
-<h3 id="orgd137b00">Recursive vs Non-recursive Types</h3>
+<section id="slide-org34fc478">
+<h3 id="org34fc478">Recursive vs Non-recursive Types</h3>
 <p>
 For non-recursive types these are the same.
 </p>
@@ -455,13 +426,13 @@ Either, Pair, Maybe, Boolean are non-recursive.
 List is recursive.
 </p>
 </section>
-<section id="slide-orgef7d753">
-<h3 id="orgef7d753"><code>Either</code></h3>
-<div class="outline-text-3" id="text-orgef7d753">
+<section id="slide-orgb6bb4a9">
+<h3 id="orgb6bb4a9"><code>Either</code></h3>
+<div class="outline-text-3" id="text-orgb6bb4a9">
 </div>
 </section>
-<section id="slide-orgd049e71">
-<h4 id="orgd049e71">Definition</h4>
+<section id="slide-org051a1cc">
+<h4 id="org051a1cc">Definition</h4>
 <div class="org-src-container">
 
 <pre class="src src-haskell"><span class="org-haskell-keyword">data</span>  <span class="org-haskell-type">Either</span> a b
@@ -470,8 +441,8 @@ List is recursive.
 </pre>
 </div>
 </section>
-<section id="slide-org25f9366">
-<h4 id="org25f9366">Construction</h4>
+<section id="slide-org7ac440c">
+<h4 id="org7ac440c">Construction</h4>
 <p>
 <i>left</i>   = &lambda; a . &lambda; l r . l a
 </p>
@@ -492,8 +463,8 @@ List is recursive.
 </pre>
 </div>
 </section>
-<section id="slide-orgc765b7a">
-<h4 id="orgc765b7a">Case Analysis</h4>
+<section id="slide-orgfa176c3">
+<h4 id="orgfa176c3">Case Analysis</h4>
 <p>
 <i>either</i> = &lambda; l r e. e l r
 </p>
@@ -506,13 +477,13 @@ List is recursive.
 </pre>
 </div>
 </section>
-<section id="slide-org1ef6e42">
-<h3 id="org1ef6e42"><code>Pair</code></h3>
-<div class="outline-text-3" id="text-org1ef6e42">
+<section id="slide-org4361510">
+<h3 id="org4361510"><code>Pair</code></h3>
+<div class="outline-text-3" id="text-org4361510">
 </div>
 </section>
-<section id="slide-org45539e4">
-<h4 id="org45539e4">Definition</h4>
+<section id="slide-org1437cea">
+<h4 id="org1437cea">Definition</h4>
 <div class="org-src-container">
 
 <pre class="src src-haskell"><span class="org-haskell-keyword">data</span>  <span class="org-haskell-type">Pair</span> l r
@@ -520,8 +491,8 @@ List is recursive.
 </pre>
 </div>
 </section>
-<section id="slide-org1e14151">
-<h4 id="org1e14151">Construction</h4>
+<section id="slide-org28e0e42">
+<h4 id="org28e0e42">Construction</h4>
 <p>
 <i>pair</i> = &lambda; l r . &lambda; p. p l r
 </p>
@@ -533,8 +504,8 @@ List is recursive.
 </pre>
 </div>
 </section>
-<section id="slide-orgd46fbb2">
-<h4 id="orgd46fbb2">Observation</h4>
+<section id="slide-orgedb96af">
+<h4 id="orgedb96af">Observation</h4>
 <p>
 <i>fst</i> = &lambda; p . p (&lambda; l r. l)
 </p>
@@ -555,13 +526,13 @@ List is recursive.
 </pre>
 </div>
 </section>
-<section id="slide-orgb96b4b5">
-<h3 id="orgb96b4b5"><code>Maybe</code></h3>
-<div class="outline-text-3" id="text-orgb96b4b5">
+<section id="slide-org4e73bc6">
+<h3 id="org4e73bc6"><code>Maybe</code></h3>
+<div class="outline-text-3" id="text-org4e73bc6">
 </div>
 </section>
-<section id="slide-org5173161">
-<h4 id="org5173161">Definition</h4>
+<section id="slide-org61151a5">
+<h4 id="org61151a5">Definition</h4>
 <div class="org-src-container">
 
 <pre class="src src-haskell">    <span class="org-haskell-keyword">data</span> <span class="org-haskell-type">Maybe</span> a
@@ -570,8 +541,8 @@ List is recursive.
 </pre>
 </div>
 </section>
-<section id="slide-org813b317">
-<h4 id="org813b317">Construction</h4>
+<section id="slide-org1708e8f">
+<h4 id="org1708e8f">Construction</h4>
 <p>
 <i>nothing</i> = &lambda; . &lambda; n . &lambda; j . n
 </p>
@@ -592,8 +563,8 @@ List is recursive.
 </pre>
 </div>
 </section>
-<section id="slide-orgcd0517c">
-<h4 id="orgcd0517c">Observation</h4>
+<section id="slide-orgf5074c4">
+<h4 id="orgf5074c4">Observation</h4>
 <p>
 <i>isNothing</i> = &lambda; m . m (&lambda; . true) (&lambda; . false)
 </p>
@@ -616,8 +587,8 @@ List is recursive.
 </pre>
 </div>
 </section>
-<section id="slide-org21101e9">
-<h4 id="org21101e9">Case Analysis</h4>
+<section id="slide-orgd2a5482">
+<h4 id="orgd2a5482">Case Analysis</h4>
 <p>
 <i>maybe</i>   = &lambda; n j m . m n j
 </p>
@@ -632,8 +603,8 @@ List is recursive.
 </pre>
 </div>
 </section>
-<section id="slide-org6f1e3ad">
-<h3 id="org6f1e3ad"><code>List</code></h3>
+<section id="slide-orgfd49271">
+<h3 id="orgfd49271"><code>List</code></h3>
 <div class="org-src-container">
 
 <pre class="src src-haskell">    <span class="org-haskell-keyword">data</span> <span class="org-haskell-type">List</span> a
@@ -642,15 +613,15 @@ List is recursive.
 </pre>
 </div>
 </section>
-<section id="slide-org0367cc9">
-<h4 id="org0367cc9">Construction</h4>
+<section id="slide-orgb60bc0a">
+<h4 id="orgb60bc0a">Construction</h4>
 <p>
 nil  =         λn c . n
 cons = λx xs . λn c . c x xs
 </p>
 </section>
-<section id="slide-org27f47bf">
-<h4 id="org27f47bf">Church Encoding</h4>
+<section id="slide-orgc35271d">
+<h4 id="orgc35271d">Church Encoding</h4>
 <p>
 <i>nil</i>  = &lambda; c n . n
 </p>
@@ -659,8 +630,8 @@ cons = λx xs . λn c . c x xs
 <i>cons</i> = &lambda; x xs c n . c x (xs c n)
 </p>
 </section>
-<section id="slide-orge757404">
-<h4 id="orge757404">Scott Encoding</h4>
+<section id="slide-org349e6f6">
+<h4 id="org349e6f6">Scott Encoding</h4>
 <p>
 <i>nil</i>  = &lambda; c n . n
 </p>
@@ -679,8 +650,8 @@ cons = λx xs . λn c . c x xs
 </pre>
 </div>
 </section>
-<section id="slide-org58b4972">
-<h4 id="org58b4972">Observers</h4>
+<section id="slide-org18f8a08">
+<h4 id="org18f8a08">Observers</h4>
 <p>
 <i>isNil</i>  = \l . l (\x xs . false) true
 </p>
@@ -689,7 +660,7 @@ cons = λx xs . λn c . c x xs
 <i>head</i>   = \l . l (\x xs . x) error
 </p>
 <ul class="org-ul">
-<li><a id="org414baa9"></a>Church<br />
+<li><a id="orgbbcfacb"></a>Church<br />
 <ul>
 <li><i>length</i> = \l . l (\x xs . (+) xs) 0</li>
 <li><i>tail</i>   = \l c n . l (\x xs g . g x (xs c)) (\xs . n) (\x xs . xs)</li>
@@ -700,7 +671,7 @@ cons = λx xs . λn c . c x xs
 You are not expected to understand that.
 </p>
 </li>
-<li><a id="orgb95c0cc"></a>Scott:<br />
+<li><a id="org02c4214"></a>Scott:<br />
 <ul>
 <li><i>length</i> = \l . l (\x xs . (+) (length xs)) 0</li>
 <li><i>tail</i>   = \l . l (\x xs . xs) nil</li>
@@ -709,8 +680,8 @@ You are not expected to understand that.
 </li>
 </ul>
 </section>
-<section id="slide-org1ada5c3">
-<h5 id="org1ada5c3">C++ Code for Scott List</h5>
+<section id="slide-org0e2e056">
+<h5 id="org0e2e056">C++ Code for Scott List</h5>
 <div class="org-src-container">
 
 <pre class="src src-cpp"><span class="org-keyword">inline</span> <span class="org-keyword">constexpr</span> <span class="org-keyword">auto</span> <span class="org-variable-name">isNil</span> = <span class="org-rainbow-delimiters-depth-1">[](</span><span class="org-keyword">auto</span> <span class="org-variable-name">l</span><span class="org-rainbow-delimiters-depth-1">)</span> -&gt; <span class="org-type">bool</span> <span class="org-rainbow-delimiters-depth-1">{</span>
@@ -736,13 +707,13 @@ You are not expected to understand that.
 </section>
 </section>
 <section>
-<section id="slide-org4ce72ae">
-<h2 id="org4ce72ae">The Pattern(s)</h2>
-<div class="outline-text-2" id="text-org4ce72ae">
+<section id="slide-org1b93304">
+<h2 id="org1b93304">The Pattern(s)</h2>
+<div class="outline-text-2" id="text-org1b93304">
 </div>
 </section>
-<section id="slide-org9aab14a">
-<h3 id="org9aab14a">Non-recursive Types</h3>
+<section id="slide-orge82395a">
+<h3 id="orge82395a">Non-recursive Types</h3>
 <p>
 For a type &Tau;  with  constructors <i>A</i>, <i>B</i>, <i>C</i>, &#x2026; using types a<sub>1</sub>, a<sub>2</sub>, a<sub>3</sub>, &hellip;
 </p>
@@ -756,8 +727,8 @@ For a type &Tau;  with  constructors <i>A</i>, <i>B</i>, <i>C</i>, &#x2026; usin
 </pre>
 </div>
 </section>
-<section id="slide-org180dd80">
-<h5 id="org180dd80">Convert the Constructors to functions</h5>
+<section id="slide-org2d0c4f6">
+<h5 id="org2d0c4f6">Convert the Constructors to functions</h5>
 <div class="org-src-container">
 
 <pre class="src src-haskell"><span class="org-haskell-keyword">data</span> <span class="org-haskell-type">T</span> a1 a2 a3 a4
@@ -774,8 +745,8 @@ For a type &Tau;  with  constructors <i>A</i>, <i>B</i>, <i>C</i>, &#x2026; usin
 
 </ul>
 </section>
-<section id="slide-orgdc459f8">
-<h5 id="orgdc459f8">A function taking a <i>&Tau;</i></h5>
+<section id="slide-orge6bf680">
+<h5 id="orge6bf680">A function taking a <i>&Tau;</i></h5>
 <p>
 Defined by pattern matching:
 </p>
@@ -786,8 +757,8 @@ Defined by pattern matching:
 
 </ul>
 </section>
-<section id="slide-orgd627169">
-<h5 id="orgd627169">Encode the function</h5>
+<section id="slide-org83ce6aa">
+<h5 id="org83ce6aa">Encode the function</h5>
 <p>
 <i>f</i>  &equiv; &lambda; t . t (&lambda; a<sub>1</sub> a<sub>2</sub> . body<sub>A</sub>) (&lambda; a<sub>2</sub> a<sub>3</sub> . body<sub>B</sub>) (&lambda; a<sub>4</sub> . body<sub>C</sub>)
 </p>
@@ -812,8 +783,8 @@ It dispatches to the function that corresponds to the constructor used.
 This is how <i>Pattern Matching</i> works.
 </p>
 </section>
-<section id="slide-org549c068">
-<h3 id="org549c068">Church Encoding for Recursive Types</h3>
+<section id="slide-org6189d56">
+<h3 id="org6189d56">Church Encoding for Recursive Types</h3>
 <p>
 A data type &Tau; with :
 </p>
@@ -828,8 +799,8 @@ A data type &Tau; with :
 C<sub>i</sub> &equiv; &lambda; x<sub>1</sub> &hellip; x<sub>ar(i)</sub> . &lambda; c<sub>1</sub> &hellip; c<sub>k</sub> . c<sub>i</sub> (x<sub>1</sub> \(\vec{C}\)) &hellip; (x<sub>ar(i)</sub> \(\vec{C}\))
 </p>
 </section>
-<section id="slide-orge55dfaa">
-<h3 id="orge55dfaa">Scott Encoding for Recursive Types</h3>
+<section id="slide-orgc8e61ec">
+<h3 id="orgc8e61ec">Scott Encoding for Recursive Types</h3>
 <p>
 A data type &Tau; with:
 </p>
@@ -857,8 +828,8 @@ Recursive types are basically identical in the Scott encoding.
 </section>
 </section>
 <section>
-<section id="slide-org4e76a8c">
-<h2 id="org4e76a8c">Connections</h2>
+<section id="slide-orge37b75d">
+<h2 id="orge37b75d">Connections</h2>
 <dl>
 <dt>Folds</dt><dd>Church and Scott encodings of products are just <i>foldr</i>.</dd>
 <dt>Catamorphisms</dt><dd>Folds for Sum types.</dd>
@@ -869,8 +840,8 @@ Recursive types are basically identical in the Scott encoding.
 </section>
 </section>
 <section>
-<section id="slide-org1182f11">
-<h2 id="org1182f11">Data and Codata</h2>
+<section id="slide-org2b2da28">
+<h2 id="org2b2da28">Data and Codata</h2>
 <p>
 We can also define a type not in terms of how it is constructed but in terms of how it is deconstructed, or consumed.
 </p>
@@ -887,8 +858,8 @@ For infinite types, the codata deconstructor perspective can be more expressive,
 Codata is "new" research from the 21st Century.
 </p>
 </section>
-<section id="slide-org04d20b6">
-<h3 id="org04d20b6">Construction vs Observation</h3>
+<section id="slide-org51e74a6">
+<h3 id="org51e74a6">Construction vs Observation</h3>
 <blockquote>
 <p>
 [S]witching focus from the way values are built (i.e. introduced)to the way they are used (i.e. eliminated).
@@ -904,12 +875,12 @@ Paul Downen, <a href="https://www.microsoft.com/en-us/research/wp-content/upload
 
 </aside>
 </section>
-<section id="slide-orgb1c499f">
-<h3 id="orgb1c499f">State, Behavior, Identity</h3>
-<div class="outline-text-3" id="text-orgb1c499f">
+<section id="slide-org8eac22d">
+<h3 id="org8eac22d">State, Behavior, Identity</h3>
+<div class="outline-text-3" id="text-org8eac22d">
 </div>
 <ul class="org-ul">
-<li><a id="orgb31b9dd"></a>The hallmarks of objects in OOP are entities with<br />
+<li><a id="orge1af7b0"></a>The hallmarks of objects in OOP are entities with<br />
 <ul>
 <li>State</li>
 <li>Behavior</li>
@@ -927,8 +898,8 @@ Very much unlike values.
 </li>
 </ul>
 </section>
-<section id="slide-orgc31be64">
-<h4 id="orgc31be64">References</h4>
+<section id="slide-org4d5cfdd">
+<h4 id="org4d5cfdd">References</h4>
 <p>
 References can not be just constructed independently.
 </p>
@@ -947,8 +918,8 @@ In particular this explains why a reference member in a <code>struct</code> is s
 </section>
 </section>
 <section>
-<section id="slide-orgb58a162">
-<h2 id="orgb58a162">Streams</h2>
+<section id="slide-org63726dd">
+<h2 id="org63726dd">Streams</h2>
 <p>
 Streams are an archetypical codata type.
 </p>
@@ -963,8 +934,8 @@ The only operation we have on a Stream is to deconstruct it into a value and a S
 
 </ul>
 </section>
-<section id="slide-org8040250">
-<h3 id="org8040250">Definitions</h3>
+<section id="slide-org1ff4ada">
+<h3 id="org1ff4ada">Definitions</h3>
 <div class="org-src-container">
 
 <pre class="src src-haskell"><span class="org-haskell-keyword">data</span> <span class="org-haskell-type">Stream</span> a <span class="org-haskell-operator">=</span> <span class="org-haskell-constructor">Stream</span>
@@ -986,8 +957,8 @@ We can't make a Stream, but if we have one can split it into the head element an
 This is an <i>Abstract</i> Data Type.
 </p>
 </section>
-<section id="slide-org6352fb0">
-<h3 id="org6352fb0">Codata extension</h3>
+<section id="slide-org92eaafb">
+<h3 id="org92eaafb">Codata extension</h3>
 <div class="org-src-container">
 
 <pre class="src src-haskell"><span class="org-haskell-definition">codata</span> <span class="org-haskell-constructor">Stream</span> a <span class="org-haskell-keyword">where</span>
@@ -997,8 +968,8 @@ This is an <i>Abstract</i> Data Type.
 </pre>
 </div>
 </section>
-<section id="slide-org72ec84f">
-<h3 id="org72ec84f">Encoding Codata</h3>
+<section id="slide-orgf0c6486">
+<h3 id="orgf0c6486">Encoding Codata</h3>
 <p>
 We encode the observers, the <i>deconstructors</i>, or <i>eliminators</i>, instead of the <i>constructors</i>.
 </p>
@@ -1014,13 +985,13 @@ Those become the elements of the <i>Visitor</i> interface.
 </section>
 </section>
 <section>
-<section id="slide-orgbd959d3">
-<h2 id="orgbd959d3">Implementing Senders</h2>
-<div class="outline-text-2" id="text-orgbd959d3">
+<section id="slide-org0bd2528">
+<h2 id="org0bd2528">Implementing Senders</h2>
+<div class="outline-text-2" id="text-org0bd2528">
 </div>
 </section>
-<section id="slide-org5dc6d34">
-<h3 id="org5dc6d34">What's a Sender</h3>
+<section id="slide-org4d46690">
+<h3 id="org4d46690">What's a Sender</h3>
 <p>
 A description of async work.
 </p>
@@ -1029,8 +1000,8 @@ A description of async work.
 Senders "deliver" or "send" their result to a receiver.
 </p>
 </section>
-<section id="slide-org00381ca">
-<h4 id="org00381ca">Completion Signatures</h4>
+<section id="slide-orgfc062a0">
+<h4 id="orgfc062a0">Completion Signatures</h4>
 <p>
 They must advertise the signatures they may call on the reciever channels:
 </p>
@@ -1041,21 +1012,21 @@ They must advertise the signatures they may call on the reciever channels:
 
 </ul>
 </section>
-<section id="slide-orgd90db7e">
-<h4 id="orgd90db7e">APIs to provide hooks for</h4>
+<section id="slide-orgff1db1a">
+<h4 id="orgff1db1a">APIs to provide hooks for</h4>
 <dl>
 <dt>execution​::​get_completion_signatures</dt><dd>Can the reciever handle what the sender wants to deliver?</dd>
 <dt>execution​::​connect</dt><dd>Make the connection between the sender and the continuation the results are delivered throuhg.</dd>
 
 </dl>
 </section>
-<section id="slide-org5765c3f">
-<h3 id="org5765c3f">Out of the Box</h3>
-<div class="outline-text-3" id="text-org5765c3f">
+<section id="slide-org786edbf">
+<h3 id="org786edbf">Out of the Box</h3>
+<div class="outline-text-3" id="text-org786edbf">
 </div>
 </section>
-<section id="slide-org739abc9">
-<h4 id="org739abc9">Sender Factories</h4>
+<section id="slide-orge90bca7">
+<h4 id="orge90bca7">Sender Factories</h4>
 <dl>
 <dt><code>execution::just</code></dt><dd>Lift a value into a sender.</dd>
 <dt><code>execution::read_env</code></dt><dd>Read from the <i>Environment</i> and deliver that value.</dd>
@@ -1063,8 +1034,8 @@ They must advertise the signatures they may call on the reciever channels:
 
 </dl>
 </section>
-<section id="slide-org787f31b">
-<h4 id="org787f31b">Sender Adapters</h4>
+<section id="slide-org00edfb3">
+<h4 id="org00edfb3">Sender Adapters</h4>
 <dl>
 <dt><code>execution::then</code></dt><dd><i>map</i>, <i>transform</i>, <i>fmap</i>, etc &#x2013; the Functor interface.</dd>
 <dt><code>execution::let_value</code></dt><dd><i>bind</i>, <i>and_then</i>, etc &#x2013; the Monad interface.</dd>
@@ -1081,8 +1052,8 @@ The adapters <code>then</code> and <code>let_value</code> are necessary and suff
 Possibly not the most efficient.
 </p>
 </section>
-<section id="slide-orge1fbaf6">
-<h4 id="orge1fbaf6">Senders can be user code</h4>
+<section id="slide-orga8d5814">
+<h4 id="orga8d5814">Senders can be user code</h4>
 <p>
 Currently "expert-friendly."
 </p>
@@ -1091,8 +1062,8 @@ Currently "expert-friendly."
 Not intended to be "expert only."
 </p>
 </section>
-<section id="slide-org8a4ef74">
-<h3 id="org8a4ef74">Code Examples</h3>
+<section id="slide-orgd4a66be">
+<h3 id="orgd4a66be">Code Examples</h3>
 <p>
 Senders for:
 </p>
@@ -1111,8 +1082,8 @@ Stream
 </section>
 </section>
 <section>
-<section id="slide-org1fce70d">
-<h2 id="org1fce70d">Questions?</h2>
+<section id="slide-org31b4ef2">
+<h2 id="org31b4ef2">Questions?</h2>
 <p>
 Remember a question starts with:
 </p>
@@ -1159,20 +1130,20 @@ Is a propositional statement, but hold them for a moment.
 </section>
 </section>
 <section>
-<section id="slide-orgfdb9af5">
-<h2 id="orgfdb9af5">Comments?</h2>
+<section id="slide-org9c0e943">
+<h2 id="org9c0e943">Comments?</h2>
 
 </section>
 </section>
 <section>
-<section id="slide-orgee55016">
-<h2 id="orgee55016">Thank You!</h2>
+<section id="slide-org9e692a8">
+<h2 id="org9e692a8">Thank You!</h2>
 
 </section>
 </section>
 <section>
-<section id="slide-org7dc252b" data-visibility="hidden">
-<h2 id="org7dc252b">Bibliography</h2>
+<section id="slide-org3778138" data-visibility="hidden">
+<h2 id="org3778138">Bibliography</h2>
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>“5B: Computational Objects | Structure and Interpretation of Computer Programs | Electrical Engineering and Computer Science | Mit Opencourseware.” n.d. <a href="https://ocw.mit.edu/courses/6-001-structure-and-interpretation-of-computer-programs-spring-2005/resources/5b-computational-objects/">https://ocw.mit.edu/courses/6-001-structure-and-interpretation-of-computer-programs-spring-2005/resources/5b-computational-objects/</a>.</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Downen, Paul, Zachary Sullivan, Zena M. Ariola, and Simon Peyton Jones. 2019. “Codata in Action.” In <i>Programming Languages and Systems - 28th European Symposium on Programming, ESOP 2019, Held as Part of the European Joint Conferences on Theory and Practice of Software, ETAPS 2019, Prague, Czech Republic, April 6-11, 2019, Proceedings</i>, edited by Lu\’ıs Caires, 11423:119–46. Lecture Notes in Computer Science. Springer. <a href="https://doi.org/10.1007/978-3-030-17184-1\_5">https://doi.org/10.1007/978-3-030-17184-1\_5</a>.</div>
@@ -1182,8 +1153,8 @@ Is a propositional statement, but hold them for a moment.
 </section>
 </section>
 <section>
-<section id="slide-org1ce033f">
-<h2 id="org1ce033f">Code Test</h2>
+<section id="slide-orgc81716c">
+<h2 id="orgc81716c">Code Test</h2>
 <div class="org-src-container">
 
 <pre class="src src-cpp"><span class="org-type">int</span> <span class="org-function-name">main</span><span class="org-rainbow-delimiters-depth-1">()</span> <span class="org-rainbow-delimiters-depth-1">{</span>
