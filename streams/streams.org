@@ -1,6 +1,6 @@
 #+OPTIONS: ':nil *:t -:t ::t <:t H:4 \n:nil arch:headline author:t
 #+OPTIONS: broken-links:nil c:nil creator:nil d:(not "LOGBOOK") date:t e:t
-#+OPTIONS: email:nil f:t inline:t num:5 p:nil pri:nil prop:nil stat:t tags:t
+#+OPTIONS: email:nil f:t inline:t num:nil p:nil pri:nil prop:nil stat:t tags:t
 #+OPTIONS: tasks:t tex:t timestamp:t title:t toc:nil todo:t |:t
 #+OPTIONS: ^:{}
 #+TITLE: Building Streams out of Hot Air
@@ -48,17 +48,20 @@
 
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
 #+REVEAL_VERSION: 4
+#+reveal_defaulttiming: 60
 
 #+REVEAL_HLEVEL: 1
 #+REVEAL_EXPORT_NOTES_TO_PDF: separate-page
 #+REVEAL_DEFAULT_FRAG_STYLE: (appear)
-
 #+CITE_EXPORT: csl ../etc/chicago-author-date.csl
 #+BIBLIOGRAPHY: ../etc/wg21.bib
 #+BIBLIOGRAPHY: ../etc/local.bib
 
 * Code Test
-#+begin_src cpp
+   :PROPERTIES:
+   :reveal_extra_attr: data-visibility="hidden"
+   :END:
+   #+begin_src cpp
 int main() {
     std::cout << "hello, world\n";
 }
@@ -110,16 +113,18 @@ At the end we will have an async queue and an async stream implemented using jus
 #+end_notes
 
 * Lambda expressions
-** The core
+******* The core:
 - /x/ :: a variable.
 - \lambda /x/. /M/ :: a function of one variable with definition /M/.
 - /M/ /N/ :: application of the function /M/ to the argument /N/.
 
-** \Beta-reduction
-((\lambda x. /M/) /N/) \rightarrow (/M/[x:= /N/ ])
+******* \Beta-reduction:
+- ((\lambda x. /M/) /N/) \rightarrow (/M/[x:= /N/ ])
 
-** Multi-variable extension
-\lambda x y. /M/ \rightarrow \lambda x (\lambda y. /M/)
+******* Notation -- Multi-variable extension
+  - \lambda x y. /M/ \leftrightarrow \lambda x (\lambda y. /M/)
+or
+  - \lambda x y. /M/ \leftrightarrow \lambda x . \lambda y. /M/
 
 * Closures
 - Closure :: A function that retains access to the names contained in the scope in which it was created.
@@ -135,7 +140,7 @@ Those might be closures.
 *** Shape of typeclass map
 #+transclude: [[file:./code/examples/either.cpp::735bf5a8-0156-4907-96e8-5878efec8255]] :lines 2- :src cpp :end "735bf5a8-0156-4907-96e8-5878efec8255 end"
 
-*** Typeclass for =std::expected=
+*** Either Typeclass for =std::expected=
 #+transclude: [[file:./code/examples/either.cpp::a1310e75-cee5-4701-8828-9ceef8073ef8]] :lines 2- :src cpp :end "a1310e75-cee5-4701-8828-9ceef8073ef8 end"
 
 *** Test function and construction
@@ -155,7 +160,7 @@ Those might be closures.
 *** Shape of typeclass map
 #+transclude: [[file:./code/examples/either.cpp::735bf5a8-0156-4907-96e8-5878efec8255]] :lines 2- :src cpp :end "735bf5a8-0156-4907-96e8-5878efec8255 end"
 
-*** Typeclass for =std::pair=
+*** Pair Typeclass for =std::pair=
 #+transclude: [[file:./code/examples/either.cpp::a1310e75-cee5-4701-8828-9ceef8073ef8]] :lines 2- :src cpp :end "a1310e75-cee5-4701-8828-9ceef8073ef8 end"
 
 *** Test function and construction
@@ -199,9 +204,9 @@ data  Either a b
   | Right b
 #+end_src
 *** Construction
-    /left/   = \lambda a l r. l a
+    /left/   = \lambda a . \lambda l r . l a
 
-    /right/  = \lambda b l r. r b
+    /right/  = \lambda b . \lambda l r . r b
 
 #+transclude: [[file:./code/src/smd/streams/either.hpp::f055237e-37d9-4bfc-871d-cc97aa6d7ef4]] :lines 2- :src cpp :end "f055237e-37d9-4bfc-871d-cc97aa6d7ef4 end"
 
@@ -217,13 +222,14 @@ data  Pair l r
   = Pair l r
 #+end_src
 *** Construction
-    /pair/ = \lambda l r p. p l r
-*** Primitive Functions
-    /fst/ = \lambda p. p (\lambda l r. l)
+    /pair/ = \lambda l r . \lambda p. p l r
+#+transclude: [[file:./code/src/smd/streams/pair.hpp::85dedb42-2c9c-43d5-8157-edc8dbc1df34]] :lines 2- :src cpp :end "85dedb42-2c9c-43d5-8157-edc8dbc1df34 end"
+*** Observation
+    /fst/ = \lambda p . p (\lambda l r. l)
 
-    /snd/ = \lambda p. p (\lambda l r. r)
+    /snd/ = \lambda p . p (\lambda l r. r)
 
-#+transclude: [[file:./code/src/smd/streams/pair.hpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
+#+transclude: [[file:./code/src/smd/streams/pair.hpp::d7eb7f23-6f65-42c7-9814-9f85163d755f]] :lines 2- :src cpp :end "d7eb7f23-6f65-42c7-9814-9f85163d755f end"
 
 ** ~Maybe~
 *** Definition
@@ -233,28 +239,44 @@ data  Pair l r
       | Just a
 #+end_src
 *** Construction
+/nothing/ = \lambda . \lambda n . \lambda j . n
 
-#+transclude: [[file:./code/src/smd/streams/maybe.hpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
+/just/ = \lambda x . \lambda n . \lambda j . j x
 
-** ~Boolean~
-*** Construction
-    #+begin_src haskell
-    data Bool
-      = False
-      | True
-    #+end_src
+#+transclude: [[file:./code/src/smd/streams/maybe.hpp::0e278f9f-4092-4c87-a751-43e3e04a9c27]] :lines 2- :src cpp :end "0e278f9f-4092-4c87-a751-43e3e04a9c27 end"
+*** Observation
+/isNothing/ = \lambda m . m (\lambda . true) (\lambda . false)
 
-#+transclude: [[file:./code/src/smd/streams/boolean.hpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
+/isJust/ = \lambda m . m (\lambda . false) (\lambda . true)
+
+#+transclude: [[file:./code/src/smd/streams/maybe.hpp::916b4ab3-1779-42fc-a912-022bd1bbb468]] :lines 2- :src cpp :end "916b4ab3-1779-42fc-a912-022bd1bbb468 end"
+
+*** Case Analysis
+    /maybe/   = \lambda n j m . m n j
+
+#+transclude: [[file:./code/src/smd/streams/maybe.hpp::4fa184e0-691e-4068-9d6b-158338a51640]] :lines 2- :src cpp :end "4fa184e0-691e-4068-9d6b-158338a51640 end"
+
+# ** ~Boolean~
+# *** Construction
+#     #+begin_src haskell
+#     data Bool
+#       = False
+#       | True
+#     #+end_src
+
+# #+transclude: [[file:./code/src/smd/streams/boolean.hpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
 
 ** ~List~
-*** Construction
-    #+begin_src haskell
+      #+begin_src haskell
     data List a
       = Nil
       | Cons a (List a)
     #+end_src
 
-#+transclude: [[file:./code/src/smd/streams/list.hpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
+*** Construction
+  nil  =         λn c . n
+  cons = λx xs . λn c . c x xs
+
 *** Church Encoding
 
 /nil/  = \lambda c n . n
@@ -266,9 +288,33 @@ data  Pair l r
 /nil/  = \lambda c n . n
 
 /cons/ = \lambda x xs c n . c x xs
+
+#+transclude: [[file:./code/src/smd/streams/list.hpp::cebc5986-c2c2-4525-baf9-8692824506fe]] :lines 2- :src cpp :end "cebc5986-c2c2-4525-baf9-8692824506fe end"
+
+*** Observers
+
+    /isNil/  = \l . l (\x xs . false) true
+
+    /head/   = \l . l (\x xs . x) error
+
+****** Church
+    - /length/ = \l . l (\x xs . (+) xs) 0
+    - /tail/   = \l c n . l (\x xs g . g x (xs c)) (\xs . n) (\x xs . xs)
+
+    You are not expected to understand that.
+
+****** Scott:
+    - /length/ = \l . l (\x xs . (+) (length xs)) 0
+    - /tail/   = \l . l (\x xs . xs) nil
+**** C++ Code for Scott List
+#+transclude: [[file:./code/src/smd/streams/list.hpp::029a0a98-e47d-4f61-a6d6-1ccb8321c6a9]] :lines 2- :src cpp :end "029a0a98-e47d-4f61-a6d6-1ccb8321c6a9 end"
+
+#+begin_notes
+https://hackage.haskell.org/package/gulcii-0.3/src/doc/encoding.md
+#+end_notes
 * The Pattern(s)
 ** Non-recursive Types
-For a type \Tau  with  constructors /A/, /B/, /C/, ... using types a_{1}, a_{2},a_{3}, ...
+For a type \Tau  with  constructors /A/, /B/, /C/, ... using types a_{1}, a_{2}, a_{3}, \dots
 
 #+begin_src haskell
 data T a1 a2 a3 a4
@@ -278,48 +324,202 @@ data T a1 a2 a3 a4
 #+end_src
 
 **** Convert the Constructors to functions
-- /A/ \equiv  \lambda a_{1} a_{2} f_{1} f_{2} f_{3} . f_{1} a_{1} a_{2}
-- /B/ \equiv  \lambda a_{2} a_{3} f_{1} f_{2} f_{3} . f_{2} a_{2} a_{3}
-- /C/ \equiv  \lambda a_{4} f_{1} f_{2} f_{3} . f_{3} a_{4}
+#+begin_src haskell
+data T a1 a2 a3 a4
+  = A a1 a2
+  | B a2 a3
+  | C a4
+#+end_src
+
+- /A/ \equiv  \lambda a_{1} a_{2} . \lambda  f_{1} f_{2} f_{3} . f_{1} a_{1} a_{2}
+- /B/ \equiv  \lambda a_{2} a_{3} . \lambda f_{1} f_{2} f_{3} . f_{2} a_{2} a_{3}
+- /C/ \equiv  \lambda a_{4} . \lambda f_{1} f_{2} f_{3} . f_{3} a_{4}
+
 **** A function taking a /\Tau/
+Defined by pattern matching:
 - f (A x y) = body_{A}
 - f (B y z) = body_{B}
 - f (C w)   = body_{C}
 **** Encode the function
-/f/  \equiv \lambda t . (\lambda a_{1} a_{2} . body_{A}) (\lambda a_{2} a_{3} . body_{B}) (\lambda a_{4} . body_{C})
+/f/  \equiv \lambda t . t (\lambda a_{1} a_{2} . body_{A}) (\lambda a_{2} a_{3} . body_{B}) (\lambda a_{4} . body_{C})
 
-A \Tau is encoded as a function that takes functions for each of the Constructors.
+Where /t/ is the result of one of the encoded constructors, such as
+
+/A/ \equiv  \lambda a_{1} a_{2} . \lambda  f_{1} f_{2} f_{3} . f_{1} a_{1} a_{2}
+
+A \Tau is encoded as a function that takes functions for each of the constructors.
 
 It dispatches to the function that corresponds to the constructor used.
 
 This is how /Pattern Matching/ works.
 ** Church Encoding for Recursive Types
+A data type \Tau with :
+- constructors /C_{1}/ ... /C_{k}/,
+- where and the /arity/ of the /i^{th}/ constructor is $ar(i)$,
+- and let $\vec{C}$  be a vector of all the constructors.
 
+C_{i} \equiv \lambda x_{1} \dots x_{ar(i)} . \lambda c_{1} \dots c_{k} . c_{i} (x_{1} $\vec{C}$) \dots (x_{ar(i)} $\vec{C}$)
 
 ** Scott Encoding for Recursive Types
+A data type \Tau with:
+- constructors /C_{1}/ ... /C_{k}/,
+- where and the /arity/ of the /i^{th}/ constructor is $ar(i)$.
 
+   C_{i} \equiv \lambda x_{1} \dots x_{ar(i)} . \lambda c_{1} \dots c_{k} . c_{i} x_{1}  \dots x_{ar(i)}
+
+   Recursive types are basically identical in the Scott encoding.
+   #+begin_notes
+ [cite/n:@geuvers2014church]
+   #+end_notes
 * Connections
-** Folds
-** Catamorphisms
-** Visitor
-** Continuation Passing
-* Data and CoData
-** Induction and CoInduction
-** Algebras and CoAlgebras
+- Folds :: Church and Scott encodings of products are just /foldr/.
+- Catamorphisms :: Folds for Sum types.
+- Visitor :: The "Gang of Four" Vistor is the implementation of pattern matching.
+- Continuation Passing :: All of the encodings take continuations for what to do. Moreover, Senders are an automation of Continuation Passing Style.
+* Data and Codata
+We can also define a type not in terms of how it is constructed but in terms of how it is deconstructed, or consumed.
+
+For a type like /Pair/ we become concerned with /fst/ and /snd/ which deconstruct in to the components, rather than /Pair a b/. For simple types the perspectives are equally expressive.
+
+For infinite types, the codata deconstructor perspective can be more expressive, and also analytically tractable.
+
+Codata is "new" research from the 21st Century.
+
+** Construction vs Observation
+  #+begin_quote
+  [S]witching focus from the way values are built (i.e. introduced)to the way they are used (i.e. eliminated).
+  #+end_quote
+  Paul Downen, [[https://www.microsoft.com/en-us/research/wp-content/uploads/2020/01/CoDataInAction.pdf][Codata in Action]]
+  #+begin_notes
+ [cite/n:@DBLP:conf/esop/DownenSAJ19]
+  #+end_notes
 ** State, Behavior, Identity
-*** OOP
-*** Reference Semantics
+****** The hallmarks of objects in OOP are entities with
+- State
+- Behavior
+- Identity
+
+Objects change over time, do things, and are distinct from other instances.
+
+Very much unlike values.
+
+*** References
+References can not be just constructed independently.
+
+References must be /observed/ and might change independently.
+
+References are more like codata than data.
+
+In particular this explains why a reference member in a ~struct~ is so problematic.
 * Streams
-** Always infinite
-** No empty stream - non-constructable
-** Defined by observation APIs
+Streams are an archetypical codata type.
+
+The only operation we have on a Stream is to deconstruct it into a value and a Stream.
+- Always infinite
+- No empty stream - non-constructable
+- Defined by observation APIs
+** Definitions
+#+begin_src haskell
+data Stream a = Stream
+  { head :: () -> a
+  , tail :: () -> Stream a
+  }
+#+end_src
+
+/head/ and /tail/ are functions in this definition so it can be /strict/.
+
+We can't make a Stream, but if we have one can split it into the head element and the rest of the Stream.
+
+This is an /Abstract/ Data Type.
+** Codata extension
+#+begin_src haskell
+codata Stream a where
+  { head :: Stream a -> a
+  , tail :: Stream a -> Stream a
+  }
+#+end_src
+
+** Encoding Codata
+We encode the observers, the /deconstructors/, or /eliminators/, instead of the /constructors/.
+
+Those become the elements of the /Visitor/ interface.
+
+/head/ = \lambda h s . h s.head()
+/tail/ = \lambda t s . t s.head()
 
 * Implementing Senders
-** Either
-** List
-** Stream
-** Queue
+** What's a Sender
+A description of async work.
 
+Senders "deliver" or "send" their result to a receiver.
+*** Completion Signatures
+They must advertise the signatures they may call on the reciever channels:
+- set_value
+- set_error
+- set_stopped
+*** APIs to provide hooks for
+- execution​::​get_completion_signatures :: Can the reciever handle what the sender wants to deliver?
+- execution​::​connect :: Make the connection between the sender and the continuation the results are delivered throuhg.
+** Out of the Box
+*** Sender Factories
+- ~execution::just~ :: Lift a value into a sender.
+- ~execution::read_env~ :: Read from the /Environment/ and deliver that value.
+- ~execution::schedule~ :: Empty start of a work graph.
+*** Sender Adapters
+- ~execution::then~ :: /map/, /transform/, /fmap/, etc -- the Functor interface.
+- ~execution::let_value~ :: /bind/, /and_then/, etc -- the Monad interface.
+- ~execution::on~ :: Switch scheduler.
+- ~execution::when_all~ :: Join many senders.
+
+The adapters ~then~ and ~let_value~ are necessary and sufficient.
+
+Possibly not the most efficient.
+
+*** Senders can be user code
+Currently "expert-friendly."
+
+Not intended to be "expert only."
+** Code Examples
+Senders for:
+- Either
+- Pair
+- Stream
+
+  [Switch to IDE and tests]
+
+* Questions?
+Remember a question starts with:
+
+#+ATTR_REVEAL: :frag (current-visible)
+- who
+- what
+- when
+- where
+- how
+- why
+
+#+REVEAL: split:t
+or
+- A propositional statement :: a statement that has a truth value, either true or false, but not both.
+
+#+REVEAL: split:t
+and goes up at the end.
+
+#+REVEAL: split:t
+#+begin_quote
+"More of a comment than a question ..."
+#+end_quote
+Is a propositional statement, but hold them for a moment.
+* Comments?
+
+* Thank You!
+
+* Bibliography
+   :PROPERTIES:
+   :reveal_extra_attr: data-visibility="hidden"
+   :END:
+#+CITE_EXPORT: csl chicago-author-date.csl
+#+print_bibliography:
 
 * Code Test
 #+begin_src cpp
