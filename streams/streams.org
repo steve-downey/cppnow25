@@ -296,19 +296,19 @@ data  Pair l r
 
 *** Observers
 
-    /isNil/  = \l . l (\x xs . false) true
+    /isNil/  = \lambda l . l (\lambda x xs . false) true
 
-    /head/   = \l . l (\x xs . x) error
+    /head/   = \lambda l . l (\lambda x xs . x) error
 
 ****** Church
-    - /length/ = \l . l (\x xs . (+) xs) 0
-    - /tail/   = \l c n . l (\x xs g . g x (xs c)) (\xs . n) (\x xs . xs)
+    - /length/ = \lambda l . l (\lambda x xs . (+) xs) 0
+    - /tail/   = \lambda l c n . l (\lambda x xs g . g x (xs c)) (\lambda xs . n) (\lambda x xs . xs)
 
     You are not expected to understand that.
 
 ****** Scott:
-    - /length/ = \l . l (\x xs . (+) (length xs)) 0
-    - /tail/   = \l . l (\x xs . xs) nil
+    - /length/ = \lambda l . l (\lambda x xs . (+) (length xs)) 0
+    - /tail/   = \lambda l . l (\lambda x xs . xs) nil
 **** C++ Code for Scott List
 #+transclude: [[file:./code/src/smd/streams/list.hpp::029a0a98-e47d-4f61-a6d6-1ccb8321c6a9]] :lines 2- :src cpp :end "029a0a98-e47d-4f61-a6d6-1ccb8321c6a9 end"
 
