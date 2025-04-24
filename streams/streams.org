@@ -161,19 +161,19 @@ Those might be closures.
 ** Pair example with typeclass map
 
 *** Shape of typeclass map
-#+transclude: [[file:./code/examples/either.cpp::735bf5a8-0156-4907-96e8-5878efec8255]] :lines 2- :src cpp :end "735bf5a8-0156-4907-96e8-5878efec8255 end"
+#+transclude: [[file:./code/examples/pair.cpp::735bf5a8-0156-4907-96e8-5878efec8255]] :lines 2- :src cpp :end "735bf5a8-0156-4907-96e8-5878efec8255 end"
 
 *** Pair Typeclass for =std::pair=
-#+transclude: [[file:./code/examples/either.cpp::a1310e75-cee5-4701-8828-9ceef8073ef8]] :lines 2- :src cpp :end "a1310e75-cee5-4701-8828-9ceef8073ef8 end"
+#+transclude: [[file:./code/examples/pair.cpp::a1310e75-cee5-4701-8828-9ceef8073ef8]] :lines 2- :src cpp :end "a1310e75-cee5-4701-8828-9ceef8073ef8 end"
 
 *** Test function and construction
-#+transclude: [[file:./code/examples/either.cpp::3522d0d3-d0e7-46ea-9523-9da2ec0075bd]] :lines 2- :src cpp :end "3522d0d3-d0e7-46ea-9523-9da2ec0075bd end"
+#+transclude: [[file:./code/examples/pair.cpp::3522d0d3-d0e7-46ea-9523-9da2ec0075bd]] :lines 2- :src cpp :end "3522d0d3-d0e7-46ea-9523-9da2ec0075bd end"
 
-*** Case switch
-#+transclude: [[file:./code/examples/either.cpp::ef0d2d45-e59e-4d70-a5a7-933016d63238]] :lines 2- :src cpp :end "ef0d2d45-e59e-4d70-a5a7-933016d63238 end"
+*** Apply
+#+transclude: [[file:./code/examples/pair.cpp::ef0d2d45-e59e-4d70-a5a7-933016d63238]] :lines 2- :src cpp :end "ef0d2d45-e59e-4d70-a5a7-933016d63238 end"
 
 *** Calling the test function
-#+transclude: [[file:./code/examples/either.cpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
+#+transclude: [[file:./code/examples/pair.cpp::9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed]] :lines 2- :src cpp :end "9a1fd6e9-3ca8-4321-8b6c-7ad48256b9ed end"
 
 * Implementing Data with Lambda
 ** Closures and Partial Application
