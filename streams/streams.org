@@ -282,20 +282,15 @@ data  Pair l r
     #+end_src
 
 *** Construction
-  nil  =         λn c . n
-  cons = λx xs . λn c . c x xs
+/nil/  =   \lambda n c . n
 
 *** Church Encoding
 
-/nil/  = \lambda c n . n
-
-/cons/ = \lambda x xs c n . c x (xs c n)
+/cons/ = \lambda x xs . \lambda n c . c x (xs n c)
 
 *** Scott Encoding
 
-/nil/  = \lambda c n . n
-
-/cons/ = \lambda x xs c n . c x xs
+/cons/ = \lambda x xs . \lambda n c . c x xs
 
 #+transclude: [[file:./code/src/smd/streams/list.hpp::cebc5986-c2c2-4525-baf9-8692824506fe]] :lines 2- :src cpp :end "cebc5986-c2c2-4525-baf9-8692824506fe end"
 
