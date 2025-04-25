@@ -38,15 +38,3 @@ inline constexpr auto length = [](this const auto &self, auto l) {
         return l([]() { return 0; },
                  [self](auto x, auto xs) { return 1 + self(xs); });
 };
-
-// List functions
-/*
- */
-// inline constexpr auto take = [](this const auto& self, auto n, auto l) {
-//     if (isNil(l))
-//         return Nil;
-//     else if (n == 0)
-//         return Nil;
-//     else
-//         return Cons(head(l), self(n - 1, tail(l)));
-// };

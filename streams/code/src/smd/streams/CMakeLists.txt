@@ -7,7 +7,7 @@ target_sources(
     PUBLIC
         FILE_SET smd_streams_headers
         TYPE HEADERS
-        FILES stream.hpp pair.hpp maybe.hpp either.hpp callerase.hpp
+        FILES stream.hpp pair.hpp maybe.hpp either.hpp list.hpp callerase.hpp
 )
 
 set_target_properties(smd.streams PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
@@ -26,7 +26,7 @@ include(GoogleTest)
 add_executable(smd.streams.tests)
 target_sources(
     smd.streams.tests
-    PRIVATE stream.t.cpp pair.t.cpp maybe.t.cpp either.t.cpp callerase.t.cpp
+    PRIVATE stream.t.cpp pair.t.cpp maybe.t.cpp either.t.cpp list.t.cpp callerase.t.cpp
 )
 
 target_link_libraries(
