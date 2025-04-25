@@ -447,8 +447,8 @@ We encode the observers, the /deconstructors/, or /eliminators/, instead of the 
 
 Those become the elements of the /Visitor/ interface.
 
-/head/ = \lambda h s . h s.head()
-/tail/ = \lambda t s . t s.head()
+/head/ = \lambda s . \lambda h t . h s.head()
+/tail/ = \lambda s . \lambda h t . t s.tail()
 
 * Implementing Senders
 ** What's a Sender

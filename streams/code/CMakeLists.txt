@@ -5,13 +5,15 @@ cmake_minimum_required(VERSION 3.25)
 project(
     streams-now # CMake Project Name, which is also the name of the top-level
     # targets (e.g., library, executable, etc.).
-    LANGUAGES CXX
+    LANGUAGES CXX C
 )
 
 include(FetchContent)
 include(GNUInstallDirs)
 
 enable_testing()
+
+set(CMAKE_VERIFY_INTERFACE_HEADER_SETS ON)
 
 # Fetch GoogleTest
 FetchContent_Declare(
@@ -22,9 +24,16 @@ FetchContent_Declare(
     EXCLUDE_FROM_ALL
 )
 set(INSTALL_GTEST OFF) # Disable GoogleTest installation
-FetchContent_MakeAvailable(googletest)
 
-set(CMAKE_VERIFY_INTERFACE_HEADER_SETS ON)
+FetchContent_Declare(
+  execution
+  # for local development, use SOURCE_DIR <path-to>/execution
+  GIT_REPOSITORY https://github.com/bemanproject/execution
+  GIT_TAG e9c3032
+  EXCLUDE_FROM_ALL
+)
+
+FetchContent_MakeAvailable(googletest execution)
 
 add_subdirectory(src)
 add_subdirectory(examples)
