@@ -9,3 +9,7 @@ foreach(example ${ALL_EXAMPLES})
     target_sources(smd.stream.examples.${example} PRIVATE ${example}.cpp)
     target_link_libraries(smd.stream.examples.${example} smd::streams)
 endforeach()
+
+add_executable(smd.stream.examples.sender)
+target_sources(smd.stream.examples.sender PRIVATE sender.cpp)
+target_link_libraries(smd.stream.examples.sender smd::streams beman::execution)
