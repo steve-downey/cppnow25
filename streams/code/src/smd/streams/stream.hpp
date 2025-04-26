@@ -48,8 +48,8 @@ inline constexpr auto length = [](this const auto &self, auto l) {
   tl (S a as) = as
 
   S = λ a as . λ s . s a as
-  hd = \ s . s \ a as . a
-  tl = \ s . s \ a as . as
+  hd = λ s . s λ a as . a
+  tl = λ s . s λ a as . as
 */
 
 inline constexpr auto hd = [](auto s) {
