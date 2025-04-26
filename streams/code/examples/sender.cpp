@@ -69,15 +69,6 @@ inline const smd::streams::callerase j = [](int x) {
         return [x](auto _, auto j) { return j(x); };
 };
 
-consteval auto test(bool b) {
-        if (b) {
-                smd::streams::callerase n_ = n();
-                return n_;
-        } else {
-                smd::streams::callerase j_ = j(5);
-                return j_;
-        }
-}
 
 int main() {
         using namespace std::string_literals;
