@@ -7,7 +7,14 @@ target_sources(
     PUBLIC
         FILE_SET smd_streams_headers
         TYPE HEADERS
-        FILES boolean.hpp stream.hpp pair.hpp maybe.hpp either.hpp list.hpp callerase.hpp
+        FILES
+            boolean.hpp
+            stream.hpp
+            pair.hpp
+            maybe.hpp
+            either.hpp
+            list.hpp
+            callerase.hpp
 )
 
 set_target_properties(smd.streams PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
@@ -26,7 +33,14 @@ include(GoogleTest)
 add_executable(smd.streams.tests)
 target_sources(
     smd.streams.tests
-    PRIVATE boolean.t.cpp stream.t.cpp pair.t.cpp maybe.t.cpp either.t.cpp list.t.cpp callerase.t.cpp
+    PRIVATE
+        boolean.t.cpp
+        stream.t.cpp
+        pair.t.cpp
+        maybe.t.cpp
+        either.t.cpp
+        list.t.cpp
+        callerase.t.cpp
 )
 
 target_link_libraries(

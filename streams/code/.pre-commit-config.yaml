@@ -7,13 +7,14 @@ repos:
     -   id: trailing-whitespace
     -   id: end-of-file-fixer
     -   id: check-yaml
+        exclude: vendor
     -   id: check-added-large-files
 
     # Clang-format for C++
     # This brings in a portable version of clang-format.
     # See also: https://github.com/ssciwr/clang-format-wheel
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v19.1.7
+    rev: v20.1.0
     hooks:
     - id: clang-format
       types_or: [c++, c]
@@ -28,6 +29,10 @@ repos:
     # Markdown linting
     # Config file: .markdownlint.yaml
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.42.0
+    rev: v0.44.0
     hooks:
     - id: markdownlint
+      args:
+        [
+          "--ignore=streams/code/vendor/"
+        ]

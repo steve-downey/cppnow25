@@ -29,7 +29,7 @@ inline constexpr auto And = [](auto a, auto b) { return a(b, a); };
 inline constexpr auto Or = [](auto a, auto b) { return a(a, b); };
 inline constexpr auto Not = [](auto a) { return a(fls(), tru()); };
 
-inline constexpr auto toBool = [](auto b) {return b(true, false);};
+inline constexpr auto toBool = [](auto b) { return b(true, false); };
 
 } // namespace streams
 } // namespace smd

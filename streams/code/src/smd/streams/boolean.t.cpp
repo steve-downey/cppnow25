@@ -1,5 +1,5 @@
-// smd/streams/boolean.t.cpp                                           -*-C++-*-
-// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+// smd/streams/boolean.t.cpp                                          -*-C++-*-
+// SPDX-License-Identifier: Apache-2.0 WITHLLVM-exception
 
 #include <smd/streams/boolean.hpp>
 

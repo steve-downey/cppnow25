@@ -17,7 +17,6 @@ namespace streams {
     either = λl.λr.λe.e l r
 */
 
-
 // f055237e-37d9-4bfc-871d-cc97aa6d7ef4
 inline constexpr auto left = [](auto a) {
         return [a](auto l) { return [l, a](auto _) { return l(a); }; };
@@ -47,7 +46,6 @@ inline constexpr auto fromRight = [](auto d) {
                 return e([d](auto _) { return d; })([](auto x) { return x; });
         };
 };
-
 
 // e0662959-cb6d-4b91-ac55-59b195160004
 inline constexpr auto either = [](auto l) {

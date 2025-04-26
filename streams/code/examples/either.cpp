@@ -25,8 +25,8 @@ template <typename E, typename L, typename R> struct EitherTypeclass {
         constexpr auto fromLeft(E, L) const -> L;
         constexpr auto fromRight(E, L) const -> L;
         template <typename C>
-        constexpr auto either(E e, invocable_r<C, L> auto,
-                              invocable_r<C, R> auto) const -> C;
+        constexpr auto
+        either(E e, invocable_r<C, L> auto, invocable_r<C, R> auto) const -> C;
 };
 // 735bf5a8-0156-4907-96e8-5878efec8255 end
 
@@ -46,7 +46,8 @@ struct EitherTypeclass<std::expected<L, R>, L, R> {
         }
 
         template <typename C>
-        constexpr auto either(E e, invocable_r<C, L> auto left,
+        constexpr auto either(E e,
+                              invocable_r<C, L> auto left,
                               invocable_r<C, R> auto right) const -> C {
                 return isLeft(e) ? left(e.value()) : right(e.error());
         }
@@ -60,7 +61,9 @@ constexpr inline auto either_typeclass<std::expected<L, R>, L, R> =
         EitherTypeclass<std::expected<L, R>, L, R>{};
 
 // 3522d0d3-d0e7-46ea-9523-9da2ec0075bd
-template <typename Either, typename Left, typename Right,
+template <typename Either,
+          typename Left,
+          typename Right,
           auto either_map = either_typeclass<Either, Left, Right>>
 void test_function() {
         constexpr auto l = either_map.left(7);
@@ -90,7 +93,8 @@ void test_function() {
         // ef0d2d45-e59e-4d70-a5a7-933016d63238
         constexpr auto match = [=](auto e) {
                 return either_map.template either<double>(
-                        e, [](auto x) -> double { return 2 * x; },
+                        e,
+                        [](auto x) -> double { return 2 * x; },
                         [](auto x) -> double { return 3 * x; });
         };
         constexpr double d1 = match(l);

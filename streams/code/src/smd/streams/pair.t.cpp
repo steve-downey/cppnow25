@@ -8,15 +8,15 @@
 #include <gtest/gtest.h>
 
 TEST(PairTest, ConstexprBreathing) {
-  constexpr auto p1 = smd::streams::pair(7, 0);
-  constexpr int k = smd::streams::fst(p1);
-  static_assert(k == 7);
-  static_assert(0 == smd::streams::snd(p1));
+        constexpr auto p1 = smd::streams::pair(7, 0);
+        constexpr int k = smd::streams::fst(p1);
+        static_assert(k == 7);
+        static_assert(0 == smd::streams::snd(p1));
 }
 
 TEST(PairTest, Breathing) {
-  auto p1 = smd::streams::pair(7, 0);
-  int k = smd::streams::fst(p1);
-  EXPECT_EQ(k, 7);
-  EXPECT_EQ(0, smd::streams::snd(p1));
+        auto p1 = smd::streams::pair(7, 0);
+        int k = smd::streams::fst(p1);
+        EXPECT_EQ(k, 7);
+        EXPECT_EQ(0, smd::streams::snd(p1));
 }
