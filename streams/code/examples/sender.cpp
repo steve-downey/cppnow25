@@ -73,21 +73,29 @@ inline constexpr auto just = [](auto x) {
     snd = λp. p (λl r. r)
 */
 
-// 85dedb42-2c9c-43d5-8157-edc8dbc1df34
-inline constexpr auto pair = [](auto l, auto r) {
+inline constexpr auto churchPair = [](auto l, auto r) {
         return [l, r](auto p) { return p(l, r); };
 };
-// 85dedb42-2c9c-43d5-8157-edc8dbc1df34 end
 
-// d7eb7f23-6f65-42c7-9814-9f85163d755f
-inline constexpr auto fst = [](auto p) {
+inline constexpr auto churcFst = [](auto p) {
         return p([](auto l, auto r) { return l; });
 };
 
-inline constexpr auto snd = [](auto p) {
+inline constexpr auto churchSnd = [](auto p) {
         return p([](auto l, auto r) { return r; });
 };
-// d7eb7f23-6f65-42c7-9814-9f85163d755f end
+
+inline constexpr auto pair = [](auto l, auto r) {
+  return ex::just(l, r);
+};
+
+inline constexpr auto fst = [](ex::sender auto p) -> ex::sender auto{
+        return ex::then(p, [](auto l, auto r) { return l; });
+};
+
+inline constexpr auto snd = [](ex::sender auto p) -> ex::sender auto{
+        return ex::then(p, [](auto l, auto r) { return r; });
+};
 
 int main() {
         using namespace std::string_literals;
@@ -97,18 +105,20 @@ int main() {
         assert(*result == std::tuple(17));
         std::cout << std::get<0>(*result) << '\n';
 
-        ex::sender auto pair = ex::just(3.14, 42);
-        auto fst = [](ex::sender auto p) -> ex::sender auto {
-                return ex::then(p, [](auto l, auto r) { return l; });
-        };
+        ex::sender auto pair1 = ex::just(3.14, 42);
 
-        auto snd = [](ex::sender auto p) -> ex::sender auto {
-                return ex::then(p, [](auto l, auto r) { return r; });
-        };
-
-        auto result2 = ex::sync_wait(fst(pair));
+        auto result2 = ex::sync_wait(fst(pair1));
         std::cout << std::get<0>(*result2) << '\n';
 
-        auto result3 = ex::sync_wait(snd(pair));
+        auto result3 = ex::sync_wait(snd(pair1));
         std::cout << std::get<0>(*result3) << '\n';
+
+        auto p2 = pair(9, 13);
+        auto r4 = fst(p2);
+        auto r5 = snd(p2);
+
+        auto k4 = ex::sync_wait(r4);
+        auto k5 = ex::sync_wait(r5);
+        std::cout << std::get<0>(*k4) << '\n';
+        std::cout << std::get<0>(*k5) << '\n';
 }
