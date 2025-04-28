@@ -97,6 +97,63 @@ inline constexpr auto snd = [](ex::sender auto p) -> ex::sender auto{
         return ex::then(p, [](auto l, auto r) { return r; });
 };
 
+namespace churchEither {
+// EITHER
+/*
+    left   = λa.λl.λr.l a
+    right  = λb.λl.λr.r b
+
+    either = λl.λr.λe.e l r
+*/
+
+inline constexpr auto left = [](auto a) {
+  return [a](auto l) { return [l, a](auto _) { return l(a); }; };
+};
+
+inline constexpr auto right = [](auto b) {
+  return [b](auto _) { return [b](auto r) { return r(b); }; };
+};
+
+inline constexpr auto isLeft = [](auto e) {
+  return e([](auto _) { return true; })([](auto _) { return false; });
+};
+
+inline constexpr auto isRight = [](auto e) {
+  return e([](auto _) { return false; })([](auto _) { return true; });
+};
+
+inline constexpr auto fromLeft = [](auto d) {
+  return [d](auto e) {
+    return e([](auto x) { return x; })([d](auto _) { return d; });
+  };
+};
+
+inline constexpr auto fromRight = [](auto d) {
+  return [d](auto e) {
+    return e([d](auto _) { return d; })([](auto x) { return x; });
+  };
+};
+
+inline constexpr auto either = [](auto l) {
+  return [l](auto r) { return [l, r](auto e) { return e(l)(r); }; };
+};
+} // namespace churchEither
+
+// inline constexpr auto fst = [](ex::sender auto p) -> ex::sender auto{
+//         return ex::then(p, [](auto l, auto r) { return l; });
+// };
+
+inline constexpr auto left = [](auto a) {
+  // return [a](auto l) { return [l, a](auto _) { return l(a); }; };
+  return [a](auto l) { return [l, a](auto _) { return ex::just(a) | l ; }; };
+};
+
+inline constexpr auto isLeft = [](auto e) {
+  // return e([](auto _) { return true; })([](auto _) { return false; });
+  return e | ex::then([](auto _){return true;}) | ex::then([](auto _){return false;});
+ };
+
+
 int main() {
         using namespace std::string_literals;
 
@@ -121,4 +178,5 @@ int main() {
         auto k5 = ex::sync_wait(r5);
         std::cout << std::get<0>(*k4) << '\n';
         std::cout << std::get<0>(*k5) << '\n';
+
 }
