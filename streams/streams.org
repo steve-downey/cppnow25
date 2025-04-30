@@ -487,13 +487,13 @@ Currently "expert-friendly."
 
 Not intended to be "expert only."
 ** Code Examples
-Senders for:
+******* Senders for:
 
-- Either
-- Pair
-- Stream
+******** Either
+******** Pair
+******** Stream
 
-  [Switch to IDE and tests]
+
 
 * Questions?
 Remember a question starts with:
