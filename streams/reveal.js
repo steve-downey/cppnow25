@@ -1,1 +1,1 @@
-/home/sdowney/reveal.js/reveal.js-master/
+/home/sdowney/bld/revealjs/reveal.js-master

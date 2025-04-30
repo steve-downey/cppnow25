@@ -54,6 +54,9 @@
 #+REVEAL_HLEVEL: 1
 #+REVEAL_EXPORT_NOTES_TO_PDF: separate-page
 #+REVEAL_DEFAULT_FRAG_STYLE: (appear)
+
+#+OPTIONS: reveal_single_file:t
+
 #+CITE_EXPORT: csl ../etc/chicago-author-date.csl
 #+BIBLIOGRAPHY: ../etc/wg21.bib
 #+BIBLIOGRAPHY: ../etc/local.bib
@@ -79,7 +82,7 @@ And export src_cpp[:exports code]{int main(){}} in line as an inline block.
 We're going to build an async stream, an infinite list, out of nothing but senders.
 
 #+ATTR_REVEAL: :frag (appear)
-Along the way we'll take a look at the last 80 years of computer science, including some areas of current active research.
+Along the way, we'll take a look at the last 80 years of computer science, including some areas of current active research.
 
 #+ATTR_REVEAL: :frag (appear)
 Having a better idea of how senders, and functions like them, are grounded in theory gives us a better idea of how they can be used and where to look to borrow designs and insights.
@@ -139,7 +142,7 @@ At the end we will have an async queue and an async stream implemented using jus
 - Closure :: A function that retains access to the names contained in the scope in which it was created.
 
 
-* Higher Order Functions
+* Higher-Order Functions
 Functions that can take or return functions.
 
 Those might be closures.
@@ -198,8 +201,8 @@ Two main strategies for encoding:
 - Church :: the /folds/ or /catamorphisms/ for an ADT
 - Scott :: the /pattern matching/ or /visitor/ for an ADT
 
-** Recursive vs Non-recursive Types
-For non-recursive types these are the same.
+** Recursive vs. Non-recursive Types
+For non-recursive types, these are the same.
 
 Either, Pair, Maybe, Boolean are non-recursive.
 
@@ -347,7 +350,7 @@ Defined by pattern matching:
 **** Encode the function
 /f/  \equiv \lambda t . t (\lambda a_{1} a_{2} . body_{A}) (\lambda a_{2} a_{3} . body_{B}) (\lambda a_{4} . body_{C})
 
-Where /t/ is the result of one of the encoded constructors, such as
+Where /t/ is the result of one of the encoded constructors, such as:
 
 /A/ \equiv  \lambda a_{1} a_{2} . \lambda  f_{1} f_{2} f_{3} . f_{1} a_{1} a_{2}
 
@@ -383,15 +386,15 @@ A data type \Tau with:
 * Data and Codata
 We can also define a type not in terms of how it is constructed but in terms of how it is deconstructed, or consumed.
 
-For a type like /Pair/ we become concerned with /fst/ and /snd/ which deconstruct in to the components, rather than /Pair a b/. For simple types the perspectives are equally expressive.
+For a type like /Pair/, we become concerned with /fst/ and /snd/ which deconstruct into the components, rather than /Pair a b/. For simple types, the perspectives are equally expressive.
 
 For infinite types, the codata deconstructor perspective can be more expressive, and also analytically tractable.
 
 Codata is "new" research from the 21st Century.
 
-** Construction vs Observation
+** Construction vs. Observation
   #+begin_quote
-  [S]witching focus from the way values are built (i.e. introduced)to the way they are used (i.e. eliminated).
+  [S]witching focus from the way values are built, (i.e. introduced), to the way they are used, (i.e. eliminated).
   #+end_quote
   Paul Downen, [[https://www.microsoft.com/en-us/research/wp-content/uploads/2020/01/CoDataInAction.pdf][Codata in Action]]
   #+begin_notes
@@ -452,7 +455,7 @@ Those become the elements of the /Visitor/ interface.
 /tail/ = \lambda s . \lambda h t . t s.tail()
 
 * Implementing Senders
-** What's a Sender
+** What is a Sender?
 A description of async work.
 
 Senders "deliver" or "send" their result to a receiver.
@@ -485,6 +488,7 @@ Currently "expert-friendly."
 Not intended to be "expert only."
 ** Code Examples
 Senders for:
+
 - Either
 - Pair
 - Stream

@@ -180,3 +180,13 @@ int main() {
         std::cout << std::get<0>(*k5) << '\n';
 
 }
+
+
+inline auto tst = [](bool cond,
+                     ex::sender auto left,
+                     ex::sender auto right) -> ex::sender auto {
+        if (cond)
+                return left;
+        else
+                return right;
+};
