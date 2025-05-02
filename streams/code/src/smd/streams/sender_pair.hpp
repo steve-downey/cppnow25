@@ -35,6 +35,7 @@ inline constexpr auto snd = [](auto p) {
         // return p([](auto l, auto r) { return r; });
         return ex::just([](auto l, auto r) { return r; }) | p;
 };
+
 } // namespace senderPair
 } // namespace churchsender
 } // namespace smd

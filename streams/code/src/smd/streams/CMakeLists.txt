@@ -17,6 +17,7 @@ target_sources(
             callerase.hpp
             sender_either.hpp
             sender_pair.hpp
+            sender_stream.hpp
 )
 
 set_target_properties(smd.streams PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
@@ -46,7 +47,7 @@ target_sources(
         callerase.t.cpp
         sender_either.t.cpp
         sender_pair.t.cpp
-)
+ )
 
 target_link_libraries(
     smd.streams.tests
