@@ -54,8 +54,7 @@ inline constexpr auto fromRight = [](auto d, auto e) {
 };
 
 inline constexpr auto either = [](auto l, auto r) {
-        return ex::let_value(
-                [l, r](auto e) { return ex::just(l, r) | ex::then(e); });
+        return ex::let_value([l, r](auto e) { return ex::just(l, r) | e; });
 };
 
 } // namespace senderEither
