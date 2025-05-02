@@ -18,6 +18,7 @@ target_sources(
 )
 
 set_target_properties(smd.streams PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
+target_link_libraries(smd.streams INTERFACE beman::execution)
 
 install(
     TARGETS smd.streams
@@ -41,6 +42,8 @@ target_sources(
         either.t.cpp
         list.t.cpp
         callerase.t.cpp
+        sender_either.t.cpp
+
 )
 
 target_link_libraries(
